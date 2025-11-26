@@ -1,6 +1,6 @@
 # jcpemobile/views.py
 from django.shortcuts import render, get_object_or_404, redirect
-from django.db.models import Count, Q
+from django.db.models import Count, Q, Max
 from django.utils import timezone
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
@@ -8,7 +8,7 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .models import Noticia, Visualizacao, NoticaSalva, Categoria, Autor, Feedback, Enquete, Voto, Opcao, Tag, PerfilUsuario
+from .models import Noticia, Visualizacao, NoticaSalva, Categoria, Autor, Feedback, Enquete, Voto, Opcao, Tag, PerfilUsuario, NoticiaLinhaDoTempo
 from .forms import CadastroUsuarioForm, NoticiaForm, FeedbackForm
 from django.db import IntegrityError
 import json
@@ -213,29 +213,38 @@ def noticia_detalhe(request, slug):
             messages.warning(request, 'Você já votou nesta enquete.')
 
     # Buscar notícias relacionadas para a linha do tempo
-    # Critério: mesma categoria E compartilham tags
+    # Prioridade: notícias adicionadas manualmente na linha do tempo
     noticias_relacionadas = []
     
-    if noticia.categoria:
-        # Obter IDs das tags da notícia atual
-        tags_ids = noticia.tags.values_list('id', flat=True)
-        
-        if tags_ids:
-            # Buscar notícias da mesma categoria que compartilham pelo menos uma tag
-            noticias_relacionadas = Noticia.objects.filter(
-                categoria=noticia.categoria,
-                tags__id__in=tags_ids
-            ).exclude(
-                id=noticia.id
-            ).distinct().select_related('categoria', 'autor').order_by('-data_publicacao')[:6]
-        
-        # Se não encontrou notícias com tags em comum, buscar apenas da mesma categoria
-        if len(noticias_relacionadas) == 0:
-            noticias_relacionadas = Noticia.objects.filter(
-                categoria=noticia.categoria
-            ).exclude(
-                id=noticia.id
-            ).select_related('categoria', 'autor').order_by('-data_publicacao')[:6]
+    # Buscar notícias da linha do tempo global (gerenciada pelo painel)
+    noticias_linha_tempo = NoticiaLinhaDoTempo.objects.filter(
+        ativa=True
+    ).select_related('noticia__categoria', 'noticia__autor').order_by('ordem')[:6]
+    
+    if noticias_linha_tempo.exists():
+        noticias_relacionadas = [item.noticia for item in noticias_linha_tempo]
+    else:
+        # Fallback: se não houver linha do tempo configurada, buscar relacionadas automaticamente
+        if noticia.categoria:
+            # Obter IDs das tags da notícia atual
+            tags_ids = noticia.tags.values_list('id', flat=True)
+            
+            if tags_ids:
+                # Buscar notícias da mesma categoria que compartilham pelo menos uma tag
+                noticias_relacionadas = Noticia.objects.filter(
+                    categoria=noticia.categoria,
+                    tags__id__in=tags_ids
+                ).exclude(
+                    id=noticia.id
+                ).distinct().select_related('categoria', 'autor').order_by('-data_publicacao')[:6]
+            
+            # Se não encontrou notícias com tags em comum, buscar apenas da mesma categoria
+            if len(noticias_relacionadas) == 0:
+                noticias_relacionadas = Noticia.objects.filter(
+                    categoria=noticia.categoria
+                ).exclude(
+                    id=noticia.id
+                ).select_related('categoria', 'autor').order_by('-data_publicacao')[:6]
 
     return render(request, 'detalhes_noticia.html', {
         'noticia': noticia,
@@ -903,4 +912,105 @@ def linha_do_tempo(request):
     }
 
     return render(request, 'linha_do_tempo.html', context)
+
+
+# ========== PAINEL - GERENCIAR LINHA DO TEMPO ==========
+@user_passes_test(is_staff, login_url='login_usuario')
+def painel_linha_tempo(request):
+    """View para gerenciar notícias na linha do tempo"""
+    noticias_linha_tempo = NoticiaLinhaDoTempo.objects.select_related(
+        'noticia__categoria', 'noticia__autor'
+    ).order_by('ordem')
+    
+    # Buscar todas as notícias disponíveis
+    todas_noticias = Noticia.objects.select_related('categoria', 'autor').order_by('-data_publicacao')
+    
+    # Filtrar notícias que não estão na linha do tempo
+    ids_na_linha = noticias_linha_tempo.values_list('noticia_id', flat=True)
+    noticias_disponiveis = todas_noticias.exclude(id__in=ids_na_linha)
+    
+    context = {
+        'noticias_linha_tempo': noticias_linha_tempo,
+        'noticias_disponiveis': noticias_disponiveis,
+        'total_linha_tempo': noticias_linha_tempo.count(),
+    }
+    
+    return render(request, 'painel_linha_tempo.html', context)
+
+
+@user_passes_test(is_staff, login_url='login_usuario')
+@require_http_methods(["POST"])
+def adicionar_noticia_linha_tempo(request, noticia_id):
+    """Adiciona uma notícia à linha do tempo"""
+    noticia = get_object_or_404(Noticia, id=noticia_id)
+    
+    # Verificar se já está na linha do tempo
+    if NoticiaLinhaDoTempo.objects.filter(noticia=noticia).exists():
+        messages.warning(request, f'A notícia "{noticia.titulo}" já está na linha do tempo.')
+        return redirect('painel_linha_tempo')
+    
+    # Obter a próxima ordem
+    ultima_ordem = NoticiaLinhaDoTempo.objects.aggregate(Max('ordem'))['ordem__max'] or 0
+    
+    # Criar entrada na linha do tempo
+    NoticiaLinhaDoTempo.objects.create(
+        noticia=noticia,
+        ordem=ultima_ordem + 1,
+        ativa=True
+    )
+    
+    messages.success(request, f'Notícia "{noticia.titulo}" adicionada à linha do tempo!')
+    return redirect('painel_linha_tempo')
+
+
+@user_passes_test(is_staff, login_url='login_usuario')
+@require_http_methods(["POST"])
+def remover_noticia_linha_tempo(request, item_id):
+    """Remove uma notícia da linha do tempo"""
+    item = get_object_or_404(NoticiaLinhaDoTempo, id=item_id)
+    titulo = item.noticia.titulo
+    item.delete()
+    
+    messages.success(request, f'Notícia "{titulo}" removida da linha do tempo!')
+    return redirect('painel_linha_tempo')
+
+
+@user_passes_test(is_staff, login_url='login_usuario')
+@require_http_methods(["POST"])
+def reordenar_linha_tempo(request):
+    """Reordena as notícias na linha do tempo"""
+    try:
+        data = json.loads(request.body)
+        ordens = data.get('ordens', [])  # Lista de {'id': item_id, 'ordem': nova_ordem}
+        
+        for item_data in ordens:
+            item_id = item_data.get('id')
+            nova_ordem = item_data.get('ordem')
+            
+            if item_id and nova_ordem is not None:
+                NoticiaLinhaDoTempo.objects.filter(id=item_id).update(ordem=nova_ordem)
+        
+        return JsonResponse({
+            'success': True,
+            'message': 'Ordem atualizada com sucesso!'
+        })
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'error': str(e)
+        }, status=500)
+
+
+@user_passes_test(is_staff, login_url='login_usuario')
+@require_http_methods(["POST"])
+def toggle_ativa_linha_tempo(request, item_id):
+    """Ativa/desativa uma notícia na linha do tempo"""
+    item = get_object_or_404(NoticiaLinhaDoTempo, id=item_id)
+    item.ativa = not item.ativa
+    item.save()
+    
+    status = "ativada" if item.ativa else "desativada"
+    messages.success(request, f'Notícia "{item.noticia.titulo}" {status}!')
+    return redirect('painel_linha_tempo')
+
 

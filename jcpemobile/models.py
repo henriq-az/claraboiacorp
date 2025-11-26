@@ -245,3 +245,35 @@ class Voto(models.Model):
 
     def __str__(self):
         return f"Voto em {self.opcao.texto} ({self.ip_usuario})"
+
+
+class NoticiaLinhaDoTempo(models.Model):
+    """
+    Modelo para armazenar as notícias que aparecem na linha do tempo global.
+    """
+    noticia = models.OneToOneField(
+        Noticia, 
+        on_delete=models.CASCADE, 
+        related_name="na_linha_tempo",
+        verbose_name="Notícia"
+    )
+    ordem = models.PositiveIntegerField(
+        default=0, 
+        verbose_name="Ordem de Exibição",
+        help_text="Ordem em que a notícia aparece na linha do tempo (menor número aparece primeiro)"
+    )
+    ativa = models.BooleanField(
+        default=True,
+        verbose_name="Ativa",
+        help_text="Se marcado, a notícia aparecerá na linha do tempo"
+    )
+    adicionada_em = models.DateTimeField(auto_now_add=True, verbose_name="Adicionada em")
+    atualizada_em = models.DateTimeField(auto_now=True, verbose_name="Atualizada em")
+
+    class Meta:
+        verbose_name = "Notícia na Linha do Tempo"
+        verbose_name_plural = "Notícias na Linha do Tempo"
+        ordering = ['ordem', '-adicionada_em']
+
+    def __str__(self):
+        return f"{self.ordem}. {self.noticia.titulo}"
