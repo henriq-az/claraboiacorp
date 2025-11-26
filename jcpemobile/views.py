@@ -100,8 +100,12 @@ def index(request):
     noticias_ultimas = todas_noticias.filter(secao='ultimas_noticias')[:4]
     noticias_receita = todas_noticias.filter(secao='receita_da_boa')[:6]
 
+    # Top 3 notícias mais vistas para o ranking
+    noticias_ranking = noticias_mais_vistas[:3]
+
     context = {
         'noticias_mais_vistas': noticias_mais_vistas,
+        'noticias_ranking': noticias_ranking,
         'todas_noticias': todas_noticias,
         'noticias_do_dia': noticias_do_dia,
         'noticias_social1': noticias_social1,

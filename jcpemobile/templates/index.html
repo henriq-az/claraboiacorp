@@ -709,9 +709,10 @@ Salvar Preferências
 
 /* Seção de Ranking (logo abaixo do banner da revista) */
 .ranking-section {
+  width: 100%;
+  max-width: 420px;
   margin: 32px auto;
-  max-width: 500px;
-  padding: 0 20px;
+  padding: 0;
 }
 
 .ranking-section h2 {
@@ -730,10 +731,8 @@ Salvar Preferências
 }
 
 .ranking-header {
-  /* Empilha o título e a barra (barra embaixo do título) */
   display: block;
-  /* move o título e a barra um pouco para a esquerda, ficando alinhado com a coluna principal */
-  margin-left: -20px;
+  margin-left: 0;
 }
 
 .ranking-list {
@@ -743,99 +742,129 @@ Salvar Preferências
 
 .ranking-item {
   display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 20px;
-  margin-bottom: 16px;
-  margin-top: 30px;
+  flex-direction: column;
+  padding: 0;
+  margin-bottom: 24px;
+  margin-top: 16px;
   background: white;
-  border-radius: 12px;
+  border-radius: 16px;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   overflow: visible;
   text-decoration: none;
   color: inherit;
-  min-height: 80px;
 }
 
 .ranking-item:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  transform: translateY(-4px);
 }
 
 .ranking-badge {
-  width: 45px;
-  height: 45px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  font-size: 22px;
+  font-size: 24px;
   color: white;
   flex-shrink: 0;
   background: #DE1B24;
   position: absolute;
-  top: -22px;
+  top: -10px;
   left: -10px;
-  z-index: 2;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  z-index: 3;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.4);
 }
 
 .ranking-content {
-  flex: 1;
+  padding: 24px 20px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
 }
 
 .ranking-content .tag {
-  display: none;
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #DE1B24;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
 }
 
 .ranking-title {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 700;
   color: #1a1a1a;
   line-height: 1.4;
   margin: 0;
 }
 
+.ranking-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border-radius: 16px 16px 0 0;
+}
+
 @media (max-width: 480px) {
   .ranking-section {
-    padding: 0 16px;
+    padding: 0;
   }
 
   .ranking-header {
-    margin-left: -12px;
+    margin-left: 0;
   }
 
   .ranking-item {
-    padding: 16px;
-    min-height: 70px;
+    margin-bottom: 20px;
   }
 
   .ranking-badge {
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
     font-size: 20px;
-    top: -20px;
+    top: -8px;
+    left: -8px;
+  }
+
+  .ranking-content {
+    padding: 20px 16px;
   }
 
   .ranking-title {
-    font-size: 14px;
+    font-size: 16px;
+  }
+
+  .ranking-image {
+    height: 160px;
   }
 }
 
 @media (min-width: 768px) {
   .ranking-section {
-    max-width: 550px;
+    max-width: 600px;
   }
   
   .ranking-title {
-    font-size: 17px;
+    font-size: 20px;
+  }
+
+  .ranking-image {
+    height: 200px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .ranking-section {
+    max-width: 740px;
   }
 }
 
@@ -2044,29 +2073,25 @@ Salvar Preferências
   </div>
   
   <div class="ranking-list">
-    <!-- Item 1 -->
-    <a href="#" class="ranking-item">
-      <div class="ranking-badge">1</div>
-      <div class="ranking-content">
-        <h3 class="ranking-title">9 pontos sobre os casos de intoxicação por metanol</h3>
-      </div>
-    </a>
-    
-    <!-- Item 2 -->
-    <a href="#" class="ranking-item">
-      <div class="ranking-badge">2</div>
-      <div class="ranking-content">
-        <h3 class="ranking-title">9 pontos sobre os casos de intoxicação por metanol</h3>
-      </div>
-    </a>
-    
-    <!-- Item 3 -->
-    <a href="#" class="ranking-item">
-      <div class="ranking-badge">3</div>
-      <div class="ranking-content">
-        <h3 class="ranking-title">9 pontos sobre os casos de intoxicação por metanol</h3>
-      </div>
-    </a>
+    {% if noticias_ranking %}
+      {% for noticia in noticias_ranking %}
+        <a href="{% url 'noticia_detalhe' noticia.slug %}" class="ranking-item">
+          <div class="ranking-badge">{{ forloop.counter }}</div>
+          {% if noticia.imagem %}
+            <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" class="ranking-image" loading="lazy">
+          {% endif %}
+          <div class="ranking-content">
+            <span class="tag">{{ noticia.categoria.nome }}</span>
+            <h3 class="ranking-title">{{ noticia.titulo }}</h3>
+          </div>
+        </a>
+      {% endfor %}
+    {% else %}
+      <!-- Mensagem quando não há notícias suficientes -->
+      <p style="text-align: center; color: #666; padding: 20px;">
+        Ainda não há notícias suficientes para o ranking. Volte em breve!
+      </p>
+    {% endif %}
   </div>
 </section>
 
@@ -2873,7 +2898,7 @@ document.head.appendChild(animacaoStyle);
 <script src="{% static 'js/preferencias.js' %}"></script>
 <style id="override-cards-high-specificity">
 /* Removido: todas as seções agora usam apenas o CSS base .card.side sem overrides */
-</style>
+
 /* Specific override to allow Últimas Notícias cards to be much smaller
    This is intentionally placed at the end to beat other generic overrides. */
 /* Strong final override for Últimas Notícias: allow cards to shrink to content
@@ -3046,9 +3071,8 @@ body .conteudo-principal .container > a.card.top + a.card.side .content .title {
     font-size: 13px !important;
   }
 }
-</style>
-</style>
-<style id="ultimas-noticias-size-override">
+
+/* Final size override for Últimas Notícias cards */
 /* Final size override for Últimas Notícias cards */
 body .conteudo-principal .ultimas-noticias-section .news-list a.card.side,
 body .conteudo-principal .ultimas-noticias-section .news-list a.card.side + a.card.side,
