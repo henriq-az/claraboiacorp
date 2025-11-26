@@ -408,6 +408,19 @@
     }
 }
 
+/* Aumentar apenas o ícone de perfil dentro do menu hamburguer (menu lateral) */
+.menu-lateral .menu-lateral-perfil .icone-perfil {
+    width: 55px;
+    height: 55px;
+}
+
+@media (max-width: 400px) {
+    .menu-lateral .menu-lateral-perfil .icone-perfil {
+        width: 80px;
+        height: 80px;
+    }
+}
+
 .perfil-info {
     flex: 1;
 }

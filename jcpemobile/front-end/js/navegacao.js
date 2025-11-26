@@ -31,6 +31,9 @@ function inicializarNavegacao() {
     // Navegação inferior
     configurarNavegacaoInferior();
 
+    // Set active nav item according to current URL (so active state persists across pages)
+    setActiveNavFromUrl();
+
     // Submenus - IMPORTANTE: deve ser configurado após o menu lateral
     configurarSubmenus();
 
@@ -744,4 +747,65 @@ function mostrarMensagem(texto, tipo = 'info') {
         mensagem.classList.remove('visivel');
         setTimeout(() => mensagem.remove(), 300);
     }, 3000);
+}
+
+// ===================================================
+// Persist active nav item from current URL
+// ===================================================
+function setActiveNavFromUrl() {
+    try {
+        const navItens = document.querySelectorAll('.navegacao-inferior .nav-item');
+        if (!navItens || navItens.length === 0) return;
+
+        const currentPath = window.location.pathname.replace(/\/+$/, '');
+
+        // Remove any previously set active state
+        navItens.forEach(i => i.classList.remove('nav-item-ativo'));
+
+        // Try to find exact match by pathname
+        let matched = false;
+        navItens.forEach(item => {
+            const href = item.getAttribute('href');
+            if (!href) return;
+            try {
+                const url = new URL(href, window.location.origin);
+                const path = url.pathname.replace(/\/+$/, '');
+                if (path === currentPath) {
+                    item.classList.add('nav-item-ativo');
+                    matched = true;
+                }
+            } catch (e) {
+                // ignore invalid URLs
+            }
+        });
+
+        // If no exact match, try matching by last path segment (useful for index-like pages)
+        if (!matched) {
+            const currentLast = currentPath.split('/').filter(Boolean).pop() || '';
+            if (currentLast) {
+                navItens.forEach(item => {
+                    const href = item.getAttribute('href');
+                    if (!href) return;
+                    try {
+                        const url = new URL(href, window.location.origin);
+                        const last = url.pathname.split('/').filter(Boolean).pop() || '';
+                        if (last === currentLast) {
+                            item.classList.add('nav-item-ativo');
+                            matched = true;
+                        }
+                    } catch (e) {}
+                });
+            }
+        }
+
+        // If still not matched, optionally set Home as active on root
+        if (!matched && (currentPath === '' || currentPath === '/')) {
+            const homeItem = document.querySelector('.navegacao-inferior .nav-item[href]');
+            if (homeItem) homeItem.classList.add('nav-item-ativo');
+        }
+
+        console.log('setActiveNavFromUrl:', currentPath, 'matched=', matched);
+    } catch (err) {
+        console.error('Erro em setActiveNavFromUrl:', err);
+    }
 }
