@@ -2898,7 +2898,7 @@ document.head.appendChild(animacaoStyle);
 <script src="{% static 'js/preferencias.js' %}"></script>
 <style id="override-cards-high-specificity">
 /* Removido: todas as seções agora usam apenas o CSS base .card.side sem overrides */
-</style>
+
 /* Specific override to allow Últimas Notícias cards to be much smaller
    This is intentionally placed at the end to beat other generic overrides. */
 /* Strong final override for Últimas Notícias: allow cards to shrink to content
@@ -3071,9 +3071,8 @@ body .conteudo-principal .container > a.card.top + a.card.side .content .title {
     font-size: 13px !important;
   }
 }
-</style>
-</style>
-<style id="ultimas-noticias-size-override">
+
+/* Final size override for Últimas Notícias cards */
 /* Final size override for Últimas Notícias cards */
 body .conteudo-principal .ultimas-noticias-section .news-list a.card.side,
 body .conteudo-principal .ultimas-noticias-section .news-list a.card.side + a.card.side,
