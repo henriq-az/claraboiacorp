@@ -216,6 +216,9 @@ rows="4"
   max-width: 420px;
   margin: 0 auto;
   padding: 0 16px;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .noticia-detalhes {
@@ -224,6 +227,9 @@ rows="4"
   padding: 0;
   margin: 0 0 16px 0;
   border-radius: 0;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .noticia-header {
@@ -270,6 +276,11 @@ rows="4"
   color: #000;
   line-height: 1.2;
   margin: 0 0 16px 0;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
 }
 
 .noticia-resumo {
@@ -277,6 +288,9 @@ rows="4"
   color: #333;
   line-height: 1.6;
   margin: 0 0 10px 0; /* bring resumo and meta closer */
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .noticia-meta {
@@ -399,26 +413,50 @@ rows="4"
   line-height: 1.75;
   color: #333;
   margin-bottom: 24px;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .noticia-conteudo p {
   margin-bottom: 16px;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.noticia-conteudo * {
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.noticia-conteudo img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
 @media (max-width: 480px) {
   .conteudo-principal {
     padding: 12px;
     padding-top: 120px; /* aumentar no mobile também */
+    overflow-x: hidden;
   }
-  
+
+  .container {
+    padding: 0 12px;
+    max-width: 100%;
+  }
+
   .noticia-titulo {
     font-size: 22px; /* mobile slightly larger */
   }
-  
+
   .noticia-resumo {
     font-size: 16px;
   }
-  
+
   .noticia-conteudo {
     font-size: 16px;
   }
