@@ -458,6 +458,18 @@ def remover_noticia_salva(request, noticia_id):
         })
 
 
+@login_required
+def verificar_noticia_salva(request, noticia_id):
+    """View para verificar se uma notícia está salva"""
+    noticia = get_object_or_404(Noticia, id=noticia_id)
+
+    salva = NoticaSalva.objects.filter(usuario=request.user, noticia=noticia).exists()
+
+    return JsonResponse({
+        'salva': salva
+    })
+
+
 @require_http_methods(["POST"])
 def enviar_feedback(request):
     """View para processar o envio de feedback"""
@@ -735,6 +747,39 @@ def noticias_por_tags(request):
 
     data = [serialize(n) for n in noticias]
     return JsonResponse({'noticias': data})
+
+
+def buscar_noticias_por_ids(request):
+    """API para buscar notícias por IDs (para localStorage)
+
+    Query params:
+      - ids: lista separada por vírgula de IDs (ex: ids=1,2,3)
+    """
+    ids_param = request.GET.get('ids', '')
+
+    if not ids_param:
+        return JsonResponse([],  safe=False)
+
+    try:
+        ids = [int(x.strip()) for x in ids_param.split(',') if x.strip().isdigit()]
+
+        noticias = Noticia.objects.filter(id__in=ids).select_related('categoria', 'autor')
+
+        data = []
+        for n in noticias:
+            data.append({
+                'id': n.id,
+                'titulo': n.titulo,
+                'slug': n.slug,
+                'resumo': n.resumo,
+                'imagem': n.imagem.url if n.imagem else None,
+                'categoria': n.categoria.nome if n.categoria else 'Notícia',
+                'data_publicacao': n.data_publicacao.isoformat() if n.data_publicacao else None,
+            })
+
+        return JsonResponse(data, safe=False)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
 
 
 @login_required

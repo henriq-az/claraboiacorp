@@ -548,81 +548,40 @@ Envie seu Feedback
         <div class="underline"></div>
 
         <div class="news-list" id="newsList">
-            <!-- Cartão de exemplo 1 -->
-            <a href="#" class="news-item">
-                <div class="news-content">
-                    <div class="news-header">
-                        <span class="tag">Global</span>
-                        <h2 class="news-title">Política: novo projeto de lei em votação</h2>
+            {% if user.is_authenticated %}
+                {% if salvos_list %}
+                    {% for item in salvos_list %}
+                    <a href="{% url 'noticia_detalhe' item.noticia.slug %}" class="news-item">
+                        <div class="news-content">
+                            <div class="news-header">
+                                <span class="tag">{{ item.noticia.categoria.nome }}</span>
+                                <h2 class="news-title">{{ item.noticia.titulo }}</h2>
+                            </div>
+                            <p class="news-desc">{{ item.noticia.resumo|truncatewords:20 }}</p>
+                        </div>
+                        {% if item.noticia.imagem %}
+                        <img src="{{ item.noticia.imagem.url }}" alt="{{ item.noticia.titulo }}" class="news-image">
+                        {% else %}
+                        <img src="{% static 'images/placeholder.jpg' %}" alt="{{ item.noticia.titulo }}" class="news-image">
+                        {% endif %}
+                        <div class="more-options" onclick="removerNoticia(event, {{ item.noticia.id }})">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <circle cx="12" cy="5" r="2"/>
+                                <circle cx="12" cy="12" r="2"/>
+                                <circle cx="12" cy="19" r="2"/>
+                            </svg>
+                        </div>
+                    </a>
+                    {% endfor %}
+                {% else %}
+                    <div style="text-align: center; padding: 40px; color: #666;">
+                        <p>Você ainda não salvou nenhuma notícia.</p>
+                        <a href="{% url 'index' %}" style="color: #DE1B24; text-decoration: none; font-weight: 600;">Explorar notícias</a>
                     </div>
-                    <p class="news-desc">Proposta visa modernizar as casas infraestrutura urbana</p>
-                </div>
-                <img src="https://kyoto.com.br/wp-content/uploads/2021/10/BTS.jpg" alt="Notícia Global" class="news-image">
-                <div class="more-options">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <circle cx="12" cy="5" r="2"/>
-                        <circle cx="12" cy="12" r="2"/>
-                        <circle cx="12" cy="19" r="2"/>
-                    </svg>
-                </div>
-            </a>
-
-            <!-- Cartão de exemplo 2 -->
-            <a href="#" class="news-item">
-                <div class="news-content">
-                    <div class="news-header">
-                        <span class="tag">Global</span>
-                        <h2 class="news-title">Política: novo projeto de lei em votação</h2>
-                    </div>
-                    <p class="news-desc">Proposta visa modernizar as casas infraestrutura urbana</p>
-                </div>
-                <img src="https://s2-oglobo.glbimg.com/YIfXTNlGq2B-yF3cZwAK85b2QvM=/0x0:4816x3211/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_da025474c0c44edd99332dddb09cabe8/internal_photos/bs/2024/a/l/hELZB2Tvaa4gECCGhFxQ/107026302-pa-brasilia-df-22-05-2024-entrevista-exclusiva-senador-sergio-moro-em-seu-gabinete-fot.jpg" alt="Notícia Global" class="news-image">
-                <div class="more-options">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <circle cx="12" cy="5" r="2"/>
-                        <circle cx="12" cy="12" r="2"/>
-                        <circle cx="12" cy="19" r="2"/>
-                    </svg>
-                </div>
-            </a>
-
-            <!-- Cartão de exemplo 3 -->
-            <a href="#" class="news-item">
-                <div class="news-content">
-                    <div class="news-header">
-                        <span class="tag">Global</span>
-                        <h2 class="news-title">Política: novo projeto de lei em votação</h2>
-                    </div>
-                    <p class="news-desc">Proposta visa modernizar as casas infraestrutura urbana</p>
-                </div>
-                <img src="https://s2-oglobo.glbimg.com/YIfXTNlGq2B-yF3cZwAK85b2QvM=/0x0:4816x3211/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_da025474c0c44edd99332dddb09cabe8/internal_photos/bs/2024/a/l/hELZB2Tvaa4gECCGhFxQ/107026302-pa-brasilia-df-22-05-2024-entrevista-exclusiva-senador-sergio-moro-em-seu-gabinete-fot.jpg" alt="Notícia Global" class="news-image">
-                <div class="more-options">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <circle cx="12" cy="5" r="2"/>
-                        <circle cx="12" cy="12" r="2"/>
-                        <circle cx="12" cy="19" r="2"/>
-                    </svg>
-                </div>
-            </a>
-
-            <!-- Cartão de exemplo 4 -->
-            <a href="#" class="news-item">
-                <div class="news-content">
-                    <div class="news-header">
-                        <span class="tag">Pernambuco</span>
-                        <h2 class="news-title">Política: novo projeto de lei em votação</h2>
-                    </div>
-                    <p class="news-desc">Proposta visa modernizar as casas infraestrutura urbana</p>
-                </div>
-                <img src="https://s2-oglobo.glbimg.com/YIfXTNlGq2B-yF3cZwAK85b2QvM=/0x0:4816x3211/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_da025474c0c44edd99332dddb09cabe8/internal_photos/bs/2024/a/l/hELZB2Tvaa4gECCGhFxQ/107026302-pa-brasilia-df-22-05-2024-entrevista-exclusiva-senador-sergio-moro-em-seu-gabinete-fot.jpg" alt="Notícia Pernambuco" class="news-image">
-                <div class="more-options">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <circle cx="12" cy="5" r="2"/>
-                        <circle cx="12" cy="12" r="2"/>
-                        <circle cx="12" cy="19" r="2"/>
-                    </svg>
-                </div>
-            </a>
+                {% endif %}
+            {% else %}
+                <div id="noticiasSalvasLocal"></div>
+            {% endif %}
         </div>
 
         <!-- Seção Últimas Notícias -->
@@ -961,6 +920,126 @@ Envie seu Feedback
                 setTimeout(() => notificacao.remove(), 300);
             }, 3000);
         }
+
+        // Função para carregar notícias salvas do localStorage
+        async function carregarNoticiasSalvasLocal() {
+            const container = document.getElementById('noticiasSalvasLocal');
+            if (!container) return;
+
+            const salvas = localStorage.getItem('noticiasSalvas');
+            if (!salvas) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #666;">
+                        <p>Você ainda não salvou nenhuma notícia.</p>
+                        <a href="{% url 'index' %}" style="color: #DE1B24; text-decoration: none; font-weight: 600;">Explorar notícias</a>
+                    </div>
+                `;
+                return;
+            }
+
+            const ids = JSON.parse(salvas);
+            if (ids.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #666;">
+                        <p>Você ainda não salvou nenhuma notícia.</p>
+                        <a href="{% url 'index' %}" style="color: #DE1B24; text-decoration: none; font-weight: 600;">Explorar notícias</a>
+                    </div>
+                `;
+                return;
+            }
+
+            // Buscar notícias por IDs
+            try {
+                const response = await fetch(`/api/noticias/?ids=${ids.join(',')}`);
+                const noticias = await response.json();
+
+                if (noticias.length === 0) {
+                    container.innerHTML = `
+                        <div style="text-align: center; padding: 40px; color: #666;">
+                            <p>Você ainda não salvou nenhuma notícia.</p>
+                            <a href="{% url 'index' %}" style="color: #DE1B24; text-decoration: none; font-weight: 600;">Explorar notícias</a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = noticias.map(noticia => `
+                    <a href="/${noticia.slug}/" class="news-item">
+                        <div class="news-content">
+                            <div class="news-header">
+                                <span class="tag">${noticia.categoria || 'Notícia'}</span>
+                                <h2 class="news-title">${noticia.titulo}</h2>
+                            </div>
+                            <p class="news-desc">${noticia.resumo || ''}</p>
+                        </div>
+                        <img src="${noticia.imagem || '{% static "images/placeholder.jpg" %}'}" alt="${noticia.titulo}" class="news-image">
+                        <div class="more-options" onclick="removerNoticiaLocal(event, ${noticia.id})">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <circle cx="12" cy="5" r="2"/>
+                                <circle cx="12" cy="12" r="2"/>
+                                <circle cx="12" cy="19" r="2"/>
+                            </svg>
+                        </div>
+                    </a>
+                `).join('');
+            } catch (error) {
+                console.error('Erro ao carregar notícias salvas:', error);
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #666;">
+                        <p>Erro ao carregar notícias salvas.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Função para remover notícia salva (usuário logado)
+        function removerNoticia(event, noticiaId) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            if (!confirm('Deseja remover esta notícia dos salvos?')) return;
+
+            fetch(`/remover-noticia-salva/${noticiaId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    mostrarNotificacao('Notícia removida dos salvos!', 'success');
+                    location.reload();
+                } else {
+                    mostrarNotificacao(data.message || 'Erro ao remover notícia.', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                mostrarNotificacao('Erro ao remover notícia.', 'error');
+            });
+        }
+
+        // Função para remover notícia do localStorage (usuário não logado)
+        function removerNoticiaLocal(event, noticiaId) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            if (!confirm('Deseja remover esta notícia dos salvos?')) return;
+
+            const salvas = JSON.parse(localStorage.getItem('noticiasSalvas') || '[]');
+            const novasSalvas = salvas.filter(id => id !== noticiaId.toString() && id !== noticiaId);
+            localStorage.setItem('noticiasSalvas', JSON.stringify(novasSalvas));
+
+            mostrarNotificacao('Notícia removida dos salvos!', 'success');
+            carregarNoticiasSalvasLocal();
+        }
+
+        // Carregar notícias ao iniciar a página
+        {% if not user.is_authenticated %}
+        document.addEventListener('DOMContentLoaded', carregarNoticiasSalvasLocal);
+        {% endif %}
     </script>
 </body>
 </html>

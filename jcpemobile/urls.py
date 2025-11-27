@@ -1,10 +1,10 @@
 from django.urls import path
 from .views import (
     noticia_detalhe, index, cadastro_usuario, login_usuario, logout_usuario,
-    salvos, salvar_noticia, remover_noticia_salva, mais_lidas, enviar_feedback,
+    salvos, salvar_noticia, remover_noticia_salva, verificar_noticia_salva, mais_lidas, enviar_feedback,
     admin_dashboard, admin_criar_noticia, admin_editar_noticia, admin_deletar_noticia,
     admin_criar_autor, neels, detalhe_enquete, lista_enquetes, painel_diario,
-    listar_tags, noticias_por_tags, atualizar_preferencias, noticias_personalizadas,
+    listar_tags, noticias_por_tags, buscar_noticias_por_ids, atualizar_preferencias, noticias_personalizadas,
     api_preferencias, linha_do_tempo, painel_linha_tempo, adicionar_noticia_linha_tempo,
     remover_noticia_linha_tempo, reordenar_linha_tempo, toggle_ativa_linha_tempo
 )
@@ -18,12 +18,14 @@ urlpatterns = [
     path('mais-lidas/', mais_lidas, name='mais_lidas'),
     path('neels/', neels, name='neels'),
     path('linha-do-tempo/', linha_do_tempo, name='linha_do_tempo'),
-    path('noticia/<int:noticia_id>/salvar/', salvar_noticia, name='salvar_noticia'),
-    path('noticia/<int:noticia_id>/remover/', remover_noticia_salva, name='remover_noticia_salva'),
+    path('salvar-noticia/<int:noticia_id>/', salvar_noticia, name='salvar_noticia'),
+    path('remover-noticia-salva/<int:noticia_id>/', remover_noticia_salva, name='remover_noticia_salva'),
+    path('verificar-noticia-salva/<int:noticia_id>/', verificar_noticia_salva, name='verificar_noticia_salva'),
     path('feedback/enviar/', enviar_feedback, name='enviar_feedback'),
     # API para tags, filtros e preferências
     path('api/tags/', listar_tags, name='api_listar_tags'),
-    path('api/noticias/', noticias_por_tags, name='api_noticias_por_tags'),
+    path('api/noticias/', buscar_noticias_por_ids, name='api_buscar_noticias_por_ids'),
+    path('api/noticias/tags/', noticias_por_tags, name='api_noticias_por_tags'),
     path('api/preferencias/', api_preferencias, name='api_preferencias'),
     path('api/preferencias/tags/', atualizar_preferencias, name='api_atualizar_preferencias'),
     path('api/noticias/personalizadas/', noticias_personalizadas, name='api_noticias_personalizadas'),
