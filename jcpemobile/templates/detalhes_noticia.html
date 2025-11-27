@@ -41,6 +41,7 @@
 <link rel="stylesheet" href="{% static 'css/responsivo.css' %}">
 <link rel="stylesheet" href="{% static 'css/modal-cadastro.css' %}">
 <link rel="stylesheet" href="{% static 'css/modal-feedback.css' %}">
+<link rel="stylesheet" href="{% static 'css/linha-do-tempo.css' %}">
 
 <!-- Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -794,6 +795,9 @@ rows="4"
   </div>
   {% endif %}
 </article>
+
+<!-- Linha do Tempo -->
+{% include 'includes/linha_do_tempo_noticia.html' %}
 
 <script>
 // Funções de compartilhamento

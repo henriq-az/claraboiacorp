@@ -1,0 +1,139 @@
+{% load static %}
+
+<!-- Componente de Linha do Tempo -->
+{% if linhas_tempo %}
+<div class="linhas-tempo-container">
+    {% for linha_data in linhas_tempo %}
+    <section class="linha-tempo-section">
+        <!-- Header da Linha do Tempo -->
+        <div class="linha-tempo-header">
+            <h2 class="linha-tempo-titulo">
+                <i class="fas fa-timeline"></i> {{ linha_data.linha_tempo.titulo }}
+            </h2>
+            {% if linha_data.linha_tempo.descricao %}
+            <p class="linha-tempo-descricao">{{ linha_data.linha_tempo.descricao }}</p>
+            {% endif %}
+            <div class="linha-tempo-contador">
+                <i class="fas fa-newspaper"></i>
+                <span>{{ linha_data.total_noticias }} notícia{{ linha_data.total_noticias|pluralize }} nesta cronologia</span>
+            </div>
+        </div>
+
+        <!-- Scroll horizontal com as notícias -->
+        <div class="linha-tempo-scroll-container" id="linhaTempoScroll{{ forloop.counter }}">
+            <div class="linha-tempo-scroll">
+                {% for noticia_item in linha_data.noticias %}
+                <article class="linha-tempo-card {% if noticia_item.id == noticia.id %}atual{% endif %}"
+                         id="{% if noticia_item.id == noticia.id %}noticia-atual{% endif %}">
+
+                    {% if noticia_item.imagem %}
+                    <img src="{{ noticia_item.imagem.url }}"
+                         alt="{{ noticia_item.titulo }}"
+                         class="linha-tempo-card-imagem">
+                    {% endif %}
+
+                    <div class="linha-tempo-card-conteudo">
+                        <span class="linha-tempo-card-categoria">{{ noticia_item.categoria.nome }}</span>
+
+                        <h3 class="linha-tempo-card-titulo">
+                            <a href="{% url 'noticia_detalhe' noticia_item.slug %}">
+                                {{ noticia_item.titulo }}
+                            </a>
+                        </h3>
+
+                        <div class="linha-tempo-card-data">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>{{ noticia_item.data_publicacao|date:"d/m/Y" }}</span>
+                        </div>
+                    </div>
+
+                    <div class="linha-tempo-timeline"></div>
+                </article>
+                {% endfor %}
+            </div>
+
+            <!-- Hint de scroll (só aparece se há overflow) -->
+            <div class="linha-tempo-scroll-hint">
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </div>
+    </section>
+    {% endfor %}
+</div>
+
+<script>
+// Script para funcionalidade de scroll na linha do tempo
+(function() {
+    'use strict';
+
+    // Função para scroll suave com drag
+    function initLinhaTempoScroll() {
+        const scrollContainers = document.querySelectorAll('.linha-tempo-scroll-container');
+
+        scrollContainers.forEach(container => {
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            // Mouse events
+            container.addEventListener('mousedown', (e) => {
+                isDown = true;
+                container.classList.add('grabbing');
+                startX = e.pageX - container.offsetLeft;
+                scrollLeft = container.scrollLeft;
+            });
+
+            container.addEventListener('mouseleave', () => {
+                isDown = false;
+                container.classList.remove('grabbing');
+            });
+
+            container.addEventListener('mouseup', () => {
+                isDown = false;
+                container.classList.remove('grabbing');
+            });
+
+            container.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - container.offsetLeft;
+                const walk = (x - startX) * 2;
+                container.scrollLeft = scrollLeft - walk;
+            });
+
+            // Detectar quando scroll chegou ao fim
+            container.addEventListener('scroll', () => {
+                const scrollWidth = container.scrollWidth;
+                const clientWidth = container.clientWidth;
+                const scrollLeft = container.scrollLeft;
+
+                if (scrollLeft + clientWidth >= scrollWidth - 10) {
+                    container.classList.add('scrolled-end');
+                } else {
+                    container.classList.remove('scrolled-end');
+                }
+            });
+
+            // Scroll automaticamente para a notícia atual
+            const noticiaAtual = container.querySelector('#noticia-atual');
+            if (noticiaAtual) {
+                setTimeout(() => {
+                    const scrollPosition = noticiaAtual.offsetLeft - (container.clientWidth / 2) + (noticiaAtual.clientWidth / 2);
+                    container.scrollTo({
+                        left: scrollPosition,
+                        behavior: 'smooth'
+                    });
+                }, 300);
+            }
+        });
+    }
+
+    // Inicializar quando o DOM estiver pronto
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initLinhaTempoScroll);
+    } else {
+        initLinhaTempoScroll();
+    }
+})();
+</script>
+{% endif %}

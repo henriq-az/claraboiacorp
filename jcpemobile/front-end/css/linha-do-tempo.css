@@ -1,0 +1,300 @@
+/* ===================================================
+   COMPONENTE LINHA DO TEMPO
+   Exibição de linhas do tempo nas páginas de notícia
+   =================================================== */
+
+.linhas-tempo-container {
+    margin: var(--espaco-10) 0;
+}
+
+.linha-tempo-section {
+    margin-bottom: var(--espaco-12);
+}
+
+.linha-tempo-header {
+    margin-bottom: var(--espaco-6);
+    padding-bottom: var(--espaco-4);
+    border-bottom: var(--borda-largura-media) solid var(--cor-primaria);
+}
+
+.linha-tempo-titulo {
+    font-family: var(--fonte-titulo);
+    font-size: var(--fonte-tamanho-xl);
+    font-weight: var(--fonte-peso-bold);
+    color: var(--cor-texto-primario);
+    margin-bottom: var(--espaco-2);
+}
+
+.linha-tempo-descricao {
+    font-size: var(--fonte-tamanho-sm);
+    color: var(--cor-texto-secundario);
+    line-height: var(--linha-altura-normal);
+}
+
+/* Container do scroll horizontal */
+.linha-tempo-scroll-container {
+    position: relative;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--cor-primaria) var(--cor-fundo-terciario);
+    padding: var(--espaco-4) 0;
+    margin: 0 calc(-1 * var(--espacamento-mobile));
+    padding-left: var(--espacamento-mobile);
+    padding-right: var(--espacamento-mobile);
+}
+
+@media (min-width: 768px) {
+    .linha-tempo-scroll-container {
+        margin: 0;
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+.linha-tempo-scroll-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.linha-tempo-scroll-container::-webkit-scrollbar-track {
+    background: var(--cor-fundo-terciario);
+    border-radius: var(--borda-raio-lg);
+}
+
+.linha-tempo-scroll-container::-webkit-scrollbar-thumb {
+    background: var(--cor-primaria);
+    border-radius: var(--borda-raio-lg);
+}
+
+.linha-tempo-scroll-container::-webkit-scrollbar-thumb:hover {
+    background: var(--cor-primaria-escura);
+}
+
+/* Scroll das notícias */
+.linha-tempo-scroll {
+    display: flex;
+    gap: var(--espaco-4);
+    padding: var(--espaco-2);
+}
+
+/* Card de notícia na linha do tempo */
+.linha-tempo-card {
+    position: relative;
+    flex: 0 0 auto;
+    width: 280px;
+    background: var(--cor-fundo);
+    border-radius: var(--borda-raio-xl);
+    overflow: hidden;
+    box-shadow: var(--sombra-md);
+    transition: all var(--transicao-normal);
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+@media (min-width: 768px) {
+    .linha-tempo-card {
+        width: 320px;
+    }
+}
+
+.linha-tempo-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--sombra-lg);
+}
+
+/* Card da notícia atual (destaque) */
+.linha-tempo-card.atual {
+    border-color: var(--cor-primaria);
+    box-shadow: 0 0 0 4px var(--cor-primaria-fundo), var(--sombra-lg);
+}
+
+.linha-tempo-card.atual::before {
+    content: 'Você está aqui';
+    position: absolute;
+    top: var(--espaco-3);
+    right: var(--espaco-3);
+    background: var(--cor-primaria);
+    color: var(--cor-fundo);
+    padding: var(--espaco-1) var(--espaco-3);
+    border-radius: var(--borda-raio-sm);
+    font-size: var(--fonte-tamanho-xs);
+    font-weight: var(--fonte-peso-semibold);
+    z-index: 10;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.linha-tempo-card-imagem {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.linha-tempo-card-conteudo {
+    padding: var(--espaco-4);
+}
+
+.linha-tempo-card-categoria {
+    display: inline-block;
+    font-size: var(--fonte-tamanho-xs);
+    font-weight: var(--fonte-peso-medium);
+    color: var(--cor-primaria);
+    background-color: var(--cor-primaria-fundo);
+    padding: var(--espaco-1) var(--espaco-2);
+    border-radius: var(--borda-raio-sm);
+    margin-bottom: var(--espaco-2);
+}
+
+.linha-tempo-card-titulo {
+    font-size: var(--fonte-tamanho-base);
+    font-weight: var(--fonte-peso-semibold);
+    color: var(--cor-texto-primario);
+    line-height: var(--linha-altura-apertada);
+    margin-bottom: var(--espaco-2);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.linha-tempo-card-titulo a {
+    color: inherit;
+    text-decoration: none;
+    transition: color var(--transicao-rapida);
+}
+
+.linha-tempo-card-titulo a:hover {
+    color: var(--cor-primaria);
+}
+
+.linha-tempo-card-data {
+    font-size: var(--fonte-tamanho-xs);
+    color: var(--cor-texto-terciario);
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-1);
+}
+
+.linha-tempo-card-data i {
+    font-size: var(--fonte-tamanho-xxs);
+}
+
+/* Linha cronológica visual */
+.linha-tempo-timeline {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--cor-borda);
+}
+
+.linha-tempo-card.atual .linha-tempo-timeline {
+    background: var(--cor-primaria);
+}
+
+/* Efeito de scroll suave */
+.linha-tempo-scroll-container.grabbing {
+    cursor: grabbing;
+}
+
+.linha-tempo-scroll-container:not(.grabbing) {
+    cursor: grab;
+}
+
+/* Indicador de mais conteúdo */
+.linha-tempo-scroll-hint {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 60px;
+    background: linear-gradient(to right, transparent, var(--cor-fundo));
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: var(--espaco-2);
+}
+
+.linha-tempo-scroll-hint i {
+    color: var(--cor-primaria);
+    font-size: var(--fonte-tamanho-lg);
+    animation: bounce-horizontal 2s ease-in-out infinite;
+}
+
+@keyframes bounce-horizontal {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(-8px);
+    }
+}
+
+/* Remover hint quando scroll está no final */
+.linha-tempo-scroll-container.scrolled-end .linha-tempo-scroll-hint {
+    display: none;
+}
+
+/* Contador de notícias */
+.linha-tempo-contador {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--espaco-2);
+    font-size: var(--fonte-tamanho-sm);
+    color: var(--cor-texto-secundario);
+    margin-top: var(--espaco-2);
+}
+
+.linha-tempo-contador i {
+    color: var(--cor-primaria);
+}
+
+/* Responsivo */
+@media (max-width: 767px) {
+    .linha-tempo-card {
+        width: 240px;
+    }
+
+    .linha-tempo-card-imagem {
+        height: 150px;
+    }
+}
+
+/* Estado de loading */
+.linha-tempo-loading {
+    text-align: center;
+    padding: var(--espaco-10);
+    color: var(--cor-texto-terciario);
+}
+
+.linha-tempo-loading-spinner {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--cor-borda);
+    border-top-color: var(--cor-primaria);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Empty state */
+.linha-tempo-empty {
+    text-align: center;
+    padding: var(--espaco-10);
+    background: var(--cor-fundo-secundario);
+    border-radius: var(--borda-raio-lg);
+}
+
+.linha-tempo-empty p {
+    color: var(--cor-texto-terciario);
+    margin: 0;
+}

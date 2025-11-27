@@ -1,0 +1,174 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar: {{ linha_tempo.titulo }} - Painel Admin</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f5f5f5; padding: 20px; }
+        .container { max-width: 1400px; margin: 0 auto; }
+        h1 { color: #DE1B24; margin-bottom: 10px; }
+        .subtitle { color: #6B7280; margin-bottom: 30px; }
+        .section { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .section-title { font-size: 18px; font-weight: 700; margin-bottom: 20px; color: #111827; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-weight: 600; margin-bottom: 8px; color: #374151; }
+        input[type="text"], textarea { width: 100%; padding: 12px; border: 1px solid #D1D5DB; border-radius: 6px; font-family: inherit; font-size: 16px; }
+        textarea { resize: vertical; min-height: 80px; }
+        .checkbox-group { display: flex; align-items: center; gap: 10px; }
+        .btn { padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-block; font-size: 14px; }
+        .btn-primary { background: #DE1B24; color: white; }
+        .btn-primary:hover { background: #C41119; }
+        .btn-secondary { background: #6B7280; color: white; }
+        .btn-danger { background: #EF4444; color: white; }
+        .btn-sm { padding: 6px 14px; font-size: 13px; }
+        .noticias-grid { display: grid; gap: 15px; margin-top: 20px; }
+        .noticia-card { display: flex; gap: 15px; padding: 15px; border: 1px solid #E5E7EB; border-radius: 8px; background: #FAFAFA; }
+        .noticia-img { width: 120px; height: 80px; object-fit: cover; border-radius: 6px; flex-shrink: 0; }
+        .noticia-content { flex: 1; }
+        .noticia-titulo { font-weight: 600; color: #111827; margin-bottom: 5px; }
+        .noticia-meta { font-size: 13px; color: #6B7280; margin-bottom: 8px; }
+        .noticia-actions { display: flex; gap: 8px; }
+        .search-box { margin-bottom: 20px; }
+        .search-box input { width: 100%; }
+        .empty-state { text-align: center; padding: 40px; color: #6B7280; }
+        .messages { margin-bottom: 20px; }
+        .message { padding: 12px 20px; border-radius: 6px; margin-bottom: 10px; background: white; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+        .message-success { border-left: 4px solid #10B981; }
+        .message-error { border-left: 4px solid #EF4444; }
+        .message-warning { border-left: 4px solid #F59E0B; }
+        .actions { display: flex; gap: 10px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Editar Linha do Tempo</h1>
+        <div class="subtitle">{{ linha_tempo.titulo }} • {{ total_noticias }} notícia{{ total_noticias|pluralize }}</div>
+
+        <div class="actions">
+            <a href="{% url 'painel_linhas_tempo' %}" class="btn btn-secondary">← Voltar</a>
+        </div>
+
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="message message-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Formulário de edição da linha do tempo -->
+        <div class="section">
+            <div class="section-title">Informações da Linha do Tempo</div>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="titulo">Título</label>
+                    <input type="text" id="titulo" name="titulo" value="{{ linha_tempo.titulo }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="descricao">Descrição</label>
+                    <textarea id="descricao" name="descricao">{{ linha_tempo.descricao }}</textarea>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="ativa" name="ativa" {% if linha_tempo.ativa %}checked{% endif %}>
+                        <label for="ativa" style="margin: 0;">Linha do tempo ativa</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+            </form>
+        </div>
+
+        <!-- Notícias na linha do tempo -->
+        <div class="section">
+            <div class="section-title">Notícias nesta Linha do Tempo (ordenadas por data de publicação)</div>
+            {% if noticias_linha %}
+            <div class="noticias-grid">
+                {% for item in noticias_linha %}
+                <div class="noticia-card">
+                    {% if item.noticia.imagem %}
+                    <img src="{{ item.noticia.imagem.url }}" alt="{{ item.noticia.titulo }}" class="noticia-img">
+                    {% endif %}
+                    <div class="noticia-content">
+                        <div class="noticia-titulo">{{ item.noticia.titulo }}</div>
+                        <div class="noticia-meta">
+                            {{ item.noticia.categoria.nome }}
+                            • {{ item.noticia.data_publicacao|date:"d/m/Y" }}
+                        </div>
+                        <div class="noticia-actions">
+                            <a href="{% url 'noticia_detalhe' item.noticia.slug %}" target="_blank" class="btn btn-secondary btn-sm">Ver Notícia</a>
+                            <form method="post" action="{% url 'remover_noticia_linha_tempo' item.id %}" style="display: inline;" onsubmit="return confirm('Remover esta notícia da linha do tempo?');">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm">Remover</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <p>Nenhuma notícia adicionada ainda. Use a seção abaixo para adicionar notícias.</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Adicionar notícias -->
+        <div class="section">
+            <div class="section-title">Adicionar Notícias</div>
+            <div class="search-box">
+                <input type="text" id="searchNoticias" placeholder="Buscar notícias por título..." onkeyup="filtrarNoticias()">
+            </div>
+            {% if noticias_disponiveis %}
+            <div class="noticias-grid" id="noticiasDisponiveis">
+                {% for noticia in noticias_disponiveis|slice:":20" %}
+                <div class="noticia-card" data-titulo="{{ noticia.titulo|lower }}">
+                    {% if noticia.imagem %}
+                    <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" class="noticia-img">
+                    {% endif %}
+                    <div class="noticia-content">
+                        <div class="noticia-titulo">{{ noticia.titulo }}</div>
+                        <div class="noticia-meta">
+                            {{ noticia.categoria.nome }}
+                            • {{ noticia.data_publicacao|date:"d/m/Y" }}
+                        </div>
+                        <div class="noticia-actions">
+                            <form method="post" action="{% url 'adicionar_noticia_linha_tempo' linha_tempo.id noticia.id %}" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary btn-sm">+ Adicionar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <p style="margin-top: 15px; color: #6B7280; font-size: 14px;">Mostrando até 20 notícias. Use a busca para encontrar mais.</p>
+            {% else %}
+            <div class="empty-state">
+                <p>Todas as notícias já foram adicionadas a esta linha do tempo.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        function filtrarNoticias() {
+            const input = document.getElementById('searchNoticias');
+            const filter = input.value.toLowerCase();
+            const cards = document.querySelectorAll('#noticiasDisponiveis .noticia-card');
+
+            cards.forEach(card => {
+                const titulo = card.getAttribute('data-titulo');
+                if (titulo.includes(filter)) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
