@@ -1852,7 +1852,9 @@ Salvar Preferências
 </style>
   {% if noticia_principal %}
   <a href="{% url 'noticia_detalhe' noticia_principal.slug %}" class="card top" style="text-decoration: none; color: inherit;">
+    {% if noticia_principal.imagem %}
     <img src="{{ noticia_principal.imagem.url }}" alt="{{ noticia_principal.titulo }}" style="border-radius: 12px;">
+    {% endif %}
     <div class="content">
       <span class="tag">{{ noticia_principal.categoria.nome }}</span>
       <h2 class="title">{{ noticia_principal.titulo }}</h2>
