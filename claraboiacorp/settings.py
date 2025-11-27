@@ -25,14 +25,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-default-key')
 DEBUG = os.getenv('DEBUG', '0').lower() in ['true', '1', 't']
 
 # Hosts permitidos
-ALLOWED_HOSTS = os.getenv(
-    'ALLOWED_HOSTS',
-    'jcpe-fmhxhfgya5fxb5b0.brazilsouth-01.azurewebsites.net'
-).split(' ')
-
-# Adicionar localhost para desenvolvimento
-if NOT_PROD:
-    ALLOWED_HOSTS.extend(['127.0.0.1', 'localhost'])
+ALLOWED_HOSTS = ['jcclaraboia.pythonanywhere.com', 'localhost', '127.0.0.1']
 
 # CSRF Trusted Origins
 CSRF_TRUSTED_ORIGINS = [
