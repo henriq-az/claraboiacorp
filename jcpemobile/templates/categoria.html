@@ -1,0 +1,57 @@
+{% load static %}
+
+<section class="categoria-container">
+
+    <!-- Cabeçalho da Categoria -->
+    <header class="categoria-header">
+        <h1>{{ categoria.nome }}</h1>
+        <p class="categoria-descricao">
+            Últimas notícias da categoria <strong>{{ categoria.nome }}</strong>.
+        </p>
+    </header>
+
+    <div class="noticias-lista">
+
+        {% if noticias %}
+            {% for noticia in noticias %}
+                <article class="noticia-item">
+
+                    <!-- Imagem da notícia (se existir) -->
+                    {% if noticia.imagem %}
+                        <a href="{% url 'noticia_detalhe' noticia.slug %}">
+                            <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" class="noticia-img">
+                        </a>
+                    {% endif %}
+
+                    <!-- Conteúdo da notícia -->
+                    <div class="noticia-info">
+
+                        <h2 class="noticia-titulo">
+                            <a href="{% url 'noticia_detalhe' noticia.slug %}">
+                                {{ noticia.titulo }}
+                            </a>
+                        </h2>
+
+                        <p class="noticia-resumo">
+                            {{ noticia.conteudo|truncatewords:25 }}
+                        </p>
+
+                        <div class="noticia-meta">
+                            {% if noticia.autor %}
+                                <span>Por {{ noticia.autor.nome }}</span>
+                            {% endif %}
+
+                            <span>• {{ noticia.data_publicacao|date:"d/m/Y H:i" }}</span>
+                        </div>
+
+                    </div>
+                </article>
+            {% endfor %}
+
+        {% else %}
+            <p class="sem-noticias">Nenhuma notícia encontrada nesta categoria.</p>
+        {% endif %}
+
+    </div>
+
+</section>

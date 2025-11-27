@@ -117,6 +117,24 @@ def index(request):
     }
     return render(request, 'index.html', context)
 
+def lista_por_categoria(request, slug):
+    todas_noticias = Noticia.objects.select_related('categoria', 'autor').order_by('-data_publicacao')
+
+    print(f"[DEBUG] Total geral: {todas_noticias.count()}")
+
+    # Filtrar pela categoria
+    noticias_categoria = todas_noticias.filter(categoria__slug=slug)
+
+    print(f"[DEBUG] Categoria {slug} - Total filtrado: {noticias_categoria.count()}")
+
+    context = {
+        'categoria': Categoria.objects.get(slug=slug),
+        'noticias': noticias_categoria,
+    }
+
+    return render(request, 'categoria.html', context)
+
+
 # Página com todas as enquetes
 def lista_enquetes(request):
     enquetes = Enquete.objects.all()

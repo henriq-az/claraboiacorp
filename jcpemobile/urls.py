@@ -6,7 +6,7 @@ from .views import (
     admin_criar_autor, neels, detalhe_enquete, lista_enquetes, painel_diario,
     listar_tags, noticias_por_tags, buscar_noticias_por_ids, atualizar_preferencias, noticias_personalizadas,
     api_preferencias, linha_do_tempo, painel_linha_tempo, adicionar_noticia_linha_tempo,
-    remover_noticia_linha_tempo, reordenar_linha_tempo, toggle_ativa_linha_tempo
+    remover_noticia_linha_tempo, reordenar_linha_tempo, toggle_ativa_linha_tempo,lista_por_categoria
 )
 
 urlpatterns = [
@@ -22,6 +22,7 @@ urlpatterns = [
     path('remover-noticia-salva/<int:noticia_id>/', remover_noticia_salva, name='remover_noticia_salva'),
     path('verificar-noticia-salva/<int:noticia_id>/', verificar_noticia_salva, name='verificar_noticia_salva'),
     path('feedback/enviar/', enviar_feedback, name='enviar_feedback'),
+    path('categoria/<slug:slug>/', lista_por_categoria, name='categoria'),
     # API para tags, filtros e preferências
     path('api/tags/', listar_tags, name='api_listar_tags'),
     path('api/noticias/', buscar_noticias_por_ids, name='api_buscar_noticias_por_ids'),
