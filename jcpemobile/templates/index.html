@@ -1922,12 +1922,36 @@ Salvar Preferências
 }
 
 /* Texto (tamanhos) específico para os cards laterais da primeira sessão */
+.container > a.card.top .content .title {
+  font-size: 20px !important;
+  font-weight: 1000 !important;
+  line-height: 1.2 !important;
+}
+.container > a.card.top .content .tag {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  padding: 0px 10px !important;
+}
+.conteudo-principal .card.side .content .tag,
+.container > a.card.top + a.card.side .content .tag,
+.container > a.card.top + a.card.side + a.card.side .content .tag,
+.container > a.card.top + a.card.side + a.card.side + a.card.side .content .tag,
+body .conteudo-principal .ultimas-noticias-section .news-list a.card.side .content .tag {
+  font-weight: 700 !important;
+  padding: 0px 8px !important;
+  margin-bottom: 1px !important;
+}
+.container > a.card.top .content .desc {
+  font-size: 17px !important;
+  line-height: 1.1 !important;
+  margin: 4px 0 0 0 !important;
+}
 .container > a.card.top + a.card.side .content .title,
 .container > a.card.top + a.card.side + a.card.side .content .title,
 .container > a.card.top + a.card.side + a.card.side + a.card.side .content .title {
-  font-size: 16px !important;
+  font-size: 15px !important;
   font-weight: 700 !important;
-  line-height: 1.25 !important;
+  line-height: 1.3 !important;
 }
 .container > a.card.top + a.card.side .content .desc,
 .container > a.card.top + a.card.side + a.card.side .content .desc,
@@ -2077,6 +2101,19 @@ Salvar Preferências
 </style>
 
 <!-- Seção de Vídeo em Destaque -->
+<style>
+.video-destaque-titulo {
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  margin: 0 0 8px 0 !important;
+}
+.video-destaque-desc {
+  font-size: 17px !important;
+  color: #000000 !important;
+  line-height: 1.3 !important;
+}
+</style>
 <section class="video-destaque-section">
   <div class="video-destaque-card">
     <div class="video-destaque-thumbnail">
@@ -2987,9 +3024,9 @@ body .conteudo-principal .ultimas-noticias-section .news-list a.card.side + a.ca
 body .conteudo-principal .ultimas-noticias-section .news-list a.card.side .content .title,
 body .conteudo-principal .ultimas-noticias-section .news-list a.card.side + a.card.side .content .title,
 body .conteudo-principal .ultimas-noticias-section .news-list a.card.side + a.card.side + a.card.side .content .title {
-  font-size: 16px !important;
+  font-size: 15px !important;
   font-weight: 700 !important;
-  line-height: 1.25 !important;
+  line-height: 1.3 !important;
 }
 
 body .conteudo-principal .ultimas-noticias-section .news-list a.card.side .content .desc,
