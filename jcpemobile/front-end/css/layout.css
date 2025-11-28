@@ -179,17 +179,28 @@
     height: 50px;
     padding: 0;
 }
-
-.botao-busca:active,
-.botao-perfil:active {
-    background-color: var(--cor-fundo-secundario);
+/* Close button in the menu header: keep container small but allow the icon to overflow */
+.menu-lateral-fechar {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--cor-texto-secundario);
     border-radius: var(--borda-raio-circular);
+    transition: var(--transicao-rapida);
+    overflow: visible; /* allow the scaled SVG to protrude outside the button */
+    position: relative;
 }
 
-/* SVGs nos botões do cabeçalho */
-.botao-busca svg,
-.botao-perfil svg {
+/* keep the SVG intrinsic at 24x24 but scale it visually so the container stays unchanged */
+.menu-lateral-fechar svg {
+    width: 24px;
+    height: 24px;
     display: block;
+    transform: scale(1.6); /* slightly reduced from 1.8 per request */
+    transform-origin: center center;
+    transition: transform 0.12s ease;
 }
 
 /* ===================================================
@@ -228,7 +239,6 @@
     height: 40px;
     object-fit: contain;
     display: inline-block;
-    transform: none;
 }
 
 @media (max-width: 360px) {
@@ -330,7 +340,8 @@
     position: fixed;
     top: 44px;
     left: 0;
-    width: var(--largura-menu-lateral);
+    width: 240px !important;   /* reduzido para ocupar menos espaço lateral */
+    max-width: 240px !important;
     height: calc(100vh - 44px);
     background: var(--cor-fundo);
     transform: translateX(-100%);

@@ -125,9 +125,9 @@
     --largura-maxima-desktop: 1200px;
     --largura-maxima-wide: 1440px;
 
-    /* Sidebar */
-    --largura-menu-lateral: 320px;
-    --largura-sidebar-desktop: 320px;
+   /* Sidebar */
+   --largura-menu-lateral: 300px;
+   --largura-sidebar-desktop: 300px;
 
     /* ===================================================
        BORDAS
