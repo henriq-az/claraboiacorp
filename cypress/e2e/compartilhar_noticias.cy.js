@@ -1,5 +1,8 @@
 ﻿describe('Teste de Compartilhamento de Notícias', () => {
   it('Deve compartilhar uma notícia a partir da página de detalhes', () => {
+    // Define resolução mobile (iPhone X)
+    cy.viewport(375, 812)
+
     // Visita a página inicial
     cy.visit('/')
 

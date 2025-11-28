@@ -1,5 +1,8 @@
 describe('Teste de Feedback', () => {
   it('Deve enviar um feedback a partir do menu hamburguer', () => {
+    // Define resolução mobile (iPhone X)
+    cy.viewport(375, 812)
+
     cy.visit('/')
     cy.get('#menuHamburguer').click()
     cy.get('.btn-feedback-menu').click()

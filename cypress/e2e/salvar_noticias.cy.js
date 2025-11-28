@@ -1,5 +1,8 @@
 describe('Teste de Salvar Notícias', () => {
   it('Deve salvar uma notícia e visualizá-la na página de salvos', () => {
+    // Define resolução mobile (iPhone X)
+    cy.viewport(375, 812)
+
     // Limpa localStorage antes do teste
     cy.clearLocalStorage()
 
