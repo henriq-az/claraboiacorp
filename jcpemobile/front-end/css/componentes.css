@@ -20,6 +20,22 @@
     transform: scale(0.98);
 }
 
+/* Subtle black gradient shadow at the bottom of news cards */
+.cartao-noticia {
+    position: relative; /* required for the pseudo-element */
+}
+.cartao-noticia::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 36px; /* height of the gradient overlay */
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.08) 45%, rgba(0,0,0,0) 100%);
+    z-index: 5; /* sits above card content but below interactive overlays if any */
+}
+
 /* Imagem do Card */
 .cartao-imagem {
     position: relative;

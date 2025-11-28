@@ -92,6 +92,19 @@
     border: 2px solid transparent;
 }
 
+/* Add subtle black gradient under the content area of timeline cards */
+.linha-tempo-card::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 28px;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(0,0,0,0.16) 0%, rgba(0,0,0,0.06) 50%, rgba(0,0,0,0) 100%);
+    z-index: 4;
+}
+
 @media (min-width: 768px) {
     .linha-tempo-card {
         width: 320px;

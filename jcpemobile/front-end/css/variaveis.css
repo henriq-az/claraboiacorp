@@ -115,8 +115,8 @@
        =================================================== */
 
     /* Altura de elementos */
-    --altura-cabecalho-mobile: 56px;
-    --altura-cabecalho-desktop: 72px;
+   --altura-cabecalho-mobile: 68px; /* reduzido levemente conforme pedido */
+   --altura-cabecalho-desktop: 92px; /* reduzido levemente conforme pedido */
     --altura-navegacao-inferior: 70px;
 
     /* Larguras máximas */

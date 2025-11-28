@@ -82,7 +82,7 @@
     left: 0;
     right: 0;
     height: var(--altura-cabecalho-mobile);
-    background: var(--cor-fundo);
+    background: var(--cor-fundo); /* restore solid background */
     border-bottom: var(--borda-largura) solid var(--cor-borda-clara);
     z-index: var(--z-fixed);
     transition: all 0.3s ease-in-out;
@@ -96,7 +96,24 @@
 /* Cabeçalho visível ao rolar para cima */
 .cabecalho.cabecalho-visivel {
     top: 37px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    /* keep no extra box-shadow here; shadow is provided by the pseudo-element */
+}
+
+/* Dark gradient under the header to match Figma shadow (subtle) */
+.cabecalho::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%; /* place the gradient immediately below the header box */
+    height: 18px; /* reduced height so the gradient doesn't extend as far */
+    /* slightly softer gradient with shorter reach */
+    background: linear-gradient(180deg,
+        rgba(0,0,0,0.18) 0%,
+        rgba(0,0,0,0.09) 50%,
+        rgba(0,0,0,0) 100%);
+    pointer-events: none;
+    z-index: calc(var(--z-fixed) - 1); /* sit below header content */
 }
 
 .cabecalho-container {
@@ -115,7 +132,7 @@
 }
 
 .logo-imagem {
-    height: 32px;
+    height: 38px; /* reduzido levemente para combinar com a nova altura */
     width: auto;
 }
 
@@ -569,7 +586,7 @@
 
 .submenu a.ativo {
     color: var(--cor-primaria);
-    background: var(--cor-fundo-terciario);
+    background: transparent; /* keep same background as other items */
 }
 
 /* Padronizar foco/contorno das sub-opções: remover contorno padrão e usar o mesmo estilo de hover */
@@ -580,7 +597,7 @@
 .submenu-nivel-2 a:focus,
 .submenu-nivel-2 a:focus-visible {
     outline: none;
-    background: var(--cor-fundo-terciario);
+    background: transparent; /* unify background for all states */
     color: var(--cor-texto-primario);
     box-shadow: none;
 }
@@ -618,7 +635,7 @@
 
 .submenu-link:hover {
     color: var(--cor-texto-primario);
-    background: var(--cor-fundo-terciario);
+    background: transparent; /* keep same background on hover */
 }
 
 .submenu-seta {
