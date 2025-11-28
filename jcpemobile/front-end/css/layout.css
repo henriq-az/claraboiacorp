@@ -364,14 +364,15 @@
 }
 
 .menu-lateral-fechar {
-    width: 40px;
-    height: 40px;
+    width: 55px;
+    height: 55px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--cor-texto-secundario);
     border-radius: var(--borda-raio-circular);
     transition: var(--transicao-rapida);
+    overflow: visible;
 }
 
 .menu-lateral-fechar:hover {
@@ -379,6 +380,18 @@
     color: var(--cor-primaria);
 }
 
+.menu-lateral-fechar svg {
+    width: 55px;
+    height: 55px;
+    display: block;
+}
+
+.menu-lateral-fechar svg path,
+.menu-lateral-fechar svg line,
+.menu-lateral-fechar svg circle {
+    stroke: currentColor !important;
+    fill: none;
+}
 /* Perfil no Menu */
 .menu-lateral-perfil {
     display: flex;
@@ -410,14 +423,14 @@
 
 /* Aumentar apenas o ícone de perfil dentro do menu hamburguer (menu lateral) */
 .menu-lateral .menu-lateral-perfil .icone-perfil {
-    width: 55px;
-    height: 55px;
+    width: 44px;
+    height: 44px;
 }
 
 @media (max-width: 400px) {
     .menu-lateral .menu-lateral-perfil .icone-perfil {
-        width: 80px;
-        height: 80px;
+        width: 64px;
+        height: 64px;
     }
 }
 
