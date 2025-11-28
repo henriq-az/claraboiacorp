@@ -132,7 +132,8 @@
 }
 
 .logo-imagem {
-    height: 38px; /* reduzido levemente para combinar com a nova altura */
+    height: 48px; /* aumentado para destacar o logo sem alterar a altura do cabeçalho */
+    max-height: calc(var(--altura-cabecalho-mobile) - 8px); /* garante que não ultrapasse o header */
     width: auto;
 }
 
