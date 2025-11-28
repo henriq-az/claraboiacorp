@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Linhas do Tempo - Painel Admin</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f5f5f5; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { color: #DE1B24; margin-bottom: 30px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .btn { padding: 12px 24px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-block; }
+        .btn-primary { background: #DE1B24; color: white; }
+        .btn-primary:hover { background: #C41119; }
+        .btn-secondary { background: #6B7280; color: white; }
+        .btn-secondary:hover { background: #4B5563; }
+        .btn-danger { background: #EF4444; color: white; }
+        .btn-sm { padding: 8px 16px; font-size: 14px; }
+        .linhas-grid { display: grid; gap: 20px; }
+        .linha-card { border: 1px solid #E5E7EB; border-radius: 8px; padding: 20px; background: white; }
+        .linha-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px; }
+        .linha-titulo { font-size: 20px; font-weight: 700; color: #111827; margin-bottom: 8px; }
+        .linha-meta { font-size: 14px; color: #6B7280; margin-bottom: 10px; }
+        .linha-descricao { color: #4B5563; margin-bottom: 15px; line-height: 1.6; }
+        .linha-actions { display: flex; gap: 10px; }
+        .badge { padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+        .badge-ativa { background: #D1FAE5; color: #065F46; }
+        .badge-inativa { background: #FEE2E2; color: #991B1B; }
+        .empty-state { text-align: center; padding: 60px 20px; color: #6B7280; }
+        .messages { margin-bottom: 20px; }
+        .message { padding: 12px 20px; border-radius: 6px; margin-bottom: 10px; }
+        .message-success { background: #D1FAE5; color: #065F46; border-left: 4px solid #10B981; }
+        .message-error { background: #FEE2E2; color: #991B1B; border-left: 4px solid #EF4444; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Gerenciar Linhas do Tempo</h1>
+            <div>
+                <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary">← Voltar ao Painel</a>
+                <a href="{% url 'criar_linha_tempo' %}" class="btn btn-primary">+ Nova Linha do Tempo</a>
+            </div>
+        </div>
+
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="message message-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if linhas_tempo %}
+        <div class="linhas-grid">
+            {% for linha in linhas_tempo %}
+            <div class="linha-card">
+                <div class="linha-header">
+                    <div style="flex: 1;">
+                        <div class="linha-titulo">{{ linha.titulo }}</div>
+                        <div class="linha-meta">
+                            <span class="badge {% if linha.ativa %}badge-ativa{% else %}badge-inativa{% endif %}">
+                                {% if linha.ativa %}Ativa{% else %}Inativa{% endif %}
+                            </span>
+                            • {{ linha.total_noticias }} notícia{{ linha.total_noticias|pluralize }}
+                            • Criada em {{ linha.criada_em|date:"d/m/Y" }}
+                        </div>
+                    </div>
+                </div>
+
+                {% if linha.descricao %}
+                <div class="linha-descricao">{{ linha.descricao }}</div>
+                {% endif %}
+
+                <div class="linha-actions">
+                    <a href="{% url 'editar_linha_tempo' linha.id %}" class="btn btn-primary btn-sm">
+                        Editar e Gerenciar Notícias
+                    </a>
+                    <form method="post" action="{% url 'deletar_linha_tempo' linha.id %}"
+                          onsubmit="return confirm('Tem certeza que deseja deletar esta linha do tempo? Todas as notícias associadas serão removidas.');" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Deletar</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <p style="font-size: 18px; margin-bottom: 10px;">📝 Nenhuma linha do tempo criada ainda</p>
+            <p>Crie sua primeira linha do tempo para agrupar notícias por tema</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

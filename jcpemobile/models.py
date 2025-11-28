@@ -247,33 +247,78 @@ class Voto(models.Model):
         return f"Voto em {self.opcao.texto} ({self.ip_usuario})"
 
 
-class NoticiaLinhaDoTempo(models.Model):
+class LinhaDoTempo(models.Model):
     """
-    Modelo para armazenar as notícias que aparecem na linha do tempo global.
+    Modelo para criar linhas do tempo temáticas.
+    Cada linha do tempo agrupa notícias relacionadas ao mesmo tema/assunto.
     """
-    noticia = models.OneToOneField(
-        Noticia, 
-        on_delete=models.CASCADE, 
-        related_name="na_linha_tempo",
-        verbose_name="Notícia"
+    titulo = models.CharField(
+        max_length=200,
+        verbose_name="Título",
+        help_text="Título da linha do tempo (ex: 'Eleições 2024', 'Copa do Mundo 2026')"
     )
-    ordem = models.PositiveIntegerField(
-        default=0, 
-        verbose_name="Ordem de Exibição",
-        help_text="Ordem em que a notícia aparece na linha do tempo (menor número aparece primeiro)"
+    slug = models.SlugField(unique=True, blank=True)
+    descricao = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name="Descrição",
+        help_text="Descrição breve sobre o tema desta linha do tempo"
     )
     ativa = models.BooleanField(
         default=True,
         verbose_name="Ativa",
-        help_text="Se marcado, a notícia aparecerá na linha do tempo"
+        help_text="Se desmarcado, a linha do tempo não será exibida"
+    )
+    criada_em = models.DateTimeField(auto_now_add=True, verbose_name="Criada em")
+    atualizada_em = models.DateTimeField(auto_now=True, verbose_name="Atualizada em")
+
+    class Meta:
+        verbose_name = "Linha do Tempo"
+        verbose_name_plural = "Linhas do Tempo"
+        ordering = ['-criada_em']
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.titulo)
+        super().save(*args, **kwargs)
+
+    def total_noticias(self):
+        """Retorna o total de notícias nesta linha do tempo"""
+        return self.noticias.count()
+
+    def __str__(self):
+        return self.titulo
+
+
+class NoticiaLinhaDoTempo(models.Model):
+    """
+    Modelo intermediário que relaciona notícias com linhas do tempo.
+    Uma notícia pode estar em uma ou mais linhas do tempo.
+    """
+    linha_tempo = models.ForeignKey(
+        LinhaDoTempo,
+        on_delete=models.CASCADE,
+        related_name="noticias",
+        verbose_name="Linha do Tempo"
+    )
+    noticia = models.ForeignKey(
+        Noticia,
+        on_delete=models.CASCADE,
+        related_name="linhas_tempo",
+        verbose_name="Notícia"
+    )
+    ordem = models.PositiveIntegerField(
+        default=0,
+        verbose_name="Ordem",
+        help_text="Ordem de exibição (deixe 0 para ordenar automaticamente por data)"
     )
     adicionada_em = models.DateTimeField(auto_now_add=True, verbose_name="Adicionada em")
-    atualizada_em = models.DateTimeField(auto_now=True, verbose_name="Atualizada em")
 
     class Meta:
         verbose_name = "Notícia na Linha do Tempo"
         verbose_name_plural = "Notícias na Linha do Tempo"
-        ordering = ['ordem', '-adicionada_em']
+        ordering = ['linha_tempo', 'ordem', '-noticia__data_publicacao']
+        unique_together = ('linha_tempo', 'noticia')
 
     def __str__(self):
-        return f"{self.ordem}. {self.noticia.titulo}"
+        return f"{self.noticia.titulo} - {self.linha_tempo.titulo}"

@@ -50,20 +50,9 @@
 
 <select class="filtro-categoria" aria-label="Filtrar por categoria">
 <option value="">Todas as categorias</option>
-<option value="pernambuco">Pernambuco</option>
-<option value="politica">Política</option>
-<option value="economia">Economia</option>
-<option value="esportes">Esportes</option>
-<option value="cultura">Cultura</option>
-<option value="educacao">Educação</option>
-<option value="mobilidade">Mobilidade</option>
-<option value="culinaria">Culinária</option>
-<option value="meio-ambiente">Meio Ambiente</option>
-<option value="tecnologia">Tecnologia</option>
-<option value="saude">Saúde</option>
-<option value="entretenimento">Entretenimento</option>
-<option value="global">Global</option>
-<option value="nacional">Nacional</option>
+{% for categoria in categorias_menu %}
+<option value="{{ categoria.slug }}">{{ categoria.nome }}</option>
+{% endfor %}
 </select>
 
 <select class="filtro-ordenar" aria-label="Ordenar por">
@@ -130,6 +119,20 @@
 </svg>
 </button>
 <ul class="submenu">
+    {% for categoria in categorias_menu %}
+    <li>
+        <a href="{% url 'categoria' categoria.slug %}">
+            <span>{{ categoria.nome }}</span>
+            <svg class="submenu-right" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+</li>
+<!--
+<ul class="submenu">
 <li><a href="#pernambuco"><span>Pernambuco</span> <svg class="submenu-right" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
 <li><a href="#politica"><span>Política</span> <svg class="submenu-right" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
 <li><a href="#economia"><span>Economia</span> <svg class="submenu-right" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
@@ -147,7 +150,7 @@
 <li><a href="#nacional"><span>Nacional</span> <svg class="submenu-right" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
 </ul>
 </li>
-
+-->
 <!-- Seções Especiais -->
 <li class="menu-item">
 <a href="{% url 'mais_lidas' %}" class="menu-link">
