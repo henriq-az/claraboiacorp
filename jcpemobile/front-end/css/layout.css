@@ -1184,21 +1184,43 @@
     box-shadow: var(--sombra-lg);
 }
 
-.botao-carregar-mais i {
-    animation: bounce 2s infinite;
+/* Make hamburger button allow visual overflow and enlarge the icon/lines */
+.menu-hamburguer {
+    overflow: visible !important; /* allow larger visual icon without resizing header */
 }
 
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {
-        transform: translateY(0);
-    }
-    40% {
-        transform: translateY(4px);
-    }
-    60% {
-        transform: translateY(2px);
-    }
+.menu-hamburguer svg {
+    height: 48px; /* visible icon size reduced */
+    max-height: none; /* allow overflow */
+    width: auto;
+    display: block;
 }
+
+/* If the hamburger uses three lines (.hamburguer-linha), scale them visually */
+.hamburguer-linha {
+    width: 10px !important;
+    height: 1px !important;
+    margin: 1px 0 !important;
+    background-color: var(--cor-texto-secundario);
+    transform: scale(1.8);
+    transform-origin: center center;
+}
+
+/* High-specificity override to force a visibly larger hamburger icon without changing header height */
+.cabecalho .menu-hamburguer,
+.cabecalho-container .menu-hamburguer {
+    overflow: visible !important;
+}
+
+.cabecalho .menu-hamburguer > svg,
+.cabecalho .menu-hamburguer svg {
+    height: 48px !important; /* force smaller visible svg */
+    width: auto !important;
+    max-height: none !important;
+    transform: translateY(0) !important;
+    display: block !important;
+}
+
 
 /* Garantir que todos os ícones na navegação inferior tenham o mesmo tamanho/proporção */
 .navegacao-inferior .nav-item img,

@@ -4,11 +4,12 @@
 <div class="cabecalho-container">
 <!-- Menu Hamburguer (Mobile) -->
 <button class="menu-hamburguer" id="menuHamburguer" aria-label="Abrir menu">
-<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="15 5 70 38" fill="none">
-<path d="M11.6667 15.1666H44.3334" stroke="#33363F" stroke-width="3.5" stroke-linecap="round"/>
-<path d="M11.6667 25.0045H44.3334" stroke="#33363F" stroke-width="3.5" stroke-linecap="round"/>
-<path d="M11.6667 34.8423H44.3334" stroke="#33363F" stroke-width="3.5" stroke-linecap="round"/>
-</svg>
+    <!-- Larger inline SVG so it appears bigger visually; button allows overflow so header size won't change -->
+    <svg class="menu-hamburguer-svg" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 60 60" fill="none" style="display:block; overflow:visible; height:48px !important; width:auto !important;">
+        <path d="M8 18h44" stroke="#33363F" stroke-width="3" stroke-linecap="round"/>
+        <path d="M8 30h44" stroke="#33363F" stroke-width="3" stroke-linecap="round"/>
+        <path d="M8 42h44" stroke="#33363F" stroke-width="3" stroke-linecap="round"/>
+    </svg>
 </button>
 
 <!-- Logo -->
