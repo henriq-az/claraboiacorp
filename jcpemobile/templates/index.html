@@ -817,18 +817,18 @@ Salvar Preferências
 }
 
 .ranking-section h2 {
-  font-size: 28px;
-  margin-bottom: 8px;
-  color: #1a1a1a;
-  font-weight: 700;
+  font-size: 24px;
+  margin-left: -3px
+  color: #000000;
+  font-weight: bold;
 }
 
 .ranking-underline {
   width: 60px;
-  height: 4px;
-  background: linear-gradient(90deg, #DE1B24, #B0141E);
-  margin-bottom: 30px;
-  border-radius: 2px;
+  height: 5px;
+  background-color: #E31B23;
+  border-radius: 18px;
+  margin-left: 1px;
 }
 
 .ranking-header {
@@ -891,20 +891,21 @@ Salvar Preferências
 
 .ranking-content .tag {
   display: inline-block;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: bold;
   color: #DE1B24;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 4px;
+  padding: 0px 1px;
+  margin-top: -15px;
+  margin-left: -8px;
 }
 
 .ranking-title {
-  font-size: 18px;
-  font-weight: 700;
-  color: #1a1a1a;
-  line-height: 1.4;
-  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+  color: #000000;
+  line-height: 1.2;
+  margin-top: -6px;
+  margin-left: -8px;
 }
 
 .ranking-image {
@@ -914,6 +915,25 @@ Salvar Preferências
   flex-shrink: 0;
   border-radius: 16px 16px 0 0;
 }
+
+/* Favorite icon (overlay) for ranking cards */
+.ranking-fav {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  width: 29px;
+  height: 29px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.95);
+  border-radius: 50%;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+  z-index: 6;
+  cursor: pointer;
+}
+.ranking-fav svg { width: 29px; height: 29px; display: block; }
+.ranking-fav:hover svg path { stroke: #E31B23; }
 
 @media (max-width: 480px) {
   .ranking-section {
@@ -940,10 +960,6 @@ Salvar Preferências
     padding: 20px 16px;
   }
 
-  .ranking-title {
-    font-size: 16px;
-  }
-
   .ranking-image {
     height: 160px;
   }
@@ -952,10 +968,6 @@ Salvar Preferências
 @media (min-width: 768px) {
   .ranking-section {
     max-width: 600px;
-  }
-  
-  .ranking-title {
-    font-size: 20px;
   }
 
   .ranking-image {
@@ -1257,24 +1269,23 @@ Salvar Preferências
 /* Seção Painel Diário (logo abaixo do segundo banner) */
 .painel-diario-section {
   margin: 32px auto;
-  /* Aumentada significativamente a largura máxima para cards bem mais largos */
   max-width: 650px;
   padding: 0 20px;
 }
 
 .painel-diario-section h2 {
-  font-size: 28px;
-  margin-bottom: 8px;
-  color: #1a1a1a;
-  font-weight: 700;
+  font-size: 24px;
+  color: #000000;
+  font-weight: bold;
+  margin-left: -2px;
 }
 
 .painel-diario-underline {
   width: 60px;
-  height: 4px;
-  background: linear-gradient(90deg, #DE1B24, #B0141E);
+  height: 5px;
+  background-color: #E31B23;
   margin-bottom: 24px;
-  border-radius: 2px;
+  border-radius: 18px;
 }
 
 .painel-diario-header {
@@ -2248,7 +2259,7 @@ body .conteudo-principal .ultimas-noticias-section .news-list a.card.side .conte
 <!-- Seção de Ranking (logo abaixo do banner da revista) -->
 <section class="ranking-section">
   <div class="ranking-header">
-    <h2># Ranking</h2>
+    <h2>Ranking</h2>
     <div class="ranking-underline"></div>
   </div>
   
@@ -2264,6 +2275,11 @@ body .conteudo-principal .ultimas-noticias-section .news-list a.card.side .conte
             <span class="tag">{{ noticia.categoria.nome }}</span>
             <h3 class="ranking-title">{{ noticia.titulo }}</h3>
           </div>
+          <span class="ranking-fav" role="button" tabindex="0" aria-label="Favoritar" title="Favoritar">
+            <svg xmlns="http://www.w3.org/2000/svg" width="29" height="29" viewBox="0 0 29 29" fill="none" aria-hidden="true">
+              <path d="M6 11.8733C6 9.1046 6 7.72025 6.87868 6.86012C7.75736 6 9.17157 6 12 6H16C18.8284 6 20.2426 6 21.1213 6.86012C22 7.72025 22 9.1046 22 11.8733V18.5567C22 21.1833 22 22.4966 21.1557 22.8983C20.3114 23.3 19.2565 22.4886 17.1465 20.8659L16.4713 20.3465C15.2849 19.434 14.6917 18.9778 14 18.9778C13.3083 18.9778 12.7151 19.434 11.5287 20.3465L10.8535 20.8659C8.74355 22.4886 7.68859 23.3 6.84429 22.8983C6 22.4966 6 21.1833 6 18.5567V11.8733Z" stroke="black" stroke-width="2"/>
+            </svg>
+          </span>
         </a>
       {% endfor %}
     {% else %}
