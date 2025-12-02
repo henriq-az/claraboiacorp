@@ -1,57 +1,481 @@
 {% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<!-- Meta Tags Essenciais -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-<section class="categoria-container">
+<!-- SEO e Meta Informações -->
+<meta name="description" content="Jornal do Commercio - O mais tradicional veículo de comunicação de Pernambuco. Notícias, reportagens e cobertura completa.">
+<meta name="keywords" content="notícias, pernambuco, recife, jornal, commercio, jc, política, economia, esportes">
+<meta name="author" content="Jornal do Commercio">
+<meta name="robots" content="index, follow">
 
-    <!-- Cabeçalho da Categoria -->
-    <header class="categoria-header">
-        <h1>{{ categoria.nome }}</h1>
-        <p class="categoria-descricao">
-            Últimas notícias da categoria <strong>{{ categoria.nome }}</strong>.
-        </p>
-    </header>
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Jornal do Commercio - JC PE">
+<meta property="og:description" content="As principais notícias de Pernambuco e do Brasil">
+<meta property="og:image" content="{% static 'images/logo-jc.png' %}">
 
-    <div class="noticias-lista">
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="{% static 'images/jc-favicon.png' %}">
 
-        {% if noticias %}
-            {% for noticia in noticias %}
-                <article class="noticia-item">
+<!-- Título -->
+<title>{{ categoria.nome }} - Jornal do Commercio</title>
 
-                    <!-- Imagem da notícia (se existir) -->
-                    {% if noticia.imagem %}
-                        <a href="{% url 'noticia_detalhe' noticia.slug %}">
-                            <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" class="noticia-img">
-                        </a>
-                    {% endif %}
+<!-- Fontes -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-                    <!-- Conteúdo da notícia -->
-                    <div class="noticia-info">
+<!-- CSS - Ordem Importante -->
+<link rel="stylesheet" href="{% static 'css/reset.css' %}">
+<link rel="stylesheet" href="{% static 'css/variaveis.css' %}">
+<link rel="stylesheet" href="{% static 'css/base.css' %}">
+<link rel="stylesheet" href="{% static 'css/componentes.css' %}">
+<link rel="stylesheet" href="{% static 'css/layout.css' %}?v=9">
+<link rel="stylesheet" href="{% static 'css/home-layout.css' %}">
+<link rel="stylesheet" href="{% static 'css/nossos-produtos.css' %}">
+<link rel="stylesheet" href="{% static 'css/responsivo.css' %}">
+<link rel="stylesheet" href="{% static 'css/modal-cadastro.css' %}">
+<link rel="stylesheet" href="{% static 'css/modal-feedback.css' %}">
 
-                        <h2 class="noticia-titulo">
-                            <a href="{% url 'noticia_detalhe' noticia.slug %}">
-                                {{ noticia.titulo }}
-                            </a>
-                        </h2>
 
-                        <p class="noticia-resumo">
-                            {{ noticia.conteudo|truncatewords:25 }}
-                        </p>
+<!-- Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body data-user-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}">
+<!-- Barra Superior UOL -->
+<div class="barra-uol">
+<div class="barra-uol-container">
+<a href="https://www.uol.com.br" target="_blank" rel="noopener noreferrer">
+<img src="https://conteudo.imguol.com.br/c/_layout/v3/logoUOL2021/logo_completo_white.svg" width="68" height="24" alt="UOL - O melhor conteúdo" title="UOL - O melhor conteúdo">
+</a>
+</div>
+</div>
 
-                        <div class="noticia-meta">
-                            {% if noticia.autor %}
-                                <span>Por {{ noticia.autor.nome }}</span>
-                            {% endif %}
+<div class="top-bar"></div>
 
-                            <span>• {{ noticia.data_publicacao|date:"d/m/Y H:i" }}</span>
-                        </div>
+{% include 'includes/menu_hamburguer.html' %}
 
-                    </div>
-                </article>
-            {% endfor %}
+<!-- Conteúdo Principal -->
+<main class="conteudo-principal" id="conteudoPrincipal">
+<div class="container">
 
-        {% else %}
-            <p class="sem-noticias">Nenhuma notícia encontrada nesta categoria.</p>
-        {% endif %}
+<style>
+/* Seção Categoria */
+.categoria-section {
+  margin: 40px 0;
+  padding: 0 16px;
+}
 
-    </div>
+.categoria-section h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 8px;
+}
 
+.categoria-descricao {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 24px;
+}
+
+.categoria-underline {
+  width: 60px;
+  height: 4px;
+  background-color: #DE1B24;
+  margin-bottom: 24px;
+}
+
+.noticias-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.noticia-item {
+  display: flex;
+  gap: 16px;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 16px;
+}
+
+.noticia-item:last-child {
+  border-bottom: none;
+}
+
+.noticia-img {
+  width: 140px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.noticia-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.noticia-titulo {
+  font-size: 18px;
+  font-weight: 600;
+  color: #000;
+  margin: 0 0 8px 0;
+  line-height: 1.3;
+}
+
+.noticia-titulo a {
+  color: #000;
+  text-decoration: none;
+}
+
+.noticia-titulo a:hover {
+  color: #DE1B24;
+}
+
+.noticia-resumo {
+  font-size: 14px;
+  color: #666;
+  margin: 0 0 8px 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.noticia-meta {
+  font-size: 12px;
+  color: #999;
+}
+
+.sem-noticias {
+  text-align: center;
+  padding: 40px 16px;
+  color: #666;
+  font-size: 16px;
+}
+
+@media (max-width: 480px) {
+  .categoria-section h1 {
+    font-size: 24px;
+  }
+
+  .noticia-item {
+    gap: 12px;
+  }
+
+  .noticia-img {
+    width: 100px;
+    height: 75px;
+  }
+
+  .noticia-titulo {
+    font-size: 16px;
+  }
+
+  .noticia-resumo {
+    font-size: 13px;
+  }
+}
+
+@media (min-width: 768px) {
+  .categoria-section {
+    padding: 0 24px;
+  }
+
+  .categoria-section h1 {
+    font-size: 32px;
+  }
+
+  .noticia-img {
+    width: 180px;
+    height: 120px;
+  }
+
+  .noticia-titulo {
+    font-size: 20px;
+  }
+
+  .noticias-lista {
+    gap: 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .categoria-section {
+    padding: 0;
+    max-width: 900px;
+    margin: 40px auto;
+  }
+}
+</style>
+
+<!-- Seção Categoria -->
+<section class="categoria-section">
+  <h1>{{ categoria.nome }}</h1>
+  <div class="categoria-underline"></div>
+  <p class="categoria-descricao">
+    Últimas notícias da categoria <strong>{{ categoria.nome }}</strong>.
+  </p>
+
+  <div class="noticias-lista">
+    {% if noticias %}
+      {% for noticia in noticias %}
+        <article class="noticia-item">
+          {% if noticia.imagem %}
+            <a href="{% url 'noticia_detalhe' noticia.slug %}">
+              <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" class="noticia-img">
+            </a>
+          {% endif %}
+
+          <div class="noticia-info">
+            <h2 class="noticia-titulo">
+              <a href="{% url 'noticia_detalhe' noticia.slug %}">
+                {{ noticia.titulo }}
+              </a>
+            </h2>
+
+            <p class="noticia-resumo">
+              {{ noticia.conteudo|truncatewords:25 }}
+            </p>
+
+            <div class="noticia-meta">
+              {% if noticia.autor %}
+                <span>Por {{ noticia.autor.nome }}</span>
+              {% endif %}
+              {% if noticia.autor and noticia.data_publicacao %}
+                <span> • </span>
+              {% endif %}
+              <span>{{ noticia.data_publicacao|date:"d/m/Y H:i" }}</span>
+            </div>
+          </div>
+        </article>
+      {% endfor %}
+    {% else %}
+      <p class="sem-noticias">Nenhuma notícia encontrada nesta categoria.</p>
+    {% endif %}
+  </div>
 </section>
+
+</div>
+</main>
+
+<!-- Navegação Inferior (Mobile) -->
+<nav class="navegacao-inferior" id="navegacaoInferior" aria-label="Navegação rápida">
+<a href="{% url 'index' %}" class="nav-item nav-item-ativo">
+<img src="{% static 'images/Home.png' %}" alt="Início" class="icone-home">
+<span>Início</span>
+</a>
+
+<button id="botaoBusca" class="nav-item botao-busca" aria-label="Abrir busca">
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+<circle cx="18.3333" cy="18.3334" r="10" stroke="#33363F" stroke-width="3"/>
+<path d="M33.3333 33.3334L28.3333 28.3334" stroke="#33363F" stroke-width="3" stroke-linecap="round"/>
+</svg>
+<span>Pesquisa</span>
+</button>
+
+<a href="{% url 'neels' %}" class="nav-item">
+<img src="{% static 'images/NFC.png' %}" alt="Neels" class="icone-nfc">
+<span>Neels</span>
+</a>
+
+<a href="{% url 'mais_lidas' %}" class="nav-item">
+<img src="{% static 'images/Fire@3x.png' %}" alt="Mais Lidas" class="icone-fire">
+<span>Mais Lidas</span>
+</a>
+
+<a href="#perfil" class="nav-item">
+<img src="{% static 'images/Radio_Fill.png' %}" alt="Ao vivo" class="icone-radio">
+<span>Ao vivo</span>
+</a>
+</nav>
+
+<!-- Nossos Produtos -->
+<section class="nossos-produtos">
+<div class="nossos-produtos-container">
+<h2 class="nossos-produtos-titulo">Nossos Produtos</h2>
+<div class="produtos-grid">
+<a href="https://www.ne10.uol.com.br/interior" target="_blank" class="produto-item" title="NE10 Interior">
+<div class="produto-icone">
+<img src="https://sjcc.ne10.uol.com.br/rodape_global/img/ne10interior.webp" alt="NE10 Interior">
+</div>
+<span class="produto-nome">NE10 Interior</span>
+</a>
+
+<a href="https://www.radiojornal.ne10.uol.com.br/" target="_blank" class="produto-item" title="Rádio Jornal">
+<div class="produto-icone">
+<img src="https://sjcc.ne10.uol.com.br/rodape_global/img/radio.webp" alt="Rádio Jornal">
+</div>
+<span class="produto-nome">Rádio Jornal</span>
+</a>
+
+<a href="https://tvjornal.ne10.uol.com.br/" target="_blank" class="produto-item" title="TV Jornal">
+<div class="produto-icone">
+<img src="https://sjcc.ne10.uol.com.br/rodape_global/img/tvjornal.webp" alt="TV Jornal">
+</div>
+<span class="produto-nome">TV Jornal</span>
+</a>
+
+<a href="https://jc.ne10.uol.com.br/" target="_blank" class="produto-item" title="Jornal do Commercio">
+<div class="produto-icone">
+<img src="https://sjcc.ne10.uol.com.br/rodape_global/img/jc-novo.webp" alt="Jornal do Commercio">
+</div>
+<span class="produto-nome">Jornal do Commercio</span>
+</a>
+
+<a href="https://www.blogdotorcedor.com.br/" target="_blank" class="produto-item" title="Blog do Torcedor">
+<div class="produto-icone">
+<img src="https://sjcc.ne10.uol.com.br/rodape_global/img/blog_do_torcedor.webp" alt="Blog do Torcedor">
+</div>
+<span class="produto-nome">Blog do Torcedor</span>
+</a>
+
+<a href="https://www.social1.com.br/" target="_blank" class="produto-item" title="Social1">
+<div class="produto-icone">
+<img src="https://sjcc.ne10.uol.com.br/rodape_global/img/social.webp" alt="Social1">
+</div>
+<span class="produto-nome">Social1</span>
+</a>
+
+<a href="https://www.receitadaboa.com.br/" target="_blank" class="produto-item" title="Receita da Boa">
+<div class="produto-icone">
+<img src="https://sjcc.ne10.uol.com.br/rodape_global/img/receita_da_boa.webp" alt="Receita da Boa">
+</div>
+<span class="produto-nome">Receita da Boa</span>
+</a>
+</div>
+</div>
+</section>
+
+<!-- Rodapé -->
+<footer class="rodape" id="rodape">
+<div class="rodape-conteudo">
+<div class="rodape-logo">
+<img src="https://jc.uol.com.br/img/logo.svg" alt="Jornal do Commercio" class="logo-imagem">
+<p>O jornal mais tradicional de Pernambuco</p>
+
+<h3 class="rodape-redes-titulo">Nossas Redes</h3>
+<div class="rodape-redes-sociais">
+<a href="https://www.facebook.com/jornaldocommercio" target="_blank" class="icone-social icone-facebook" aria-label="Facebook">
+<i class="fab fa-facebook-f"></i>
+</a>
+<a href="https://www.instagram.com/jornaldocommercio" target="_blank" class="icone-social icone-instagram" aria-label="Instagram">
+<i class="fab fa-instagram"></i>
+</a>
+<a href="https://twitter.com/jornalcommercio" target="_blank" class="icone-social icone-twitter" aria-label="Twitter">
+<svg xmlns="http://www.w3.org/2000/svg" width="34" height="35" viewBox="0 0 34 35" fill="none">
+<circle cx="14.5946" cy="15.4054" r="14.5946" fill="#D9D9D9"/>
+<path d="M11.1514 7.90039L11.1807 7.9375L15.4121 13.2725L20.6582 7.92969L20.6875 7.90039H22.4531L22.2861 8.07031L16.2012 14.2676L23.0781 22.9375L23.207 23.0996H17.8936L17.8633 23.0625L13.2607 17.2607L7.55859 23.0703L7.5293 23.0996H5.76172L5.92871 22.9297L12.4717 16.2666L5.96289 8.0625L5.83496 7.90039H11.1514ZM18.5391 21.8662H20.6084L10.5049 9.13086H8.43555L18.5391 21.8662Z" fill="#33363F" stroke="#33363F" stroke-width="0.2"/>
+</svg>
+</a>
+<a href="https://www.linkedin.com/company/jornal-do-commercio" target="_blank" class="icone-social icone-linkedin" aria-label="LinkedIn">
+<i class="fab fa-linkedin-in"></i>
+</a>
+<a href="https://www.youtube.com/@jornaldocommercio" target="_blank" class="icone-social icone-youtube" aria-label="YouTube">
+<i class="fab fa-youtube"></i>
+</a>
+<a href="https://www.tiktok.com/@jornaldocommercio" target="_blank" class="icone-social icone-tiktok" aria-label="TikTok">
+<i class="fab fa-tiktok"></i>
+</a>
+</div>
+</div>
+
+<div class="rodape-links">
+<div class="rodape-coluna">
+<h3>Canais</h3>
+<ul>
+<li><a href="{% url 'index' %}">Últimas Notícias</a></li>
+<li><a href="#colunas">Colunas</a></li>
+<li><button class="btn-feedback-footer" onclick="abrirModalFeedback()">Envie seu Feedback</button></li>
+</ul>
+</div>
+
+<div class="rodape-coluna">
+<h3>Institucionais</h3>
+<ul>
+<li><a href="#quem-somos">Quem Somos</a></li>
+<li><a href="https://www.jcpm.com.br/sustentabilidade/" target="_blank">Práticas ASG JCPM</a></li>
+<li><a href="https://ne10.uol.com.br/privacidade/" target="_blank">Privacidade</a></li>
+<li><a href="#melhores-praticas">Melhores Práticas</a></li>
+<li><a href="#lgpd">LGPD</a></li>
+<li><a href="#publicacoes">Publicações</a></li>
+<li><a href="#expediente">Expediente</a></li>
+<li><a href="#fale-conosco">Fale Conosco</a></li>
+<li><a href="https://sjcc.gupy.io/" target="_blank">Trabalhe Conosco</a></li>
+</ul>
+</div>
+
+<div class="rodape-coluna">
+<h3>Serviços</h3>
+<ul>
+<li><a href="#noticias-whatsapp">Notícias pelo WhatsApp</a></li>
+<li><a href="#newsletter">Newsletter JC</a></li>
+<li><a href="#publicidade-legal">Publicidade Legal</a></li>
+<li><a href="https://ads.sjcc.com.br/?utm_source=jc_site&utm_medium=bt_anuncie_conosco&utm_campaign=anuncie_aqui_rodape&_gl=1*2yvvs*_ga*NzAwNTE0NTM1LjE3NTUyNjUzOTc.*_ga_S1QTC8L49Z*czE3NjE2NTkyMjMkbzI2JGcxJHQxNzYxNjYwNzk5JGoyOCRsMCRoMA.." target="_blank">Anuncie Conosco</a></li>
+</ul>
+</div>
+
+<div class="rodape-coluna">
+<h3>Aplicativos</h3>
+<ul>
+<li><a href="#app-jc">Jornal do Commercio</a></li>
+<li><a href="#app-radio">Rádio Jornal</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="rodape-copyright">
+<p>&copy; 2025 Jornal do Commercio. Todos os direitos reservados.</p>
+</div>
+
+<div class="rodape-grupo-jcpm">
+<p class="rodape-grupo-texto">Jornal @ 2025 - Uma empresa do grupo JCPM</p>
+<p class="rodape-licenciamento">PARA SOLICITAÇÃO DE LICENCIAMENTO, CONTACTAR EDITORES@NE10.COM.BR</p>
+<img src="https://imagens.ne10.uol.com.br/jcpm/logo_jcpm_footer.svg" alt="Grupo JCPM" class="marca-grupo-jcpm">
+</div>
+</footer>
+
+<!-- Modal de Cadastro -->
+{% include 'cadastro_modal.html' %}
+
+<!-- Modal de Login -->
+{% include 'login_modal.html' %}
+
+<!-- Scripts -->
+<script src="{% static 'js/app.js' %}"></script>
+<script src="{% static 'js/navegacao.js' %}"></script>
+<script src="{% static 'js/busca.js' %}"></script>
+<script src="{% static 'js/noticias.js' %}"></script>
+<script src="{% static 'js/cadastro.js' %}"></script>
+<script src="{% static 'js/login.js' %}"></script>
+<script src="{% static 'js/feedback.js' %}"></script>
+
+    <script>
+        function toggleBookmark(event, noticiaId) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            const icon = event.currentTarget;
+            const svg = icon.querySelector('svg');
+            
+            if (svg.getAttribute('fill') === 'none') {
+                svg.setAttribute('fill', '#DE1B24');
+                icon.style.opacity = '1';
+            } else {
+                svg.setAttribute('fill', 'none');
+                icon.style.opacity = '0.4';
+            }
+        }
+    </script>
+</body>
+</html>
