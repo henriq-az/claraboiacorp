@@ -209,7 +209,7 @@ rows="4"
   padding: 0;
   padding-top: 140px; /* aumentado para baixar o conteúdo */
   min-height: 100vh;
-  padding-bottom: 100px; /* espaço para a navegação inferior */
+  padding-bottom: 200px; /* espaço suficiente para ver todo conteúdo acima do menu inferior */
 }
 
 .container {
@@ -964,10 +964,11 @@ rows="4"
   </div>
   {% endif %}
 
-  <!-- Linha do Tempo - Notícias Relacionadas -->
+  <!-- Notícias Relacionadas (seção antiga - remover se não for mais usada) -->
+  {% comment %}
   {% if noticias_relacionadas %}
   <div class="linha-tempo-secao">
-    <h2 class="linha-tempo-titulo">Acesse a Linha do Tempo</h2>
+    <h2 class="linha-tempo-titulo">Notícias Relacionadas</h2>
     <div class="linha-tempo-grid">
       {% for noticia_rel in noticias_relacionadas %}
       <a href="{% url 'noticia_detalhe' noticia_rel.slug %}" class="linha-tempo-card" data-icone="relogio">
@@ -987,6 +988,7 @@ rows="4"
     </div>
   </div>
   {% endif %}
+  {% endcomment %}
 </article>
 
 <!-- Linha do Tempo -->
@@ -1152,6 +1154,9 @@ document.addEventListener('DOMContentLoaded', function() {
   {% endif %}
 });
 </script>
+
+<!-- Footer em branco para espaço de scroll -->
+<div style="height: 100px; background: transparent;"></div>
 
 </div>
 </main>

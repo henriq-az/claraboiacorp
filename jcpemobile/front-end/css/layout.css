@@ -860,7 +860,7 @@
 
 .conteudo-principal {
     padding-top: calc(44px + var(--altura-cabecalho-mobile) + 8px);
-    padding-bottom: calc(var(--altura-navegacao-inferior) + 24px + var(--espaco-4));
+    padding-bottom: calc(var(--altura-navegacao-inferior) + 120px);
     min-height: 100vh;
     background: var(--cor-fundo);
 }
