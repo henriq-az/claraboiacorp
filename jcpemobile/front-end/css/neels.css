@@ -102,7 +102,7 @@ html, body {
 
 /* Título da notícia */
 .reel-title {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 700;
     line-height: 1.3;
     margin-bottom: 12px;
@@ -111,7 +111,7 @@ html, body {
 
 /* Descrição */
 .reel-description {
-    font-size: 14px;
+    font-size: 17px;
     line-height: 1.5;
     opacity: 0.9;
     display: -webkit-box;
@@ -172,31 +172,6 @@ html, body {
 .reel-action.saved svg path {
     fill: white;
     stroke: white;
-}
-
-/* Indicadores de progresso (bolinhas) */
-.reels-indicators {
-    position: fixed;
-    right: 8px;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    z-index: 10;
-}
-
-.reel-indicator {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.4);
-    transition: background 0.3s, transform 0.3s;
-}
-
-.reel-indicator.active {
-    background: white;
-    transform: scale(1.3);
 }
 
 /* Toast de feedback */

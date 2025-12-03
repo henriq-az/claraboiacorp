@@ -2,7 +2,6 @@
     const wrapper = document.getElementById('reelsWrapper');
     const container = document.getElementById('reelsContainer');
     const slides = document.querySelectorAll('.reel-slide');
-    const indicatorsContainer = document.getElementById('reelsIndicators');
 
     let currentIndex = 0;
     let startY = 0;
@@ -12,14 +11,6 @@
     const threshold = 50;
     const scrollCooldown = 500; // tempo em ms entre scrolls
 
-    // Criar indicadores
-    slides.forEach((_, i) => {
-        const dot = document.createElement('div');
-        dot.className = 'reel-indicator' + (i === 0 ? ' active' : '');
-        dot.addEventListener('click', () => goToSlide(i));
-        indicatorsContainer.appendChild(dot);
-    });
-
     function goToSlide(index) {
         if (index < 0 || index >= slides.length) return;
 
@@ -27,11 +18,6 @@
         const offset = -currentIndex * 100;
         wrapper.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
         wrapper.style.transform = `translateY(${offset}vh)`;
-
-        // Atualiza indicadores
-        document.querySelectorAll('.reel-indicator').forEach((dot, i) => {
-            dot.classList.toggle('active', i === index);
-        });
     }
 
     function nextSlide() {
