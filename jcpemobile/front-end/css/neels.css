@@ -78,7 +78,7 @@ html, body {
 /* Conteúdo do slide */
 .reel-content {
     position: absolute;
-    bottom: 100px;
+    bottom: 150px;
     left: 0;
     right: 80px;
     padding: 20px;
@@ -89,7 +89,7 @@ html, body {
 
 /* Quando o texto está expandido, ajusta a posição */
 .reel-content.expanded {
-    bottom: 120px;
+    bottom: 160px;
 }
 
 /* Tag da categoria */
@@ -193,7 +193,7 @@ html, body {
 .reel-actions {
     position: absolute;
     right: 12px;
-    bottom: 140px;
+    bottom: 190px;
     display: flex;
     flex-direction: column;
     gap: 20px;
