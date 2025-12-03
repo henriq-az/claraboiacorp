@@ -636,36 +636,46 @@
     </div>
 
     <script>
-        // Elementos do DOM
-        const modal = document.getElementById('modalAutor');
-        const btnNovoAutor = document.getElementById('btnNovoAutor');
-        const closeModal = document.getElementById('closeModal');
-        const btnCancelar = document.getElementById('btnCancelar');
-        const btnSalvarAutor = document.getElementById('btnSalvarAutor');
-        const nomeAutorInput = document.getElementById('nomeAutor');
-        const bioAutorInput = document.getElementById('bioAutor');
-        const erroNomeAutor = document.getElementById('erroNomeAutor');
-        const selectAutor = document.getElementById('id_autor');
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elementos do DOM
+            const modal = document.getElementById('modalAutor');
+            const btnNovoAutor = document.getElementById('btnNovoAutor');
+            const closeModal = document.getElementById('closeModal');
+            const btnCancelar = document.getElementById('btnCancelar');
+            const btnSalvarAutor = document.getElementById('btnSalvarAutor');
+            const nomeAutorInput = document.getElementById('nomeAutor');
+            const bioAutorInput = document.getElementById('bioAutor');
+            const erroNomeAutor = document.getElementById('erroNomeAutor');
+            const selectAutor = document.getElementById('id_autor');
 
-        // Abrir modal
-        btnNovoAutor.addEventListener('click', () => {
-            modal.classList.add('show');
-            nomeAutorInput.value = '';
-            bioAutorInput.value = '';
-            erroNomeAutor.style.display = 'none';
-            nomeAutorInput.focus();
-        });
+            // Abrir modal
+            if (btnNovoAutor) {
+                btnNovoAutor.addEventListener('click', () => {
+                    modal.classList.add('show');
+                    nomeAutorInput.value = '';
+                    bioAutorInput.value = '';
+                    erroNomeAutor.style.display = 'none';
+                    nomeAutorInput.focus();
+                });
+            }
 
-        // Fechar modal
-        function fecharModal() {
-            modal.classList.remove('show');
-        }
+            // Fechar modal
+            function fecharModal() {
+                if (modal) {
+                    modal.classList.remove('show');
+                }
+            }
 
-        closeModal.addEventListener('click', fecharModal);
-        btnCancelar.addEventListener('click', fecharModal);
+            if (closeModal) {
+                closeModal.addEventListener('click', fecharModal);
+            }
+            
+            if (btnCancelar) {
+                btnCancelar.addEventListener('click', fecharModal);
+            }
 
-        // Fechar ao clicar fora do modal
-        window.addEventListener('click', (e) => {
+            // Fechar ao clicar fora do modal
+            window.addEventListener('click', (e) => {
             if (e.target === modal) {
                 fecharModal();
             }
@@ -688,23 +698,24 @@
         }
 
         // Salvar novo autor
-        btnSalvarAutor.addEventListener('click', async () => {
-            const nome = nomeAutorInput.value.trim();
-            const bio = bioAutorInput.value.trim();
+        if (btnSalvarAutor) {
+            btnSalvarAutor.addEventListener('click', async () => {
+                const nome = nomeAutorInput.value.trim();
+                const bio = bioAutorInput.value.trim();
 
-            // Validação
-            if (!nome) {
-                erroNomeAutor.textContent = 'O nome do autor é obrigatório.';
-                erroNomeAutor.style.display = 'block';
-                nomeAutorInput.focus();
-                return;
-            }
+                // Validação
+                if (!nome) {
+                    erroNomeAutor.textContent = 'O nome do autor é obrigatório.';
+                    erroNomeAutor.style.display = 'block';
+                    nomeAutorInput.focus();
+                    return;
+                }
 
-            // Desabilitar botão durante o envio
-            btnSalvarAutor.disabled = true;
-            btnSalvarAutor.textContent = 'Salvando...';
+                // Desabilitar botão durante o envio
+                btnSalvarAutor.disabled = true;
+                btnSalvarAutor.textContent = 'Salvando...';
 
-            try {
+                try {
                 const response = await fetch('{% url "admin_criar_autor" %}', {
                     method: 'POST',
                     headers: {
@@ -743,17 +754,20 @@
                 erroNomeAutor.style.display = 'block';
             } finally {
                 btnSalvarAutor.disabled = false;
-                btnSalvarAutor.textContent = 'Salvar Autor';
-            }
-        });
+                    btnSalvarAutor.textContent = 'Salvar Autor';
+                }
+            });
+        }
 
         // Permitir Enter para salvar
-        nomeAutorInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                btnSalvarAutor.click();
-            }
-        });
+        if (nomeAutorInput && btnSalvarAutor) {
+            nomeAutorInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    btnSalvarAutor.click();
+                }
+            });
+        }
 
         // Funções para gerenciar enquete
         function toggleEnquete() {
@@ -790,6 +804,15 @@
 
             btn.parentElement.remove();
         }
+
+        // Funcionalidade do botão Linha do Tempo
+        const btnLinhaTempo = document.getElementById('btnLinhaTempo');
+        if (btnLinhaTempo) {
+            btnLinhaTempo.addEventListener('click', function() {
+                window.location.href = '{% url "painel_linhas_tempo" %}';
+            });
+        }
+    }); // Fim do DOMContentLoaded
     </script>
 </body>
 </html>
