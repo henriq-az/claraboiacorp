@@ -37,105 +37,96 @@
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-    scrollbar-color: var(--cor-primaria) var(--cor-fundo-terciario);
-    padding: var(--espaco-4) 0;
-    margin: 0 calc(-1 * var(--espacamento-mobile));
-    padding-left: var(--espacamento-mobile);
-    padding-right: var(--espacamento-mobile);
+    scrollbar-width: none;
+    padding: var(--espaco-6) 0;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
 }
 
-@media (min-width: 768px) {
-    .linha-tempo-scroll-container {
-        margin: 0;
-        padding-left: 0;
-        padding-right: 0;
-    }
-}
-
+/* Esconder scrollbar em Webkit */
 .linha-tempo-scroll-container::-webkit-scrollbar {
-    height: 8px;
-}
-
-.linha-tempo-scroll-container::-webkit-scrollbar-track {
-    background: var(--cor-fundo-terciario);
-    border-radius: var(--borda-raio-lg);
-}
-
-.linha-tempo-scroll-container::-webkit-scrollbar-thumb {
-    background: var(--cor-primaria);
-    border-radius: var(--borda-raio-lg);
-}
-
-.linha-tempo-scroll-container::-webkit-scrollbar-thumb:hover {
-    background: var(--cor-primaria-escura);
+    display: none;
 }
 
 /* Scroll das notícias */
 .linha-tempo-scroll {
     display: flex;
-    gap: var(--espaco-4);
-    padding: var(--espaco-2);
+    gap: 40px;
+    padding: var(--espaco-4) 0;
+    position: relative;
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .linha-tempo-scroll {
+        padding: var(--espaco-4) 0;
+        justify-content: center;
+        gap: 48px;
+    }
+}
+
+/* Slide contendo 2 notícias */
+.linha-tempo-slide {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: calc(100vw - 32px);
+    display: flex;
+    gap: 20px;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    padding: 0 16px;
+}
+
+@media (min-width: 768px) {
+    .linha-tempo-slide {
+        max-width: 740px;
+        gap: 24px;
+        padding: 0;
+    }
+}
+
+/* Linha horizontal atrás dos cards */
+.linha-tempo-scroll::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(to right, 
+        rgba(222, 27, 36, 0) 0%, 
+        rgba(222, 27, 36, 0.3) 15%, 
+        rgba(222, 27, 36, 0.3) 85%, 
+        rgba(222, 27, 36, 0) 100%
+    );
+    transform: translateY(-50%);
+    z-index: 0;
+    pointer-events: none;
 }
 
 /* Card de notícia na linha do tempo */
 .linha-tempo-card {
     position: relative;
-    flex: 0 0 auto;
-    width: 280px;
+    flex: 1;
+    min-width: 0;
     background: var(--cor-fundo);
-    border-radius: var(--borda-raio-xl);
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: var(--sombra-md);
-    transition: all var(--transicao-normal);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
     cursor: pointer;
-    border: 2px solid transparent;
-}
-
-/* Add subtle black gradient under the content area of timeline cards */
-.linha-tempo-card::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 28px;
-    pointer-events: none;
-    background: linear-gradient(180deg, rgba(0,0,0,0.16) 0%, rgba(0,0,0,0.06) 50%, rgba(0,0,0,0) 100%);
-    z-index: 4;
-}
-
-@media (min-width: 768px) {
-    .linha-tempo-card {
-        width: 320px;
-    }
+    z-index: 1;
 }
 
 .linha-tempo-card:hover {
     transform: translateY(-4px);
-    box-shadow: var(--sombra-lg);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Card da notícia atual (destaque) */
-.linha-tempo-card.atual {
-    border-color: var(--cor-primaria);
-    box-shadow: 0 0 0 4px var(--cor-primaria-fundo), var(--sombra-lg);
-}
-
-.linha-tempo-card.atual::before {
-    content: 'Você está aqui';
-    position: absolute;
-    top: var(--espaco-3);
-    right: var(--espaco-3);
-    background: var(--cor-primaria);
-    color: var(--cor-fundo);
-    padding: var(--espaco-1) var(--espaco-3);
-    border-radius: var(--borda-raio-sm);
-    font-size: var(--fonte-tamanho-xs);
-    font-weight: var(--fonte-peso-semibold);
-    z-index: 10;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+@media (min-width: 768px) {
+    .linha-tempo-card {
+        max-width: 350px;
+    }
 }
 
 .linha-tempo-card-imagem {
@@ -193,20 +184,6 @@
     font-size: var(--fonte-tamanho-xxs);
 }
 
-/* Linha cronológica visual */
-.linha-tempo-timeline {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: var(--cor-borda);
-}
-
-.linha-tempo-card.atual .linha-tempo-timeline {
-    background: var(--cor-primaria);
-}
-
 /* Efeito de scroll suave */
 .linha-tempo-scroll-container.grabbing {
     cursor: grabbing;
@@ -216,38 +193,8 @@
     cursor: grab;
 }
 
-/* Indicador de mais conteúdo */
-.linha-tempo-scroll-hint {
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: 60px;
-    background: linear-gradient(to right, transparent, var(--cor-fundo));
-    pointer-events: none;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding-right: var(--espaco-2);
-}
-
-.linha-tempo-scroll-hint i {
-    color: var(--cor-primaria);
-    font-size: var(--fonte-tamanho-lg);
-    animation: bounce-horizontal 2s ease-in-out infinite;
-}
-
-@keyframes bounce-horizontal {
-    0%, 100% {
-        transform: translateX(0);
-    }
-    50% {
-        transform: translateX(-8px);
-    }
-}
-
-/* Remover hint quando scroll está no final */
-.linha-tempo-scroll-container.scrolled-end .linha-tempo-scroll-hint {
+/* Indicadores de navegação (bolinhas) */
+.linha-tempo-indicators {
     display: none;
 }
 
