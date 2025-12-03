@@ -1,0 +1,265 @@
+/* Reset específico para a página de Reels */
+html, body {
+    height: 100% !important;
+    overflow: hidden !important;
+    font-family: 'Inter', sans-serif !important;
+    background: #000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Remove contorno do botão de busca */
+.navegacao-inferior .botao-busca {
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+}
+
+/* Remove sublinhado dos links da navegação */
+.navegacao-inferior a {
+    text-decoration: none !important;
+}
+
+/* Container principal dos reels */
+.reels-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+}
+
+/* Wrapper que contém todos os slides */
+.reels-wrapper {
+    height: 100%;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Cada slide ocupa 100% da tela */
+.reel-slide {
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Imagem de fundo */
+.reel-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+}
+
+/* Gradiente sobre a imagem */
+.reel-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.3) 0%,
+        rgba(0,0,0,0) 30%,
+        rgba(0,0,0,0) 50%,
+        rgba(0,0,0,0.7) 75%,
+        rgba(0,0,0,0.95) 100%
+    );
+    z-index: 2;
+}
+
+/* Conteúdo do slide */
+.reel-content {
+    position: absolute;
+    bottom: 100px;
+    left: 0;
+    right: 80px;
+    padding: 20px;
+    z-index: 3;
+    color: white;
+}
+
+/* Tag da categoria */
+.reel-tag {
+    display: inline-block;
+    background: #DE1B24;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Título da notícia */
+.reel-title {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 12px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Descrição */
+.reel-description {
+    font-size: 14px;
+    line-height: 1.5;
+    opacity: 0.9;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+/* Data */
+.reel-date {
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+/* Ações laterais (like, save, share) */
+.reel-actions {
+    position: absolute;
+    right: 12px;
+    bottom: 140px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    z-index: 4;
+}
+
+.reel-action {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.reel-action:hover {
+    background: rgba(255,255,255,0.25);
+}
+
+.reel-action:active {
+    transform: scale(0.9);
+}
+
+.reel-action svg {
+    width: 24px;
+    height: 24px;
+}
+
+.reel-action.liked svg path {
+    fill: #DE1B24;
+    stroke: #DE1B24;
+}
+
+.reel-action.saved svg path {
+    fill: white;
+    stroke: white;
+}
+
+/* Indicadores de progresso (bolinhas) */
+.reels-indicators {
+    position: fixed;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 10;
+}
+
+.reel-indicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+    transition: background 0.3s, transform 0.3s;
+}
+
+.reel-indicator.active {
+    background: white;
+    transform: scale(1.3);
+}
+
+/* Toast de feedback */
+.share-toast {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 120px;
+    background: rgba(0,0,0,0.85);
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.share-toast.show {
+    opacity: 1;
+}
+
+/* Responsivo */
+@media (min-width: 768px) {
+    .reel-title {
+        font-size: 28px;
+    }
+
+    .reel-description {
+        font-size: 16px;
+        -webkit-line-clamp: 4;
+    }
+
+    .reel-content {
+        max-width: 600px;
+        right: 100px;
+    }
+
+    .reel-actions {
+        right: 20px;
+        gap: 24px;
+    }
+
+    .reel-action {
+        width: 52px;
+        height: 52px;
+    }
+}
+
+@media (max-width: 360px) {
+    .reel-content {
+        right: 70px;
+        padding: 16px;
+    }
+
+    .reel-actions {
+        right: 8px;
+        gap: 12px;
+    }
+
+    .reel-action {
+        width: 40px;
+        height: 40px;
+    }
+}
