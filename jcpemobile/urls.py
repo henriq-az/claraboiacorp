@@ -7,7 +7,8 @@ from .views import (
     listar_tags, noticias_por_tags, buscar_noticias_por_ids, atualizar_preferencias, noticias_personalizadas,
     api_preferencias, linha_do_tempo, lista_por_categoria,
     painel_linhas_tempo, criar_linha_tempo, editar_linha_tempo, deletar_linha_tempo,
-    adicionar_noticia_linha_tempo, remover_noticia_linha_tempo
+    adicionar_noticia_linha_tempo, remover_noticia_linha_tempo, api_linhas_tempo_noticia,
+    remover_noticia_linha_tempo_api
 )
 
 urlpatterns = [
@@ -32,6 +33,8 @@ urlpatterns = [
     path('api/preferencias/tags/', atualizar_preferencias, name='api_atualizar_preferencias'),
     path('api/noticias/personalizadas/', noticias_personalizadas, name='api_noticias_personalizadas'),
     
+    # API para linhas do tempo
+    path('api/linhas-tempo/<int:noticia_id>/', api_linhas_tempo_noticia, name='api_linhas_tempo_noticia'),
     
     # Rotas de Admin (Painel Customizado)
     path('painel/', admin_dashboard, name='admin_dashboard'),
@@ -45,8 +48,9 @@ urlpatterns = [
     path('painel/linhas-tempo/criar/', criar_linha_tempo, name='criar_linha_tempo'),
     path('painel/linhas-tempo/<int:linha_tempo_id>/editar/', editar_linha_tempo, name='editar_linha_tempo'),
     path('painel/linhas-tempo/<int:linha_tempo_id>/deletar/', deletar_linha_tempo, name='deletar_linha_tempo'),
-    path('painel/linhas-tempo/<int:linha_tempo_id>/adicionar/<int:noticia_id>/', adicionar_noticia_linha_tempo, name='adicionar_noticia_linha_tempo'),
+    path('painel/linha-tempo/<int:linha_tempo_id>/noticia/<int:noticia_id>/adicionar/', adicionar_noticia_linha_tempo, name='adicionar_noticia_linha_tempo'),
     path('painel/linhas-tempo/remover/<int:item_id>/', remover_noticia_linha_tempo, name='remover_noticia_linha_tempo'),
+    path('painel/linha-tempo/item/remover/', remover_noticia_linha_tempo_api, name='remover_noticia_linha_tempo_api'),
     
 
     # Rotas API para criar autor

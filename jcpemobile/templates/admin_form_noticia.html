@@ -635,6 +635,32 @@
         </div>
     </div>
 
+    <!-- Modal para Linhas do Tempo -->
+    <div id="modalLinhaDoTempo" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h3>Gerenciar Linhas do Tempo</h3>
+                <button class="close" id="closeModalLinhaTempo">&times;</button>
+            </div>
+            <div class="modal-body">
+                {% if not noticia %}
+                <div class="alert" style="background: #fff3cd; color: #856404; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+                    ⚠️ Salve a notícia primeiro para adicionar a linhas do tempo.
+                </div>
+                {% else %}
+                <p style="margin-bottom: 1rem; color: #6c757d;">Selecione as linhas do tempo que esta notícia faz parte:</p>
+                <div id="linhasTempoList" style="max-height: 400px; overflow-y: auto;">
+                    <!-- Carregado via JavaScript -->
+                </div>
+                <div id="mensagemLinhasTempo" style="display: none; padding: 1rem; text-align: center; color: #6c757d;"></div>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="btnCancelarLinhaTempo">Fechar</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Elementos do DOM
@@ -807,11 +833,131 @@
 
         // Funcionalidade do botão Linha do Tempo
         const btnLinhaTempo = document.getElementById('btnLinhaTempo');
+        const modalLinhaTempo = document.getElementById('modalLinhaDoTempo');
+        const closeModalLinhaTempo = document.getElementById('closeModalLinhaTempo');
+        const btnCancelarLinhaTempo = document.getElementById('btnCancelarLinhaTempo');
+        
         if (btnLinhaTempo) {
             btnLinhaTempo.addEventListener('click', function() {
-                window.location.href = '{% url "painel_linhas_tempo" %}';
+                {% if noticia %}
+                    // Se a notícia existe, abrir modal e carregar linhas do tempo
+                    modalLinhaTempo.classList.add('show');
+                    carregarLinhasDoTempo();
+                {% else %}
+                    // Se não existe, apenas abrir o modal com mensagem de aviso
+                    modalLinhaTempo.classList.add('show');
+                {% endif %}
             });
         }
+
+        // Fechar modal de linhas do tempo
+        function fecharModalLinhaTempo() {
+            if (modalLinhaTempo) {
+                modalLinhaTempo.classList.remove('show');
+            }
+        }
+
+        if (closeModalLinhaTempo) {
+            closeModalLinhaTempo.addEventListener('click', fecharModalLinhaTempo);
+        }
+        
+        if (btnCancelarLinhaTempo) {
+            btnCancelarLinhaTempo.addEventListener('click', fecharModalLinhaTempo);
+        }
+
+        // Fechar ao clicar fora do modal
+        window.addEventListener('click', (e) => {
+            if (e.target === modalLinhaTempo) {
+                fecharModalLinhaTempo();
+            }
+        });
+
+        {% if noticia %}
+        // Função para carregar linhas do tempo
+        async function carregarLinhasDoTempo() {
+            const container = document.getElementById('linhasTempoList');
+            const mensagem = document.getElementById('mensagemLinhasTempo');
+            
+            container.innerHTML = '<p style="text-align: center; padding: 2rem; color: #6c757d;">Carregando...</p>';
+            
+            try {
+                const response = await fetch('/api/linhas-tempo/{{ noticia.id }}/', {
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken')
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.linhas_tempo && data.linhas_tempo.length > 0) {
+                    container.innerHTML = '';
+                    mensagem.style.display = 'none';
+                    
+                    data.linhas_tempo.forEach(linha => {
+                        const item = document.createElement('div');
+                        item.style.cssText = 'padding: 1rem; border: 1px solid #dee2e6; border-radius: 6px; margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center;';
+                        
+                        const info = document.createElement('div');
+                        info.innerHTML = `
+                            <strong style="display: block; margin-bottom: 0.25rem;">${linha.titulo}</strong>
+                            ${linha.descricao ? `<small style="color: #6c757d;">${linha.descricao}</small>` : ''}
+                        `;
+                        
+                        const checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.checked = linha.noticia_incluida;
+                        checkbox.style.cssText = 'width: 20px; height: 20px; cursor: pointer;';
+                        checkbox.addEventListener('change', function() {
+                            toggleNoticiaLinhaTempo(linha.id, this.checked);
+                        });
+                        
+                        item.appendChild(info);
+                        item.appendChild(checkbox);
+                        container.appendChild(item);
+                    });
+                } else {
+                    container.innerHTML = '';
+                    mensagem.textContent = 'Nenhuma linha do tempo cadastrada. Crie uma primeiro!';
+                    mensagem.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Erro ao carregar linhas do tempo:', error);
+                container.innerHTML = '';
+                mensagem.textContent = 'Erro ao carregar linhas do tempo.';
+                mensagem.style.display = 'block';
+            }
+        }
+
+        // Função para adicionar/remover notícia da linha do tempo
+        async function toggleNoticiaLinhaTempo(linhaTempoId, adicionar) {
+            try {
+                const url = adicionar 
+                    ? `/painel/linha-tempo/${linhaTempoId}/noticia/{{ noticia.id }}/adicionar/`
+                    : `/painel/linha-tempo/item/remover/`;
+                
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: adicionar ? null : JSON.stringify({ linha_tempo_id: linhaTempoId, noticia_id: {{ noticia.id }} })
+                });
+                
+                const data = await response.json();
+                
+                if (!data.success && data.error) {
+                    alert(data.error);
+                    // Recarregar para atualizar estado
+                    carregarLinhasDoTempo();
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao atualizar linha do tempo');
+                carregarLinhasDoTempo();
+            }
+        }
+        {% endif %}
     }); // Fim do DOMContentLoaded
     </script>
 </body>

@@ -1127,6 +1127,7 @@ def deletar_linha_tempo(request, linha_tempo_id):
 @require_http_methods(["POST"])
 def adicionar_noticia_linha_tempo(request, linha_tempo_id, noticia_id):
     """Adiciona uma notícia a uma linha do tempo específica"""
+    from django.http import JsonResponse
     from .models import LinhaDoTempo
 
     linha_tempo = get_object_or_404(LinhaDoTempo, id=linha_tempo_id)
@@ -1134,6 +1135,10 @@ def adicionar_noticia_linha_tempo(request, linha_tempo_id, noticia_id):
 
     # Verificar se já está na linha do tempo
     if NoticiaLinhaDoTempo.objects.filter(linha_tempo=linha_tempo, noticia=noticia).exists():
+        # Se for uma requisição AJAX, retornar JSON
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest' or request.content_type == 'application/json':
+            return JsonResponse({'success': True, 'message': 'Já estava adicionada'})
+        
         messages.warning(request, f'A notícia "{noticia.titulo}" já está nesta linha do tempo.')
         return redirect('editar_linha_tempo', linha_tempo_id=linha_tempo.id)
 
@@ -1144,9 +1149,12 @@ def adicionar_noticia_linha_tempo(request, linha_tempo_id, noticia_id):
         ordem=0  # Será ordenado por data
     )
 
+    # Se for uma requisição AJAX, retornar JSON
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest' or request.content_type == 'application/json':
+        return JsonResponse({'success': True, 'message': 'Adicionada com sucesso'})
+
     messages.success(request, f'Notícia "{noticia.titulo}" adicionada à linha do tempo!')
     return redirect('editar_linha_tempo', linha_tempo_id=linha_tempo.id)
-
 
 @user_passes_test(is_staff, login_url='login_usuario')
 @require_http_methods(["POST"])
@@ -1160,4 +1168,67 @@ def remover_noticia_linha_tempo(request, item_id):
     messages.success(request, f'Notícia "{titulo}" removida da linha do tempo!')
     return redirect('editar_linha_tempo', linha_tempo_id=linha_tempo_id)
 
+
+@user_passes_test(is_staff, login_url='login_usuario')
+def api_linhas_tempo_noticia(request, noticia_id):
+    """API para listar todas as linhas do tempo e indicar quais incluem a notícia"""
+    from django.http import JsonResponse
+    from .models import LinhaDoTempo, NoticiaLinhaDoTempo, Noticia
+    
+    try:
+        noticia = get_object_or_404(Noticia, id=noticia_id)
+        linhas_tempo = LinhaDoTempo.objects.filter(ativa=True).order_by('-criada_em')
+        
+        # Buscar quais linhas do tempo já incluem esta notícia
+        noticias_incluidas = set(
+            NoticiaLinhaDoTempo.objects.filter(noticia=noticia)
+            .values_list('linha_tempo_id', flat=True)
+        )
+        
+        data = {
+            'linhas_tempo': [
+                {
+                    'id': linha.id,
+                    'titulo': linha.titulo,
+                    'descricao': linha.descricao,
+                    'noticia_incluida': linha.id in noticias_incluidas
+                }
+                for linha in linhas_tempo
+            ]
+        }
+        
+        return JsonResponse(data)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
+
+
+@user_passes_test(is_staff, login_url='login_usuario')
+@require_http_methods(["POST"])
+def remover_noticia_linha_tempo_api(request):
+    """Remove uma notícia de uma linha do tempo via API"""
+    from django.http import JsonResponse
+    import json
+    
+    try:
+        data = json.loads(request.body)
+        linha_tempo_id = data.get('linha_tempo_id')
+        noticia_id = data.get('noticia_id')
+        
+        if not linha_tempo_id or not noticia_id:
+            return JsonResponse({'success': False, 'error': 'Parâmetros inválidos'}, status=400)
+        
+        # Buscar e deletar a relação
+        item = NoticiaLinhaDoTempo.objects.filter(
+            linha_tempo_id=linha_tempo_id,
+            noticia_id=noticia_id
+        ).first()
+        
+        if item:
+            item.delete()
+            return JsonResponse({'success': True, 'message': 'Removida com sucesso'})
+        else:
+            return JsonResponse({'success': True, 'message': 'Não estava na linha do tempo'})
+            
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=400)
 
