@@ -46,6 +46,20 @@
 <!-- Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+<head>
+<!-- Overrides finais de cor para Social1 (rosa) e Receita da boa (laranja) -->
+<style>
+/* Social1: rosa */
+body .pernambuco-section.jc360-variant.social1-section .pernambuco-header h2 { color: #000 !important; }
+body .pernambuco-section.jc360-variant.social1-section .pernambuco-underline { background: #e50069 !important; }
+body .pernambuco-section.jc360-variant.social1-section .tag { color: #e50069 !important; background: transparent !important; }
+
+/* Receita da boa: laranja */
+body .pernambuco-section.jc360-variant.receita-section .pernambuco-header h2 { color: #000 !important; }
+body .pernambuco-section.jc360-variant.receita-section .pernambuco-underline { background: #ff8200 !important; }
+body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !important; background: transparent !important; }
+</style>
+</head>
 <body data-user-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}">
 <!-- Barra Superior UOL -->
 <div class="barra-uol">
@@ -3150,6 +3164,7 @@ animacaoStyle.textContent = `
 document.head.appendChild(animacaoStyle);
 </script>
 <script src="{% static 'js/app.js' %}"></script>
+<script src="{% static 'js/header-animation.js' %}"></script>
 <script src="{% static 'js/navegacao.js' %}"></script>
 <script src="{% static 'js/busca.js' %}"></script>
 <script src="{% static 'js/noticias.js' %}"></script>

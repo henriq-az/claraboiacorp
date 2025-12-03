@@ -208,7 +208,7 @@
         @media (min-width: 768px) {
             .conteudo-principal {
                 padding: 24px;
-                padding-top: 70px;
+                padding-top: 140px;
             }
         }
     </style>
@@ -586,6 +586,7 @@
 <script src="{% static 'js/navegacao.js' %}"></script>
 <script src="{% static 'js/busca.js' %}"></script>
 <script src="{% static 'js/noticias.js' %}"></script>
+<script src="{% static 'js/header-animation.js' %}"></script>
 <script src="{% static 'js/cadastro.js' %}"></script>
 <script src="{% static 'js/login.js' %}"></script>
 <script src="{% static 'js/feedback.js' %}"></script>
@@ -594,10 +595,10 @@
         function toggleBookmark(event, noticiaId) {
             event.preventDefault();
             event.stopPropagation();
-            
+
             const icon = event.currentTarget;
             const svg = icon.querySelector('svg');
-            
+
             if (svg.getAttribute('fill') === 'none') {
                 svg.setAttribute('fill', '#DE1B24');
                 icon.style.opacity = '1';

@@ -137,12 +137,18 @@
     color: #999;
   }
 
-  .sem-noticias {
-    text-align: center;
-    padding: 40px 16px;
-    color: #666;
-    font-size: 16px;
-  }
+.sem-noticias {
+  text-align: center;
+  padding: 40px 16px;
+  color: #666;
+  font-size: 16px;
+}
+
+/* Overrides de cor para Social 1 (rosa) e Receita da boa (laranja) */
+.conteudo-principal .container .categoria-section.categoria-social1 h1 { color: #E91E63 !important; }
+.conteudo-principal .container .categoria-section.categoria-social1 .categoria-underline { background-color: #E91E63 !important; }
+.conteudo-principal .container .categoria-section.categoria-receita h1 { color: #FF7A00 !important; }
+.conteudo-principal .container .categoria-section.categoria-receita .categoria-underline { background-color: #FF7A00 !important; }
 
   @media (max-width: 480px) {
     .categoria-section h1 {
@@ -219,13 +225,13 @@
 <main class="conteudo-principal" id="conteudoPrincipal">
   <div class="container">
 
-  <!-- Seção Categoria -->
-  <section class="categoria-section">
-    <h1>{{ categoria.nome }}</h1>
-    <div class="categoria-underline"></div>
-    <p class="categoria-descricao">
-      Últimas notícias da categoria <strong>{{ categoria.nome }}</strong>.
-    </p>
+<!-- Seção Categoria -->
+<section class="categoria-section {% if categoria.nome|lower == 'social 1' %}categoria-social1{% elif categoria.nome|lower == 'receita da boa' %}categoria-receita{% endif %}">
+  <h1>{{ categoria.nome }}</h1>
+  <div class="categoria-underline"></div>
+  <p class="categoria-descricao">
+    Últimas notícias da categoria <strong>{{ categoria.nome }}</strong>.
+  </p>
 
     <div class="noticias-lista">
       {% if noticias %}
@@ -454,6 +460,7 @@
 
 <!-- Scripts -->
 <script src="{% static 'js/app.js' %}"></script>
+<script src="{% static 'js/header-animation.js' %}"></script>
 <script src="{% static 'js/navegacao.js' %}"></script>
 <script src="{% static 'js/busca.js' %}"></script>
 <script src="{% static 'js/noticias.js' %}"></script>

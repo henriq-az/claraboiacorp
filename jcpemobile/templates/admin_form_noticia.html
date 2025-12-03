@@ -452,7 +452,14 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="id_autor">Autor*</label>
-                        {{ form.autor }}
+                        <div style="display: flex; gap: 0.5rem; align-items: start;">
+                            <div style="flex: 1;">
+                                {{ form.autor }}
+                            </div>
+                            <button type="button" id="btnNovoAutor" class="btn btn-primary" style="white-space: nowrap; padding: 0.625rem 1rem;">
+                                + Novo
+                            </button>
+                        </div>
                         {% if form.autor.errors %}
                             <div class="error">{{ form.autor.errors.0 }}</div>
                         {% endif %}
@@ -512,15 +519,6 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="id_tags">Tags</label>
-                    {{ form.tags }}
-                    <div class="help-text">Mantenha pressionado "Control" ou "Command" para selecionar mais de uma</div>
-                    {% if form.tags.errors %}
-                        <div class="error">{{ form.tags.errors.0 }}</div>
-                    {% endif %}
-                </div>
-
-                <div class="form-group">
                     <label for="id_imagem">Imagem</label>
                     {% if noticia and noticia.imagem %}
                         <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" class="current-image">
@@ -529,6 +527,19 @@
                     {{ form.imagem }}
                     {% if form.imagem.errors %}
                         <div class="error">{{ form.imagem.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_imagem_vertical">Imagem Vertical (Neels)</label>
+                    {% if noticia and noticia.imagem_vertical %}
+                        <img src="{{ noticia.imagem_vertical.url }}" alt="{{ noticia.titulo }}" class="current-image" style="max-width: 200px;">
+                        <div class="help-text">Imagem vertical atual. Faça upload de uma nova para substituir.</div>
+                    {% endif %}
+                    {{ form.imagem_vertical }}
+                    <div class="help-text">Imagem vertical para exibição na aba Neels (proporção 9:16, típico de reels/stories)</div>
+                    {% if form.imagem_vertical.errors %}
+                        <div class="error">{{ form.imagem_vertical.errors.0 }}</div>
                     {% endif %}
                 </div>
 
