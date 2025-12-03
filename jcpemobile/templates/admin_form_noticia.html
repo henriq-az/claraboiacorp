@@ -452,7 +452,14 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="id_autor">Autor*</label>
-                        {{ form.autor }}
+                        <div style="display: flex; gap: 0.5rem; align-items: start;">
+                            <div style="flex: 1;">
+                                {{ form.autor }}
+                            </div>
+                            <button type="button" id="btnNovoAutor" class="btn btn-primary" style="white-space: nowrap; padding: 0.625rem 1rem;">
+                                + Novo
+                            </button>
+                        </div>
                         {% if form.autor.errors %}
                             <div class="error">{{ form.autor.errors.0 }}</div>
                         {% endif %}
@@ -508,15 +515,6 @@
                     <div class="help-text">Versão completa da notícia com todos os detalhes e informações</div>
                     {% if form.conteudo.errors %}
                         <div class="error">{{ form.conteudo.errors.0 }}</div>
-                    {% endif %}
-                </div>
-
-                <div class="form-group">
-                    <label for="id_tags">Tags</label>
-                    {{ form.tags }}
-                    <div class="help-text">Mantenha pressionado "Control" ou "Command" para selecionar mais de uma</div>
-                    {% if form.tags.errors %}
-                        <div class="error">{{ form.tags.errors.0 }}</div>
                     {% endif %}
                 </div>
 

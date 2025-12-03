@@ -96,7 +96,7 @@ class NoticiaForm(forms.ModelForm):
 
     class Meta:
         model = Noticia
-        fields = ['titulo', 'subtitulo', 'resumo', 'conteudo', 'imagem', 'categoria', 'autor', 'tags', 'secao']
+        fields = ['titulo', 'subtitulo', 'resumo', 'conteudo', 'imagem', 'categoria', 'autor', 'secao']
         widgets = {
             'titulo': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -126,9 +126,6 @@ class NoticiaForm(forms.ModelForm):
             'autor': forms.Select(attrs={
                 'class': 'form-control'
             }),
-            'tags': forms.SelectMultiple(attrs={
-                'class': 'form-control'
-            }),
             'secao': forms.Select(attrs={
                 'class': 'form-control'
             }),
@@ -141,14 +138,12 @@ class NoticiaForm(forms.ModelForm):
             'imagem': 'Imagem',
             'categoria': 'Categoria',
             'autor': 'Autor',
-            'tags': 'Tags',
             'secao': 'Seção',
         }
         help_texts = {
             'subtitulo': 'Subtítulo complementar ao título principal',
             'resumo': 'Versão resumida para exibição em listagens (máximo de 300 caracteres)',
             'conteudo': 'Versão completa da notícia com todos os detalhes e informações',
-            'tags': 'Mantenha pressionado "Control" ou "Command" para selecionar mais de uma',
             'secao': 'Escolha em qual seção da página inicial esta notícia será exibida',
         }
 
