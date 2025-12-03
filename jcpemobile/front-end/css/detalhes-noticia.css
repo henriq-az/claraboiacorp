@@ -44,6 +44,7 @@
     max-width: 800px;
     margin: 0 auto var(--espaco-8);
     position: relative;
+    padding-bottom: 120px;
 }
 
 /* ===================================================
@@ -604,6 +605,7 @@
 .noticias-relacionadas {
     margin-top: var(--espaco-10);
     margin-bottom: var(--espaco-8);
+    padding-bottom: 100px;
 }
 
 .grade-relacionadas {

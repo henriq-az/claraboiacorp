@@ -6,222 +6,141 @@
     {% for linha_data in linhas_tempo %}
     <section class="linha-tempo-section">
         <!-- Header da Linha do Tempo -->
-        <div class="linha-tempo-header">
-            <h2 class="linha-tempo-titulo">
-                Linha do Tempo
-            </h2>
-        </div>
+        <h2 class="linha-tempo-titulo">Linha do Tempo</h2>
 
-        <!-- Scroll horizontal com as notícias -->
-        <div class="linha-tempo-scroll-container" id="linhaTempoScroll{{ forloop.counter }}">
-            <div class="linha-tempo-scroll">
-                <!-- Slide 1: Primeiras 2 notícias -->
-                <div class="linha-tempo-slide" data-index="0">
-                    {% for noticia_item in linha_data.noticias|slice:":2" %}
-                    <article class="linha-tempo-card">
-                        {% if noticia_item.imagem %}
-                        <img src="{{ noticia_item.imagem.url }}"
-                             alt="{{ noticia_item.titulo }}"
-                             class="linha-tempo-card-imagem">
-                        {% endif %}
-
-                        <div class="linha-tempo-card-conteudo">
-                            <span class="linha-tempo-card-categoria">{{ noticia_item.categoria.nome }}</span>
-
-                            <h3 class="linha-tempo-card-titulo">
-                                <a href="{% url 'noticia_detalhe' noticia_item.slug %}">
-                                    {{ noticia_item.titulo }}
-                                </a>
-                            </h3>
-
-                            <div class="linha-tempo-card-data">
-                                <span>{{ noticia_item.data_publicacao|date:"d M, Y" }}</span>
+        <!-- Carrossel com notícias da linha do tempo -->
+        {% if linha_data.noticias %}
+        <div class="linha-tempo-wrapper">
+            <div class="linha-tempo-carrossel" id="linhaTempoCarrossel{{ forloop.counter }}" dir="ltr" data-index="{{ forloop.counter }}">
+                    {% for noticia_item in linha_data.noticias|dictsort:"data_publicacao" %}
+                    <article class="carrossel-card {% if noticia_item.slug == noticia.slug %}carrossel-card-atual{% endif %}" data-slug="{{ noticia_item.slug }}" data-index="{{ forloop.counter0 }}">
+                        <a href="{% url 'noticia_detalhe' noticia_item.slug %}" class="carrossel-link">
+                            {% if noticia_item.imagem %}
+                            <div class="carrossel-imagem">
+                                <img src="{{ noticia_item.imagem.url }}" alt="{{ noticia_item.titulo }}">
                             </div>
-                        </div>
-                    </article>
-                    {% endfor %}
-                </div>
+                            {% endif %}
 
-                <!-- Slide 2: Próximas 2 notícias -->
-                {% if linha_data.noticias|length > 2 %}
-                <div class="linha-tempo-slide" data-index="1">
-                    {% for noticia_item in linha_data.noticias|slice:"2:4" %}
-                    <article class="linha-tempo-card">
-                        {% if noticia_item.imagem %}
-                        <img src="{{ noticia_item.imagem.url }}"
-                             alt="{{ noticia_item.titulo }}"
-                             class="linha-tempo-card-imagem">
-                        {% endif %}
-
-                        <div class="linha-tempo-card-conteudo">
-                            <span class="linha-tempo-card-categoria">{{ noticia_item.categoria.nome }}</span>
-
-                            <h3 class="linha-tempo-card-titulo">
-                                <a href="{% url 'noticia_detalhe' noticia_item.slug %}">
-                                    {{ noticia_item.titulo }}
-                                </a>
-                            </h3>
-
-                            <div class="linha-tempo-card-data">
-                                <span>{{ noticia_item.data_publicacao|date:"d M, Y" }}</span>
+                            <div class="carrossel-conteudo">
+                                <span class="carrossel-categoria">{{ noticia_item.categoria.nome }}</span>
+                                <h4 class="carrossel-titulo">{{ noticia_item.titulo }}</h4>
+                                <time class="carrossel-data">{{ noticia_item.data_publicacao|date:"d/m/Y" }}</time>
                             </div>
-                        </div>
+                        </a>
                     </article>
-                    {% endfor %}
-                </div>
-                {% endif %}
-
-                <!-- Slide 3: Próximas 2 notícias -->
-                {% if linha_data.noticias|length > 4 %}
-                <div class="linha-tempo-slide" data-index="2">
-                    {% for noticia_item in linha_data.noticias|slice:"4:6" %}
-                    <article class="linha-tempo-card">
-                        {% if noticia_item.imagem %}
-                        <img src="{{ noticia_item.imagem.url }}"
-                             alt="{{ noticia_item.titulo }}"
-                             class="linha-tempo-card-imagem">
-                        {% endif %}
-
-                        <div class="linha-tempo-card-conteudo">
-                            <span class="linha-tempo-card-categoria">{{ noticia_item.categoria.nome }}</span>
-
-                            <h3 class="linha-tempo-card-titulo">
-                                <a href="{% url 'noticia_detalhe' noticia_item.slug %}">
-                                    {{ noticia_item.titulo }}
-                                </a>
-                            </h3>
-
-                            <div class="linha-tempo-card-data">
-                                <span>{{ noticia_item.data_publicacao|date:"d M, Y" }}</span>
-                            </div>
-                        </div>
-                    </article>
-                    {% endfor %}
-                </div>
-                {% endif %}
+                {% endfor %}
             </div>
 
-            <!-- Indicadores de navegação (bolinhas) -->
-            <div class="linha-tempo-indicators" data-container-id="linhaTempoScroll{{ forloop.counter }}">
-                <span class="indicator active" data-index="0"></span>
-                {% if linha_data.noticias|length > 2 %}
-                <span class="indicator" data-index="1"></span>
-                {% endif %}
-                {% if linha_data.noticias|length > 4 %}
-                <span class="indicator" data-index="2"></span>
-                {% endif %}
-            </div>
+            <!-- Indicadores de paginação -->
+            <div class="linha-tempo-indicators" id="indicators{{ forloop.counter }}"></div>
         </div>
+        {% endif %}
     </section>
     {% endfor %}
 </div>
 
 <script>
-// Script para funcionalidade de scroll na linha do tempo
+// Script para funcionalidade do carrossel de linha do tempo
 (function() {
     'use strict';
 
-    function initLinhaTempoScroll() {
-        const indicatorGroups = document.querySelectorAll('.linha-tempo-indicators');
+    function createIndicators(carrossel, indicatorsContainer) {
+        const cards = carrossel.querySelectorAll('.carrossel-card');
+        const totalCards = cards.length;
 
-        indicatorGroups.forEach((indicatorGroup) => {
-            const containerId = indicatorGroup.getAttribute('data-container-id');
-            const container = document.getElementById(containerId);
-            if (!container) return;
+        // Limpar indicadores existentes
+        indicatorsContainer.innerHTML = '';
 
-            const slides = container.querySelectorAll('.linha-tempo-slide');
-            const indicators = indicatorGroup.querySelectorAll('.indicator');
-            
-            if (slides.length === 0) return;
+        // Criar indicadores
+        for (let i = 0; i < totalCards; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'indicator-dot';
+            dot.setAttribute('data-index', i);
+            indicatorsContainer.appendChild(dot);
+        }
+    }
 
-            let currentIndex = 0;
+    function updateIndicators(carrossel, indicatorsContainer) {
+        const cards = carrossel.querySelectorAll('.carrossel-card');
+        const dots = indicatorsContainer.querySelectorAll('.indicator-dot');
+        const totalCards = cards.length;
 
-            // Função para rolar para um slide específico
-            function scrollToCard(index) {
-                const slide = slides[index];
-                if (!slide) return;
+        if (totalCards === 0) return;
 
-                slide.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'nearest',
-                    inline: 'start'
-                });
+        // Encontrar qual card está mais centralizado
+        const carrosselRect = carrossel.getBoundingClientRect();
+        const carrosselCenter = carrosselRect.left + carrosselRect.width / 2;
 
-                updateIndicators(index);
+        let closestIndex = 0;
+        let closestDistance = Infinity;
+
+        cards.forEach((card, index) => {
+            const cardRect = card.getBoundingClientRect();
+            const cardCenter = cardRect.left + cardRect.width / 2;
+            const distance = Math.abs(cardCenter - carrosselCenter);
+
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closestIndex = index;
+            }
+        });
+
+        // Atualizar classes dos indicadores
+        dots.forEach((dot, index) => {
+            dot.classList.remove('active', 'near');
+
+            if (index === closestIndex) {
+                dot.classList.add('active');
+            } else if (totalCards > 5) {
+                // Lógica de proximidade para mais de 5 items (estilo Instagram)
+                const distance = Math.abs(index - closestIndex);
+                if (distance === 1) {
+                    dot.classList.add('near');
+                }
+            }
+        });
+    }
+
+    function initLinhaTempoCarrossel() {
+        const carrosseis = document.querySelectorAll('.linha-tempo-carrossel');
+
+        carrosseis.forEach((carrossel) => {
+            const carrosselIndex = carrossel.getAttribute('data-index');
+            const indicatorsContainer = document.getElementById('indicators' + carrosselIndex);
+
+            if (!indicatorsContainer) return;
+
+            // Criar indicadores
+            createIndicators(carrossel, indicatorsContainer);
+
+            // Encontrar o card atual e centralizar instantaneamente
+            const cardAtual = carrossel.querySelector('.carrossel-card-atual');
+
+            if (cardAtual) {
+                // Usar scrollLeft direto para centralizar sem animação
+                const carrosselRect = carrossel.getBoundingClientRect();
+                const cardRect = cardAtual.getBoundingClientRect();
+                const offset = cardRect.left - carrosselRect.left - (carrosselRect.width / 2) + (cardRect.width / 2);
+                carrossel.scrollLeft += offset;
             }
 
-            // Atualizar indicadores ativos
-            function updateIndicators(index) {
-                indicators.forEach((indicator, i) => {
-                    indicator.classList.toggle('active', i === index);
-                });
-                currentIndex = index;
-            }
+            // Atualizar indicadores após centralizar
+            setTimeout(() => {
+                updateIndicators(carrossel, indicatorsContainer);
+            }, 100);
 
-            // Click nos indicadores
-            indicators.forEach((indicator, index) => {
-                indicator.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    scrollToCard(index);
-                });
-            });
-
-            // Observar quando um slide entra na visão
-            const scrollContainer = container;
-            const observerOptions = {
-                root: scrollContainer,
-                threshold: 0.5,
-                rootMargin: '0px'
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
-                        const index = parseInt(entry.target.getAttribute('data-index'));
-                        if (!isNaN(index) && index !== currentIndex) {
-                            updateIndicators(index);
-                        }
-                    }
-                });
-            }, observerOptions);
-
-            slides.forEach(slide => observer.observe(slide));
-
-            // Também detectar scroll manual
-            let scrollTimeout;
-            scrollContainer.addEventListener('scroll', () => {
-                clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(() => {
-                    // Encontrar qual slide está mais visível
-                    let mostVisible = null;
-                    let maxVisibility = 0;
-
-                    slides.forEach((slide, index) => {
-                        const rect = slide.getBoundingClientRect();
-                        const containerRect = scrollContainer.getBoundingClientRect();
-                        
-                        const visibleWidth = Math.min(rect.right, containerRect.right) - Math.max(rect.left, containerRect.left);
-                        const visibility = visibleWidth / rect.width;
-
-                        if (visibility > maxVisibility) {
-                            maxVisibility = visibility;
-                            mostVisible = index;
-                        }
-                    });
-
-                    if (mostVisible !== null && mostVisible !== currentIndex) {
-                        updateIndicators(mostVisible);
-                    }
-                }, 100);
+            // Atualizar indicadores ao rolar
+            carrossel.addEventListener('scroll', () => {
+                updateIndicators(carrossel, indicatorsContainer);
             });
         });
     }
 
     // Inicializar quando o DOM estiver pronto
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initLinhaTempoScroll);
+        document.addEventListener('DOMContentLoaded', initLinhaTempoCarrossel);
     } else {
-        initLinhaTempoScroll();
+        initLinhaTempoCarrossel();
     }
 })();
 </script>

@@ -1,260 +1,293 @@
 /* ===================================================
-   COMPONENTE LINHA DO TEMPO
-   Exibição de linhas do tempo nas páginas de notícia
+   COMPONENTE LINHA DO TEMPO - VERSÃO MOBILE-FIRST
+   Timeline moderna com notícia em destaque + carrossel
    =================================================== */
 
 .linhas-tempo-container {
-    margin: var(--espaco-10) 0;
+    margin: 16px 0;
+    padding: 0 0 100px;
 }
 
 .linha-tempo-section {
-    margin-bottom: var(--espaco-12);
+    margin-bottom: 16px;
 }
 
-.linha-tempo-header {
-    margin-bottom: var(--espaco-6);
-    padding-bottom: var(--espaco-4);
-    border-bottom: var(--borda-largura-media) solid var(--cor-primaria);
-}
-
+/* ========== TÍTULO ========== */
 .linha-tempo-titulo {
     font-family: var(--fonte-titulo);
-    font-size: var(--fonte-tamanho-xl);
-    font-weight: var(--fonte-peso-bold);
+    font-size: 24px;
+    font-weight: 700;
     color: var(--cor-texto-primario);
-    margin-bottom: var(--espaco-2);
-}
-
-.linha-tempo-descricao {
-    font-size: var(--fonte-tamanho-sm);
-    color: var(--cor-texto-secundario);
-    line-height: var(--linha-altura-normal);
-}
-
-/* Container do scroll horizontal */
-.linha-tempo-scroll-container {
-    position: relative;
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding: var(--espaco-6) 0;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-}
-
-/* Esconder scrollbar em Webkit */
-.linha-tempo-scroll-container::-webkit-scrollbar {
-    display: none;
-}
-
-/* Scroll das notícias */
-.linha-tempo-scroll {
-    display: flex;
-    gap: 40px;
-    padding: var(--espaco-4) 0;
-    position: relative;
-    width: 100%;
-}
-
-@media (min-width: 768px) {
-    .linha-tempo-scroll {
-        padding: var(--espaco-4) 0;
-        justify-content: center;
-        gap: 48px;
-    }
-}
-
-/* Slide contendo 2 notícias */
-.linha-tempo-slide {
-    flex: 0 0 auto;
-    width: 100%;
-    max-width: calc(100vw - 32px);
-    display: flex;
-    gap: 20px;
-    scroll-snap-align: center;
-    scroll-snap-stop: always;
+    margin: 0 0 16px 0;
     padding: 0 16px;
+    text-align: left;
 }
 
-@media (min-width: 768px) {
-    .linha-tempo-slide {
-        max-width: 740px;
-        gap: 24px;
-        padding: 0;
-    }
+/* ========== WRAPPER PRINCIPAL ========== */
+.linha-tempo-wrapper {
+    position: relative;
+    padding: 0;
 }
 
 /* Linha horizontal atrás dos cards */
-.linha-tempo-scroll::before {
+.linha-tempo-wrapper::before {
     content: '';
     position: absolute;
     top: 50%;
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(to right, 
-        rgba(222, 27, 36, 0) 0%, 
-        rgba(222, 27, 36, 0.3) 15%, 
-        rgba(222, 27, 36, 0.3) 85%, 
-        rgba(222, 27, 36, 0) 100%
+    background: linear-gradient(
+        to right,
+        rgba(222, 27, 36, 0.1) 0%,
+        rgba(222, 27, 36, 0.4) 10%,
+        rgba(222, 27, 36, 0.6) 20%,
+        #DE1B24 50%,
+        rgba(222, 27, 36, 0.6) 80%,
+        rgba(222, 27, 36, 0.4) 90%,
+        rgba(222, 27, 36, 0.1) 100%
     );
     transform: translateY(-50%);
     z-index: 0;
     pointer-events: none;
 }
 
-/* Card de notícia na linha do tempo */
-.linha-tempo-card {
+.linha-tempo-carrossel {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: auto;
+    padding: 16px 16px 16px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
     position: relative;
-    flex: 1;
-    min-width: 0;
-    background: var(--cor-fundo);
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-    cursor: pointer;
     z-index: 1;
 }
 
-.linha-tempo-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+.linha-tempo-carrossel::-webkit-scrollbar {
+    display: none;
 }
 
-@media (min-width: 768px) {
-    .linha-tempo-card {
-        max-width: 350px;
-    }
+/* ========== CARDS DO CARROSSEL ========== */
+.carrossel-card {
+    flex: 0 0 280px;
+    scroll-snap-align: center;
+    position: relative;
 }
 
-.linha-tempo-card-imagem {
+.carrossel-link {
+    display: block;
+    position: relative;
+    width: 280px;
+    height: 280px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    text-decoration: none;
+}
+
+/* Notícia atual - destaque com borda */
+.carrossel-card-atual .carrossel-link {
+    border: 3px solid #DE1B24;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Imagem de fundo */
+.carrossel-imagem {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 180px;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.carrossel-imagem img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
 }
 
-.linha-tempo-card-conteudo {
-    padding: var(--espaco-4);
+/* Gradiente sobre a imagem - do centro para baixo */
+.carrossel-imagem::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 70%;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.3) 30%,
+        rgba(0, 0, 0, 0.7) 60%,
+        rgba(0, 0, 0, 0.95) 100%
+    );
+    z-index: 1;
+    pointer-events: none;
 }
 
-.linha-tempo-card-categoria {
+/* Conteúdo do card (apenas título) */
+.carrossel-conteudo {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px 16px 16px;
+    z-index: 2;
+}
+
+.carrossel-categoria {
     display: inline-block;
-    font-size: var(--fonte-tamanho-xs);
-    font-weight: var(--fonte-peso-medium);
-    color: var(--cor-primaria);
-    background-color: var(--cor-primaria-fundo);
-    padding: var(--espaco-1) var(--espaco-2);
-    border-radius: var(--borda-raio-sm);
-    margin-bottom: var(--espaco-2);
+    background: rgba(222, 27, 36, 0.9);
+    color: white;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 4px 8px;
+    border-radius: 8px;
+    margin-bottom: 8px;
 }
 
-.linha-tempo-card-titulo {
-    font-size: var(--fonte-tamanho-base);
-    font-weight: var(--fonte-peso-semibold);
-    color: var(--cor-texto-primario);
-    line-height: var(--linha-altura-apertada);
-    margin-bottom: var(--espaco-2);
+.carrossel-titulo {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: white;
+    margin: 0;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
-.linha-tempo-card-titulo a {
-    color: inherit;
-    text-decoration: none;
-    transition: color var(--transicao-rapida);
+.carrossel-data {
+    display: block;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+    margin-top: 8px;
 }
 
-.linha-tempo-card-titulo a:hover {
-    color: var(--cor-primaria);
-}
-
-.linha-tempo-card-data {
-    font-size: var(--fonte-tamanho-xs);
-    color: var(--cor-texto-terciario);
-    display: flex;
-    align-items: center;
-    gap: var(--espaco-1);
-}
-
-.linha-tempo-card-data i {
-    font-size: var(--fonte-tamanho-xxs);
-}
-
-/* Efeito de scroll suave */
-.linha-tempo-scroll-container.grabbing {
-    cursor: grabbing;
-}
-
-.linha-tempo-scroll-container:not(.grabbing) {
-    cursor: grab;
-}
-
-/* Indicadores de navegação (bolinhas) */
+/* ========== INDICADORES DE PAGINAÇÃO (ESTILO INSTAGRAM) ========== */
 .linha-tempo-indicators {
-    display: none;
-}
-
-/* Contador de notícias */
-.linha-tempo-contador {
-    display: inline-flex;
+    display: flex;
+    justify-content: center;
     align-items: center;
-    gap: var(--espaco-2);
-    font-size: var(--fonte-tamanho-sm);
-    color: var(--cor-texto-secundario);
-    margin-top: var(--espaco-2);
+    gap: 4px;
+    padding: 16px 0 0;
+    min-height: 24px;
 }
 
-.linha-tempo-contador i {
-    color: var(--cor-primaria);
-}
-
-/* Responsivo */
-@media (max-width: 767px) {
-    .linha-tempo-card {
-        width: 240px;
-    }
-
-    .linha-tempo-card-imagem {
-        height: 150px;
-    }
-}
-
-/* Estado de loading */
-.linha-tempo-loading {
-    text-align: center;
-    padding: var(--espaco-10);
-    color: var(--cor-texto-terciario);
-}
-
-.linha-tempo-loading-spinner {
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    border: 4px solid var(--cor-borda);
-    border-top-color: var(--cor-primaria);
+.indicator-dot {
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
-    animation: spin 1s linear infinite;
+    background: rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
 }
 
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
+/* Bolinha ativa (atual) */
+.indicator-dot.active {
+    width: 8px;
+    height: 8px;
+    background: #DE1B24;
+}
+
+/* Bolinhas próximas ao ativo (quando tem mais de 5) */
+.indicator-dot.near {
+    width: 5px;
+    height: 5px;
+    opacity: 0.6;
+}
+
+/* Quando tem 5 ou menos itens, todas as bolinhas ficam do mesmo tamanho */
+.linha-tempo-indicators:has(.indicator-dot:nth-child(-n+5):last-child) .indicator-dot {
+    width: 6px;
+    height: 6px;
+    opacity: 1;
+}
+
+.linha-tempo-indicators:has(.indicator-dot:nth-child(-n+5):last-child) .indicator-dot.active {
+    width: 8px;
+    height: 8px;
+    background: #DE1B24;
+}
+
+/* Quando tem mais de 5 itens, bolinhas distantes ficam menores */
+.linha-tempo-indicators:has(.indicator-dot:nth-child(n+6)) .indicator-dot:not(.active):not(.near) {
+    width: 4px;
+    height: 4px;
+    opacity: 0.4;
+}
+
+/* ========== RESPONSIVO - TABLET ========== */
+@media (min-width: 768px) {
+    .linhas-tempo-container {
+        padding: 0 0 100px;
+    }
+
+    .linha-tempo-titulo {
+        font-size: 28px;
+    }
+
+    .linha-tempo-subtitulo {
+        font-size: 16px;
+    }
+
+    .carrossel-card {
+        flex: 0 0 300px;
+    }
+
+    .carrossel-link {
+        width: 300px;
+        height: 300px;
+    }
+
+    .carrossel-titulo {
+        font-size: 15px;
     }
 }
 
-/* Empty state */
+/* ========== RESPONSIVO - DESKTOP ========== */
+@media (min-width: 1024px) {
+    .linha-tempo-wrapper {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .carrossel-card {
+        flex: 0 0 320px;
+    }
+
+    .carrossel-link {
+        width: 320px;
+        height: 320px;
+    }
+
+    .carrossel-titulo {
+        font-size: 16px;
+    }
+}
+
+/* ========== ANIMAÇÕES ========== */
+/* Animações removidas para evitar conflito com navegação */
+
+/* ========== ESTADOS VAZIOS ========== */
 .linha-tempo-empty {
     text-align: center;
-    padding: var(--espaco-10);
-    background: var(--cor-fundo-secundario);
-    border-radius: var(--borda-raio-lg);
+    padding: 40px 20px;
+    background: #F9FAFB;
+    border-radius: 12px;
+    border: 2px dashed #E5E7EB;
 }
 
 .linha-tempo-empty p {
     color: var(--cor-texto-terciario);
     margin: 0;
+    font-size: 14px;
 }
