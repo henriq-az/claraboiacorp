@@ -674,6 +674,12 @@ Salvar Preferências
   font-size: 15px !important;
   font-weight: 700 !important;
   line-height: 1.3 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  white-space: normal !important;
 }
 .conteudo-principal .card .content .tag {
   font-size: 13px !important;
@@ -691,6 +697,12 @@ Salvar Preferências
   font-size: 13px !important;
   line-height: 1.25 !important;
   margin: 6px 0 0 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  white-space: normal !important;
 }
 /* Side image proportions */
 .conteudo-principal .card.side img,
@@ -2008,48 +2020,111 @@ Salvar Preferências
 {% else %}
   <p>Nenhuma notícia disponível no momento.</p>
 {% endif %}
-<!-- Override CSS: aumentar proporção da imagem nos cards laterais da PRIMEIRA SESSÃO (após o primeiro .card.top) -->
+<!-- CSS CONSOLIDADO: Cards side da primeira sessão (container principal) -->
 <style>
-/* Aumenta a largura da imagem nos 3 cards .card.side imediatamente após o primeiro .card.top
-   Mantemos a altura do cartão e removemos min-width para evitar que o cartão cresça. */
+/* ========================================
+   CARDS SIDE DA PRIMEIRA SESSÃO - CONSOLIDADO
+   Todos os 3 cards side após o card.top principal
+   ======================================== */
+
+/* 1. ESTRUTURA DO CARD SIDE */
+.container > a.card.side,
+.container > a.card.top + a.card.side,
+.container > a.card.top + a.card.side + a.card.side,
+.container > a.card.top + a.card.side + a.card.side + a.card.side {
+  display: flex !important;
+  align-items: stretch !important;
+  justify-content: space-between !important;
+  padding: 0 !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
+  height: 120px !important;
+  min-height: 120px !important;
+}
+
+/* 2. IMAGEM DOS CARDS SIDE - 46% de largura, preenche altura */
+.container > a.card.side img,
 .container > a.card.top + a.card.side img,
 .container > a.card.top + a.card.side + a.card.side img,
 .container > a.card.top + a.card.side + a.card.side + a.card.side img {
   width: 46% !important;
   flex: 0 0 46% !important;
   max-width: 46% !important;
-  min-width: 0 !important; /* remove limite mínimo para permitir aumento */
-  height: 100% !important; /* use 100% of the card's height so image adapts */
+  min-width: 0 !important;
+  height: 100% !important;
   object-fit: cover !important;
   object-position: center center !important;
   border-radius: 0 12px 12px 0 !important;
+  margin: 0 !important;
 }
 
-/* Ajuste do conteúdo do lado esquerdo para compensar a imagem maior (todos os 3 cards side) */
+/* 3. CONTEÚDO (TEXTO) DOS CARDS SIDE */
+.container > a.card.side .content,
 .container > a.card.top + a.card.side .content,
 .container > a.card.top + a.card.side + a.card.side .content,
 .container > a.card.top + a.card.side + a.card.side + a.card.side .content {
-  padding: 6px 10px; /* reduz padding vertical para a imagem ocupar mais espaço */
-  flex: 1 1 25%;
-  min-width: 0; /* permite encolher corretamente */
-}
-
-/* Fazer o conteúdo usar coluna flex para que a caixa de texto (.desc) ocupe
-   o espaço vertical disponível sem alterar a altura do cartão */
-.container > a.card.top + a.card.side .content,
-.container > a.card.top + a.card.side + a.card.side .content,
-.container > a.card.top + a.card.side + a.card.side + a.card.side .content {
-  display: -webkit-box !important;
-  display: -ms-flexbox !important;
+  padding: 8px 10px !important;
+  flex: 1 1 54% !important;
+  min-width: 0 !important;
   display: flex !important;
-  -webkit-box-orient: vertical !important;
-  -webkit-box-direction: normal !important;
-  -ms-flex-direction: column !important;
   flex-direction: column !important;
-  justify-content: flex-start !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+  gap: 3px !important;
 }
 
-/* Texto (tamanhos) específico para os cards laterais da primeira sessão */
+/* 4. TAG DOS CARDS SIDE */
+.container > a.card.side .content .tag,
+.container > a.card.top + a.card.side .content .tag,
+.container > a.card.top + a.card.side + a.card.side .content .tag,
+.container > a.card.top + a.card.side + a.card.side + a.card.side .content .tag {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  padding: 1px 8px !important;
+  margin-bottom: 0 !important;
+  margin-left: -7px !important;
+  flex-shrink: 0 !important;
+}
+
+/* 5. TÍTULO DOS CARDS SIDE - 15px, bold, até 2 linhas com ellipsis */
+.container > a.card.side .content .title,
+.container > a.card.top + a.card.side .content .title,
+.container > a.card.top + a.card.side + a.card.side .content .title,
+.container > a.card.top + a.card.side + a.card.side + a.card.side .content .title {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+  color: #111 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 2 !important;
+  white-space: normal !important;
+  flex-shrink: 0 !important;
+}
+
+/* 6. DESCRIÇÃO DOS CARDS SIDE - 12px, 2 linhas com ellipsis */
+.container > a.card.side .content .desc,
+.container > a.card.top + a.card.side .content .desc,
+.container > a.card.top + a.card.side + a.card.side .content .desc,
+.container > a.card.top + a.card.side + a.card.side + a.card.side .content .desc {
+  font-size: 12px !important;
+  font-weight: bold !important;
+  color: #555 !important;
+  line-height: 1.3 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 2 !important;
+  white-space: normal !important;
+  flex-shrink: 0 !important;
+}
+
+/* 7. CARD TOP (principal) - para referência */
 .container > a.card.top .content .title {
   font-size: 20px !important;
   font-weight: 1000 !important;
@@ -2060,43 +2135,10 @@ Salvar Preferências
   font-weight: 700 !important;
   padding: 0px 10px !important;
 }
-.conteudo-principal .card.side .content .tag,
-.container > a.card.top + a.card.side .content .tag,
-.container > a.card.top + a.card.side + a.card.side .content .tag,
-.container > a.card.top + a.card.side + a.card.side + a.card.side .content .tag,
-body .conteudo-principal .ultimas-noticias-section .news-list a.card.side .content .tag {
-  font-weight: 700 !important;
-  padding: 0px 8px !important;
-  margin-bottom: 1px !important;
-}
 .container > a.card.top .content .desc {
   font-size: 17px !important;
   line-height: 1.1 !important;
   margin: 4px 0 0 0 !important;
-}
-.container > a.card.top + a.card.side .content .title,
-.container > a.card.top + a.card.side + a.card.side .content .title,
-.container > a.card.top + a.card.side + a.card.side + a.card.side .content .title {
-  font-size: 15px !important;
-  font-weight: 700 !important;
-  line-height: 1.3 !important;
-}
-.container > a.card.top + a.card.side .content .desc,
-.container > a.card.top + a.card.side + a.card.side .content .desc,
-.container > a.card.top + a.card.side + a.card.side + a.card.side .content .desc {
-  font-size: 13px !important;
-  color: #444 !important;
-  line-height: 1.25 !important;
-  margin: 6px 0 0 !important;
-  /* make it the flexible piece but limit vertical growth */
-  flex: 1 1 auto !important;
-  min-height: 0 !important; /* para que o flex possa encolher corretamente */
-  overflow: hidden !important;
-  /* clamp to 2 lines vertically to avoid overflow; adjust number if needed */
-  display: -webkit-box !important;
-  -webkit-box-orient: vertical !important;
-  -webkit-line-clamp: 2 !important;
-  line-clamp: 2 !important;
   text-overflow: ellipsis !important;
 }
 .container > a.card.top + a.card.side .content .tag,
@@ -2182,9 +2224,9 @@ body .conteudo-principal .ultimas-noticias-section .news-list a.card.side .conte
     height: 110px !important; /* mobile: ajuste fino para cartão menor */
   }
   /* Mobile: reduzir levemente os tamanhos das fontes para caber */
-  .container > a.card.top + a.card.side .content .title { font-size: 14px !important; }
+  .container > a.card.top + a.card.side .content .title { font-size: 15px !important; }
   .container > a.card.top + a.card.side .content .desc { font-size: 12px !important; }
-  .container > a.card.top + a.card.side .content .tag { font-size: 11px !important; }
+  .container > a.card.top + a.card.side .content .tag { font-size: 13px !important; margin-top: 19px } }
 }
 </style>
 
@@ -3302,7 +3344,7 @@ body .conteudo-principal .container > a.card.top + a.card.side .content .title {
   }
 
   body .conteudo-principal .ultimas-noticias-section .news-list a.card.side .content .title {
-    font-size: 14px !important;
+    font-size: 15px !important;
     line-height: 1.1 !important;
     margin-bottom: 2px !important;
   }
