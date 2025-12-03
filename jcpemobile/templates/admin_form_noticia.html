@@ -648,7 +648,7 @@
                     ⚠️ Salve a notícia primeiro para adicionar a linhas do tempo.
                 </div>
                 {% else %}
-                <p style="margin-bottom: 1rem; color: #6c757d;">Selecione as linhas do tempo que esta notícia faz parte:</p>
+                <p style="margin-bottom: 1rem; color: #6c757d;">Selecione a linha do tempo que esta notícia faz parte:</p>
                 <div id="linhasTempoList" style="max-height: 400px; overflow-y: auto;">
                     <!-- Carregado via JavaScript -->
                 </div>
@@ -903,16 +903,20 @@
                             ${linha.descricao ? `<small style="color: #6c757d;">${linha.descricao}</small>` : ''}
                         `;
                         
-                        const checkbox = document.createElement('input');
-                        checkbox.type = 'checkbox';
-                        checkbox.checked = linha.noticia_incluida;
-                        checkbox.style.cssText = 'width: 20px; height: 20px; cursor: pointer;';
-                        checkbox.addEventListener('change', function() {
-                            toggleNoticiaLinhaTempo(linha.id, this.checked);
+                        const radio = document.createElement('input');
+                        radio.type = 'radio';
+                        radio.name = 'linha_tempo_radio';
+                        radio.value = linha.id;
+                        radio.checked = linha.noticia_incluida;
+                        radio.style.cssText = 'width: 20px; height: 20px; cursor: pointer;';
+                        radio.addEventListener('change', function() {
+                            if (this.checked) {
+                                selecionarLinhaTempoUnica(linha.id);
+                            }
                         });
                         
                         item.appendChild(info);
-                        item.appendChild(checkbox);
+                        item.appendChild(radio);
                         container.appendChild(item);
                     });
                 } else {
@@ -925,6 +929,53 @@
                 container.innerHTML = '';
                 mensagem.textContent = 'Erro ao carregar linhas do tempo.';
                 mensagem.style.display = 'block';
+            }
+        }
+
+        // Função para selecionar apenas uma linha do tempo
+        async function selecionarLinhaTempoUnica(linhaTempoIdSelecionado) {
+            try {
+                const response = await fetch('/api/linhas-tempo/{{ noticia.id }}/', {
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken')
+                    }
+                });
+                
+                const data = await response.json();
+                
+                // Remover de todas as linhas do tempo primeiro
+                for (const linha of data.linhas_tempo) {
+                    if (linha.noticia_incluida && linha.id !== linhaTempoIdSelecionado) {
+                        await fetch('/painel/linha-tempo/item/remover/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': getCookie('csrftoken')
+                            },
+                            body: JSON.stringify({ linha_tempo_id: linha.id, noticia_id: {{ noticia.id }} })
+                        });
+                    }
+                }
+                
+                // Adicionar na linha selecionada
+                const addResponse = await fetch(`/painel/linha-tempo/${linhaTempoIdSelecionado}/noticia/{{ noticia.id }}/adicionar/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    }
+                });
+                
+                const addData = await addResponse.json();
+                
+                if (!addData.success && addData.error) {
+                    alert(addData.error);
+                    carregarLinhasDoTempo();
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao atualizar linha do tempo');
+                carregarLinhasDoTempo();
             }
         }
 
