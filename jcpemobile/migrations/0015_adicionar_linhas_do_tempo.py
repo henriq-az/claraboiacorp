@@ -11,6 +11,10 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        # Deletar o modelo antigo NoticiaLinhaDoTempo da migração 0014
+        migrations.DeleteModel(
+            name='NoticiaLinhaDoTempo',
+        ),
         # Criar modelo LinhaDoTempo
         migrations.CreateModel(
             name='LinhaDoTempo',
