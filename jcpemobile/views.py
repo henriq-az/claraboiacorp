@@ -182,9 +182,11 @@ def detalhe_enquete(request, enquete_id):
 
 def neels(request):
     """View para a página Neels"""
-    # Pegar todas as notícias ordenadas por data de publicação
-    noticias = Noticia.objects.select_related('categoria', 'autor').order_by('-data_publicacao')
-    
+    # Pegar apenas notícias que possuem imagem vertical, ordenadas por data de publicação
+    noticias = Noticia.objects.select_related('categoria', 'autor').filter(
+        imagem_vertical__isnull=False
+    ).exclude(imagem_vertical='').order_by('-data_publicacao')
+
     context = {
         'noticias': noticias,
     }

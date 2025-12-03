@@ -96,7 +96,7 @@ class NoticiaForm(forms.ModelForm):
 
     class Meta:
         model = Noticia
-        fields = ['titulo', 'subtitulo', 'resumo', 'conteudo', 'imagem', 'categoria', 'autor', 'secao']
+        fields = ['titulo', 'subtitulo', 'resumo', 'conteudo', 'imagem', 'imagem_vertical', 'categoria', 'autor', 'secao']
         widgets = {
             'titulo': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -120,6 +120,10 @@ class NoticiaForm(forms.ModelForm):
                 'class': 'form-control',
                 'accept': 'image/*'
             }),
+            'imagem_vertical': forms.FileInput(attrs={
+                'class': 'form-control',
+                'accept': 'image/*'
+            }),
             'categoria': forms.Select(attrs={
                 'class': 'form-control'
             }),
@@ -136,6 +140,7 @@ class NoticiaForm(forms.ModelForm):
             'resumo': 'Versão Curta',
             'conteudo': 'Versão Longa',
             'imagem': 'Imagem',
+            'imagem_vertical': 'Imagem Vertical (Neels)',
             'categoria': 'Categoria',
             'autor': 'Autor',
             'secao': 'Seção',
@@ -144,6 +149,7 @@ class NoticiaForm(forms.ModelForm):
             'subtitulo': 'Subtítulo complementar ao título principal',
             'resumo': 'Versão resumida para exibição em listagens (máximo de 300 caracteres)',
             'conteudo': 'Versão completa da notícia com todos os detalhes e informações',
+            'imagem_vertical': 'Imagem vertical para exibição na aba Neels (proporção 9:16, típico de reels/stories)',
             'secao': 'Escolha em qual seção da página inicial esta notícia será exibida',
         }
 

@@ -530,6 +530,19 @@
                     {% endif %}
                 </div>
 
+                <div class="form-group">
+                    <label for="id_imagem_vertical">Imagem Vertical (Neels)</label>
+                    {% if noticia and noticia.imagem_vertical %}
+                        <img src="{{ noticia.imagem_vertical.url }}" alt="{{ noticia.titulo }}" class="current-image" style="max-width: 200px;">
+                        <div class="help-text">Imagem vertical atual. Faça upload de uma nova para substituir.</div>
+                    {% endif %}
+                    {{ form.imagem_vertical }}
+                    <div class="help-text">Imagem vertical para exibição na aba Neels (proporção 9:16, típico de reels/stories)</div>
+                    {% if form.imagem_vertical.errors %}
+                        <div class="error">{{ form.imagem_vertical.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
                 <!-- Seção de Enquete -->
                 <div class="form-group" style="border-top: 1px solid #e9ecef; padding-top: 2rem; margin-top: 2rem;">
                     <label class="enquete-label">
