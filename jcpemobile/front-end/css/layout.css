@@ -17,12 +17,13 @@
     left: 0;
     z-index: calc(var(--z-top) + 1);
     box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-    transition: all 0.3s ease-in-out;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
 }
 
 /* Barra UOL oculta quando cabeçalho está oculto */
 .barra-uol.barra-oculta {
-    top: -50px;
+    transform: translateY(-100%);
 }
 
 .barra-uol-container {
@@ -85,17 +86,18 @@
     background: var(--cor-fundo); /* restore solid background */
     border-bottom: var(--borda-largura) solid var(--cor-borda-clara);
     z-index: var(--z-fixed);
-    transition: all 0.3s ease-in-out;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
 }
 
 /* Cabeçalho oculto ao rolar para baixo */
 .cabecalho.cabecalho-oculto {
-    top: -100px;
+    transform: translateY(calc(-100% - 37px));
 }
 
 /* Cabeçalho visível ao rolar para cima */
 .cabecalho.cabecalho-visivel {
-    top: 37px;
+    transform: translateY(0);
     /* keep no extra box-shadow here; shadow is provided by the pseudo-element */
 }
 
