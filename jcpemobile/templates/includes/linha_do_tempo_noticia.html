@@ -15,39 +15,101 @@
         <!-- Scroll horizontal com as notícias -->
         <div class="linha-tempo-scroll-container" id="linhaTempoScroll{{ forloop.counter }}">
             <div class="linha-tempo-scroll">
-                {% for noticia_item in linha_data.noticias %}
-                <article class="linha-tempo-card {% if noticia_item.id == noticia.id %}atual{% endif %}"
-                         id="{% if noticia_item.id == noticia.id %}noticia-atual{% endif %}">
+                <!-- Slide 1: Primeiras 2 notícias -->
+                <div class="linha-tempo-slide" data-index="0">
+                    {% for noticia_item in linha_data.noticias|slice:":2" %}
+                    <article class="linha-tempo-card">
+                        {% if noticia_item.imagem %}
+                        <img src="{{ noticia_item.imagem.url }}"
+                             alt="{{ noticia_item.titulo }}"
+                             class="linha-tempo-card-imagem">
+                        {% endif %}
 
-                    {% if noticia_item.imagem %}
-                    <img src="{{ noticia_item.imagem.url }}"
-                         alt="{{ noticia_item.titulo }}"
-                         class="linha-tempo-card-imagem">
-                    {% endif %}
+                        <div class="linha-tempo-card-conteudo">
+                            <span class="linha-tempo-card-categoria">{{ noticia_item.categoria.nome }}</span>
 
-                    <div class="linha-tempo-card-conteudo">
-                        <span class="linha-tempo-card-categoria">{{ noticia_item.categoria.nome }}</span>
+                            <h3 class="linha-tempo-card-titulo">
+                                <a href="{% url 'noticia_detalhe' noticia_item.slug %}">
+                                    {{ noticia_item.titulo }}
+                                </a>
+                            </h3>
 
-                        <h3 class="linha-tempo-card-titulo">
-                            <a href="{% url 'noticia_detalhe' noticia_item.slug %}">
-                                {{ noticia_item.titulo }}
-                            </a>
-                        </h3>
-
-                        <div class="linha-tempo-card-data">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span>{{ noticia_item.data_publicacao|date:"d/m/Y" }}</span>
+                            <div class="linha-tempo-card-data">
+                                <span>{{ noticia_item.data_publicacao|date:"d M, Y" }}</span>
+                            </div>
                         </div>
-                    </div>
+                    </article>
+                    {% endfor %}
+                </div>
 
-                    <div class="linha-tempo-timeline"></div>
-                </article>
-                {% endfor %}
+                <!-- Slide 2: Próximas 2 notícias -->
+                {% if linha_data.noticias|length > 2 %}
+                <div class="linha-tempo-slide" data-index="1">
+                    {% for noticia_item in linha_data.noticias|slice:"2:4" %}
+                    <article class="linha-tempo-card">
+                        {% if noticia_item.imagem %}
+                        <img src="{{ noticia_item.imagem.url }}"
+                             alt="{{ noticia_item.titulo }}"
+                             class="linha-tempo-card-imagem">
+                        {% endif %}
+
+                        <div class="linha-tempo-card-conteudo">
+                            <span class="linha-tempo-card-categoria">{{ noticia_item.categoria.nome }}</span>
+
+                            <h3 class="linha-tempo-card-titulo">
+                                <a href="{% url 'noticia_detalhe' noticia_item.slug %}">
+                                    {{ noticia_item.titulo }}
+                                </a>
+                            </h3>
+
+                            <div class="linha-tempo-card-data">
+                                <span>{{ noticia_item.data_publicacao|date:"d M, Y" }}</span>
+                            </div>
+                        </div>
+                    </article>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <!-- Slide 3: Próximas 2 notícias -->
+                {% if linha_data.noticias|length > 4 %}
+                <div class="linha-tempo-slide" data-index="2">
+                    {% for noticia_item in linha_data.noticias|slice:"4:6" %}
+                    <article class="linha-tempo-card">
+                        {% if noticia_item.imagem %}
+                        <img src="{{ noticia_item.imagem.url }}"
+                             alt="{{ noticia_item.titulo }}"
+                             class="linha-tempo-card-imagem">
+                        {% endif %}
+
+                        <div class="linha-tempo-card-conteudo">
+                            <span class="linha-tempo-card-categoria">{{ noticia_item.categoria.nome }}</span>
+
+                            <h3 class="linha-tempo-card-titulo">
+                                <a href="{% url 'noticia_detalhe' noticia_item.slug %}">
+                                    {{ noticia_item.titulo }}
+                                </a>
+                            </h3>
+
+                            <div class="linha-tempo-card-data">
+                                <span>{{ noticia_item.data_publicacao|date:"d M, Y" }}</span>
+                            </div>
+                        </div>
+                    </article>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
 
-            <!-- Hint de scroll (só aparece se há overflow) -->
-            <div class="linha-tempo-scroll-hint">
-                <i class="fas fa-chevron-right"></i>
+            <!-- Indicadores de navegação (bolinhas) -->
+            <div class="linha-tempo-indicators" data-container-id="linhaTempoScroll{{ forloop.counter }}">
+                <span class="indicator active" data-index="0"></span>
+                {% if linha_data.noticias|length > 2 %}
+                <span class="indicator" data-index="1"></span>
+                {% endif %}
+                {% if linha_data.noticias|length > 4 %}
+                <span class="indicator" data-index="2"></span>
+                {% endif %}
             </div>
         </div>
     </section>
@@ -59,65 +121,99 @@
 (function() {
     'use strict';
 
-    // Função para scroll suave com drag
     function initLinhaTempoScroll() {
-        const scrollContainers = document.querySelectorAll('.linha-tempo-scroll-container');
+        const indicatorGroups = document.querySelectorAll('.linha-tempo-indicators');
 
-        scrollContainers.forEach(container => {
-            let isDown = false;
-            let startX;
-            let scrollLeft;
+        indicatorGroups.forEach((indicatorGroup) => {
+            const containerId = indicatorGroup.getAttribute('data-container-id');
+            const container = document.getElementById(containerId);
+            if (!container) return;
 
-            // Mouse events
-            container.addEventListener('mousedown', (e) => {
-                isDown = true;
-                container.classList.add('grabbing');
-                startX = e.pageX - container.offsetLeft;
-                scrollLeft = container.scrollLeft;
-            });
+            const slides = container.querySelectorAll('.linha-tempo-slide');
+            const indicators = indicatorGroup.querySelectorAll('.indicator');
+            
+            if (slides.length === 0) return;
 
-            container.addEventListener('mouseleave', () => {
-                isDown = false;
-                container.classList.remove('grabbing');
-            });
+            let currentIndex = 0;
 
-            container.addEventListener('mouseup', () => {
-                isDown = false;
-                container.classList.remove('grabbing');
-            });
+            // Função para rolar para um slide específico
+            function scrollToCard(index) {
+                const slide = slides[index];
+                if (!slide) return;
 
-            container.addEventListener('mousemove', (e) => {
-                if (!isDown) return;
-                e.preventDefault();
-                const x = e.pageX - container.offsetLeft;
-                const walk = (x - startX) * 2;
-                container.scrollLeft = scrollLeft - walk;
-            });
+                slide.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest',
+                    inline: 'start'
+                });
 
-            // Detectar quando scroll chegou ao fim
-            container.addEventListener('scroll', () => {
-                const scrollWidth = container.scrollWidth;
-                const clientWidth = container.clientWidth;
-                const scrollLeft = container.scrollLeft;
-
-                if (scrollLeft + clientWidth >= scrollWidth - 10) {
-                    container.classList.add('scrolled-end');
-                } else {
-                    container.classList.remove('scrolled-end');
-                }
-            });
-
-            // Scroll automaticamente para a notícia atual
-            const noticiaAtual = container.querySelector('#noticia-atual');
-            if (noticiaAtual) {
-                setTimeout(() => {
-                    const scrollPosition = noticiaAtual.offsetLeft - (container.clientWidth / 2) + (noticiaAtual.clientWidth / 2);
-                    container.scrollTo({
-                        left: scrollPosition,
-                        behavior: 'smooth'
-                    });
-                }, 300);
+                updateIndicators(index);
             }
+
+            // Atualizar indicadores ativos
+            function updateIndicators(index) {
+                indicators.forEach((indicator, i) => {
+                    indicator.classList.toggle('active', i === index);
+                });
+                currentIndex = index;
+            }
+
+            // Click nos indicadores
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    scrollToCard(index);
+                });
+            });
+
+            // Observar quando um slide entra na visão
+            const scrollContainer = container;
+            const observerOptions = {
+                root: scrollContainer,
+                threshold: 0.5,
+                rootMargin: '0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+                        const index = parseInt(entry.target.getAttribute('data-index'));
+                        if (!isNaN(index) && index !== currentIndex) {
+                            updateIndicators(index);
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            slides.forEach(slide => observer.observe(slide));
+
+            // Também detectar scroll manual
+            let scrollTimeout;
+            scrollContainer.addEventListener('scroll', () => {
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    // Encontrar qual slide está mais visível
+                    let mostVisible = null;
+                    let maxVisibility = 0;
+
+                    slides.forEach((slide, index) => {
+                        const rect = slide.getBoundingClientRect();
+                        const containerRect = scrollContainer.getBoundingClientRect();
+                        
+                        const visibleWidth = Math.min(rect.right, containerRect.right) - Math.max(rect.left, containerRect.left);
+                        const visibility = visibleWidth / rect.width;
+
+                        if (visibility > maxVisibility) {
+                            maxVisibility = visibility;
+                            mostVisible = index;
+                        }
+                    });
+
+                    if (mostVisible !== null && mostVisible !== currentIndex) {
+                        updateIndicators(mostVisible);
+                    }
+                }, 100);
+            });
         });
     }
 
