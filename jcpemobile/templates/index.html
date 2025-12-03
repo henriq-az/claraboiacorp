@@ -3403,5 +3403,50 @@ body .conteudo-principal .ultimas-noticias-section .news-list a.card.side + a.ca
   }
 }
 </style>
+
+<!-- Script para esconder/mostrar cabeçalho e barra UOL ao rolar -->
+<script>
+(function() {
+  const cabecalho = document.getElementById('cabecalho');
+  const barraUol = document.querySelector('.barra-uol');
+  if (!cabecalho) return;
+  
+  let ultimaPosicaoScroll = 0;
+  let ticking = false;
+  
+  function atualizarCabecalho() {
+    const posicaoAtual = window.scrollY || window.pageYOffset;
+    
+    // Se estiver no topo, sempre mostrar o cabeçalho e barra UOL
+    if (posicaoAtual <= 50) {
+      cabecalho.classList.remove('cabecalho-oculto');
+      cabecalho.classList.add('cabecalho-visivel');
+      if (barraUol) barraUol.classList.remove('barra-oculta');
+    }
+    // Rolando para baixo - esconder cabeçalho e barra UOL
+    else if (posicaoAtual > ultimaPosicaoScroll && posicaoAtual > 100) {
+      cabecalho.classList.add('cabecalho-oculto');
+      cabecalho.classList.remove('cabecalho-visivel');
+      if (barraUol) barraUol.classList.add('barra-oculta');
+    }
+    // Rolando para cima - mostrar cabeçalho e barra UOL
+    else if (posicaoAtual < ultimaPosicaoScroll) {
+      cabecalho.classList.remove('cabecalho-oculto');
+      cabecalho.classList.add('cabecalho-visivel');
+      if (barraUol) barraUol.classList.remove('barra-oculta');
+    }
+    
+    ultimaPosicaoScroll = posicaoAtual;
+    ticking = false;
+  }
+  
+  window.addEventListener('scroll', function() {
+    if (!ticking) {
+      window.requestAnimationFrame(atualizarCabecalho);
+      ticking = true;
+    }
+  }, { passive: true });
+})();
+</script>
 </body>
 </html>
