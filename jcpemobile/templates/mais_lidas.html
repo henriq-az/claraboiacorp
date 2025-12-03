@@ -139,21 +139,34 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            gap: 8px;
-            padding: 20px;
+            justify-content: flex-start;
+            gap: 2px;
+            padding: 10px; /* reduzido para aproximar texto das bordas do cartão */
             order: 0;
             overflow: hidden;
             min-width: 0;
         }
 
+        /* Garantir alinhamento exato entre gênero e título: forçar mesmas margens/paddings */
+        .news-content > .tag,
+        .news-content > .news-title {
+            margin: 0;
+            padding: 0;
+        }
+
         .tag {
-            display: none;
+            display: block;
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: bold;
+            color: #DE1B24;
+            line-height: 1; /* reduzir possível desalinhamento vertical */
         }
 
         .news-title {
-            font-size: 16px;
-            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: bold;
             color: #1a1a1a;
             line-height: 1.4;
             display: -webkit-box;
@@ -210,6 +223,8 @@
             .news-title {
                 font-size: 14px;
             }
+            /* em telas pequenas, reduzir também o padding interno do card para manter proporção */
+            .news-content { padding: 8px; }
         }
 
         @media (min-width: 768px) {
@@ -253,10 +268,18 @@
                 {% else %}
                 <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=300&h=200&fit=crop" alt="{{ noticia.titulo }}" class="news-image">
                 {% endif %}
-                <div class="bookmark-icon" onclick="toggleBookmark(event, {{ noticia.id }})">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-                    </svg>
+                <div class="ranking-actions" role="group" aria-label="Ações da notícia">
+                    <span class="ranking-fav" role="button" tabindex="0" aria-label="Favoritar" title="Favoritar" onclick="salvarNoticia(event)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="29" height="29" viewBox="0 0 29 29" fill="none" aria-hidden="true">
+                            <path d="M6 11.8733C6 9.1046 6 7.72025 6.87868 6.86012C7.75736 6 9.17157 6 12 6H16C18.8284 6 20.2426 6 21.1213 6.86012C22 7.72025 22 9.1046 22 11.8733V18.5567C22 21.1833 22 22.4966 21.1557 22.8983C20.3114 23.3 19.2565 22.4886 17.1465 20.8659L16.4713 20.3465C15.2849 19.434 14.6917 18.9778 14 18.9778C13.3083 18.9778 12.7151 19.434 11.5287 20.3465L10.8535 20.8659C8.74355 22.4886 7.68859 23.3 6.84429 22.8983C6 22.4966 6 21.1833 6 18.5567V11.8733Z" stroke="black" stroke-width="2"/>
+                        </svg>
+                    </span>
+                    
+                    <span class="ranking-action" role="button" tabindex="0" aria-label="Compartilhar" title="Compartilhar" onclick="compartilharNoticia(event)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M17.583 22.1668C16.8191 22.1668 16.1698 21.8995 15.6351 21.3647C15.1004 20.83 14.833 20.1807 14.833 19.4168C14.833 19.3252 14.8559 19.1113 14.9018 18.7752L8.46217 15.0168C8.21773 15.246 7.93509 15.4255 7.61426 15.5554C7.29342 15.6852 6.94967 15.7502 6.58301 15.7502C5.81912 15.7502 5.16981 15.4828 4.63509 14.9481C4.10037 14.4134 3.83301 13.7641 3.83301 13.0002C3.83301 12.2363 4.10037 11.587 4.63509 11.0522C5.16981 10.5175 5.81912 10.2502 6.58301 10.2502C6.94967 10.2502 7.29342 10.3151 7.61426 10.445C7.93509 10.5748 8.21773 10.7543 8.46217 10.9835L14.9018 7.22516C14.8712 7.11822 14.8521 7.01509 14.8445 6.91579C14.8368 6.81648 14.833 6.70572 14.833 6.5835C14.833 5.81961 15.1004 5.1703 15.6351 4.63558C16.1698 4.10086 16.8191 3.8335 17.583 3.8335C18.3469 3.8335 18.9962 4.10086 19.5309 4.63558C20.0656 5.1703 20.333 5.81961 20.333 6.5835C20.333 7.34738 20.0656 7.99669 19.5309 8.53141C18.9962 9.06613 18.3469 9.3335 17.583 9.3335C17.2163 9.3335 16.8726 9.26857 16.5518 9.1387C16.2309 9.00884 15.9483 8.82933 15.7038 8.60016L9.26426 12.3585C9.29481 12.4654 9.31391 12.5686 9.32155 12.6679C9.32919 12.7672 9.33301 12.8779 9.33301 13.0002C9.33301 13.1224 9.32919 13.2331 9.32155 13.3325C9.31391 13.4318 9.29481 13.5349 9.26426 13.6418L15.7038 17.4002C15.9483 17.171 16.2309 16.9915 16.5518 16.8616C16.8726 16.7318 17.2163 16.6668 17.583 16.6668C18.3469 16.6668 18.9962 16.9342 19.5309 17.4689C20.0656 18.0036 20.333 18.6529 20.333 19.4168C20.333 20.1807 20.0656 20.83 19.5309 21.3647C18.9962 21.8995 18.3469 22.1668 17.583 22.1668Z" fill="black"/>
+                        </svg>
+                    </span>
                 </div>
             </a>
             {% empty %}
@@ -614,6 +637,205 @@
                 icon.style.opacity = '0.4';
             }
         }
+
+        // Adaptar funções de noticias.js para o contexto do mais_lidas
+        function salvarNoticia(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            const newsItem = event.currentTarget.closest('.news-item');
+            const newsTitle = newsItem.querySelector('.news-title').textContent;
+            const noticiaLink = newsItem.href;
+
+            // Obter ID da notícia da URL
+            const slugMatch = noticiaLink.match(/\/noticia\/([^\/]+)\//);
+            const noticiaId = slugMatch ? slugMatch[1] : Date.now().toString();
+
+            // Toggle do estado salvo
+            const botaoSalvar = event.currentTarget;
+            const svg = botaoSalvar.querySelector('svg');
+            const path = svg.querySelector('path');
+
+            let salvos = JSON.parse(localStorage.getItem('noticiasSalvas') || '[]');
+            const index = salvos.indexOf(noticiaId);
+
+            if (index > -1) {
+                // Remover dos salvos
+                salvos.splice(index, 1);
+                path.setAttribute('stroke', 'black');
+                mostrarToast('Notícia removida dos salvos', 'info');
+            } else {
+                // Adicionar aos salvos
+                salvos.push(noticiaId);
+                path.setAttribute('stroke', '#DE1B24');
+                mostrarToast('Notícia salva com sucesso!', 'sucesso');
+            }
+
+            localStorage.setItem('noticiasSalvas', JSON.stringify(salvos));
+        }
+
+        function compartilharNoticia(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            const newsItem = event.currentTarget.closest('.news-item');
+            const titulo = newsItem.querySelector('.news-title').textContent;
+            const url = newsItem.href;
+
+            if (navigator.share) {
+                // API nativa de compartilhamento
+                navigator.share({
+                    title: titulo,
+                    text: 'Veja esta notícia do Jornal do Commercio',
+                    url: url
+                }).catch(err => console.log('Compartilhamento cancelado'));
+            } else {
+                // Fallback - mostrar opções
+                mostrarOpcoesCompartilhamento(titulo, url);
+            }
+        }
+
+        function mostrarOpcoesCompartilhamento(titulo, url) {
+            const modal = document.createElement('div');
+            modal.className = 'modal-compartilhar-custom';
+            modal.innerHTML = `
+                <div class="modal-conteudo-custom">
+                    <h3>Compartilhar notícia</h3>
+                    <div class="opcoes-compartilhar">
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}" target="_blank" class="opcao-compartilhar">
+                            <i class="fab fa-facebook"></i> Facebook
+                        </a>
+                        <a href="https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(titulo)}" target="_blank" class="opcao-compartilhar">
+                            <i class="fab fa-twitter"></i> Twitter
+                        </a>
+                        <a href="https://wa.me/?text=${encodeURIComponent(titulo + ' ' + url)}" target="_blank" class="opcao-compartilhar">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </a>
+                        <button onclick="copiarParaArea(event, '${url}')" class="opcao-compartilhar">
+                            <i class="fas fa-link"></i> Copiar link
+                        </button>
+                    </div>
+                    <button onclick="fecharModalCompartilhar()" class="botao-fechar">Fechar</button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            modal.style.display = 'flex';
+        }
+
+        function copiarParaArea(event, url) {
+            navigator.clipboard.writeText(url).then(() => {
+                mostrarToast('Link copiado!', 'sucesso');
+                fecharModalCompartilhar();
+            });
+        }
+
+        function fecharModalCompartilhar() {
+            const modal = document.querySelector('.modal-compartilhar-custom');
+            if (modal) modal.remove();
+        }
+
+        function mostrarToast(mensagem, tipo) {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${tipo}`;
+            toast.textContent = mensagem;
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: ${tipo === 'sucesso' ? '#00b783' : '#DE1B24'};
+                color: white;
+                padding: 12px 20px;
+                border-radius: 4px;
+                font-size: 14px;
+                z-index: 1000;
+                animation: slideUp 0.3s ease;
+            `;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
     </script>
+
+    <style>
+        @keyframes slideUp {
+            from { transform: translateX(-50%) translateY(100px); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+
+        .modal-compartilhar-custom {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+        }
+
+        .modal-conteudo-custom {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .modal-conteudo-custom h3 {
+            margin: 0 0 16px 0;
+            font-size: 18px;
+            color: #1a1a1a;
+        }
+
+        .opcoes-compartilhar {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .opcao-compartilhar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #333;
+            cursor: pointer;
+            background: white;
+            transition: all 0.2s ease;
+        }
+
+        .opcao-compartilhar:hover {
+            background: #f5f5f5;
+            border-color: #DE1B24;
+        }
+
+        .opcao-compartilhar i {
+            font-size: 16px;
+            color: #DE1B24;
+        }
+
+        .botao-fechar {
+            width: 100%;
+            padding: 10px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #333;
+            transition: all 0.2s ease;
+        }
+
+        .botao-fechar:hover {
+            background: #e0e0e0;
+        }
+    </style>
 </body>
 </html>
