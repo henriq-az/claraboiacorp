@@ -8,15 +8,8 @@
         <!-- Header da Linha do Tempo -->
         <div class="linha-tempo-header">
             <h2 class="linha-tempo-titulo">
-                <i class="fas fa-timeline"></i> {{ linha_data.linha_tempo.titulo }}
+                <i class="fas fa-timeline"></i> Linha do Tempo
             </h2>
-            {% if linha_data.linha_tempo.descricao %}
-            <p class="linha-tempo-descricao">{{ linha_data.linha_tempo.descricao }}</p>
-            {% endif %}
-            <div class="linha-tempo-contador">
-                <i class="fas fa-newspaper"></i>
-                <span>{{ linha_data.total_noticias }} notícia{{ linha_data.total_noticias|pluralize }} nesta cronologia</span>
-            </div>
         </div>
 
         <!-- Scroll horizontal com as notícias -->
