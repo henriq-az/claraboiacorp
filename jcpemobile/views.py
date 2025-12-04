@@ -12,6 +12,7 @@ from .models import Noticia, Visualizacao, NoticaSalva, Categoria, Autor, Feedba
 from .forms import CadastroUsuarioForm, NoticiaForm, FeedbackForm
 from django.db import IntegrityError
 import json
+from django.core.paginator import Paginator
 
 def get_client_ip(request):
     fake_ip_post = request.POST.get('fake_ip')
@@ -841,6 +842,26 @@ def noticias_por_tags(request):
     data = [serialize(n) for n in noticias]
     return JsonResponse({'noticias': data})
 
+def buscar(request):
+    q = request.GET.get('q', '').strip()
+    page = request.GET.get('page', 1)
+
+    noticias = Noticia.objects.none()
+    if q:
+        noticias = Noticia.objects.filter(
+            Q(titulo__icontains=q) |
+            Q(resumo__icontains=q) |
+            Q(conteudo__icontains=q)
+        ).select_related('categoria', 'autor').order_by('-data_publicacao')
+
+    paginator = Paginator(noticias, 20)  # 20 por página
+    page_obj = paginator.get_page(page)
+
+    return render(request, 'busca.html', {
+        'q': q,
+        'page_obj': page_obj,
+        'total': noticias.count()
+    })
 
 def buscar_noticias_por_ids(request):
     """API para buscar notícias por IDs (para localStorage)

@@ -1,0 +1,41 @@
+{% load static %}
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <!-- ...head ... -->
+  <title>Buscar: {{ q }}</title>
+</head>
+<body>
+  <main>
+    <h1>Resultados para "{{ q }}" ({{ total }})</h1>
+
+    {% if page_obj.object_list %}
+      <ul class="search-results">
+        {% for noticia in page_obj.object_list %}
+          <li class="result-item">
+            <a href="{% url 'noticia_detalhe' noticia.slug %}">
+              {% if noticia.imagem %}<img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" loading="lazy">{% endif %}
+              <div class="result-body">
+                <span class="tag">{{ noticia.categoria.nome }}</span>
+                <h2>{{ noticia.titulo }}</h2>
+              </div>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+
+      <nav class="pagination">
+        {% if page_obj.has_previous %}
+          <a href="?q={{ q|urlencode }}&page={{ page_obj.previous_page_number }}">‹ Anterior</a>
+        {% endif %}
+        <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+        {% if page_obj.has_next %}
+          <a href="?q={{ q|urlencode }}&page={{ page_obj.next_page_number }}">Próxima ›</a>
+        {% endif %}
+      </nav>
+    {% else %}
+      <p>Nenhum resultado encontrado.</p>
+    {% endif %}
+  </main>
+</body>
+</html>

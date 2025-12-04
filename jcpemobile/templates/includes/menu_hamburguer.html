@@ -19,6 +19,11 @@
 </a>
 </div>
 
+<form action="{% url 'buscar' %}" method="get" class="search-form" role="search">
+  <input type="search" name="q" value="{{ request.GET.q|default:'' }}" placeholder="Pesquisar notícias" aria-label="Pesquisar notícias">
+  <button type="submit" aria-label="Buscar">Buscar</button>
+</form>
+
 <!-- Ações do Cabeçalho -->
 <div class="cabecalho-acoes">
 <!-- Perfil -->

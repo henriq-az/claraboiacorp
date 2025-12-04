@@ -8,7 +8,7 @@ from .views import (
     api_preferencias, linha_do_tempo, lista_por_categoria,
     painel_linhas_tempo, criar_linha_tempo, editar_linha_tempo, deletar_linha_tempo,
     adicionar_noticia_linha_tempo, remover_noticia_linha_tempo, api_linhas_tempo_noticia,
-    remover_noticia_linha_tempo_api
+    remover_noticia_linha_tempo_api, buscar
 )
 
 urlpatterns = [
@@ -25,6 +25,7 @@ urlpatterns = [
     path('verificar-noticia-salva/<int:noticia_id>/', verificar_noticia_salva, name='verificar_noticia_salva'),
     path('feedback/enviar/', enviar_feedback, name='enviar_feedback'),
     path('categoria/<slug:slug>/', lista_por_categoria, name='categoria'),
+    path('buscar/', buscar, name='buscar'),
     # API para tags, filtros e preferências
     path('api/tags/', listar_tags, name='api_listar_tags'),
     path('api/noticias/', buscar_noticias_por_ids, name='api_buscar_noticias_por_ids'),
