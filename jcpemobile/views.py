@@ -457,11 +457,17 @@ def mais_lidas(request):
         total_visualizacoes=Count('visualizacoes')
     ).filter(total_visualizacoes__gt=0).order_by('-total_visualizacoes')[:15]
 
-    context = {
+
+    noticias_salvas_ids = []
+    if request.user.is_authenticated:
+        noticias_salvas_ids = NoticaSalva.objects.filter(usuario=request.user).values_list('noticia_id', flat=True)
+        
+    context = { 
         'noticias_hoje': noticias_hoje,
         'noticias_semana': noticias_semana,
         'noticias_mes': noticias_mes,
         'noticias_geral': noticias_geral,
+        'noticias_salvas_ids': noticias_salvas_ids,
     }
 
     return render(request, 'mais_lidas.html', context)
