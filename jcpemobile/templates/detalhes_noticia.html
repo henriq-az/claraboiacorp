@@ -861,6 +861,118 @@ rows="4"
     width: 100%;
   }
 }
+
+/* ========== NOTÍCIAS RELACIONADAS ========== */
+.noticias-relacionadas-secao {
+  margin: 8px 0 24px;
+  padding: 0 16px;
+  background: transparent;
+}
+
+.relacionadas-titulo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #000000;
+  margin-bottom: 4px;
+  padding-bottom: 8px;
+  border-bottom: 3px solid #DE1B24;
+  display: inline-block;
+}
+
+.relacionadas-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.relacionadas-item {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: box-shadow 0.2s ease;
+}
+
+.relacionadas-item:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.relacionadas-texto {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.relacionadas-categoria {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #DE1B24;
+  text-transform: capitalize;
+}
+
+.relacionadas-item-titulo {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #000000;
+  margin: 0;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.relacionadas-resumo {
+  font-size: 0.875rem;
+  color: #666666;
+  margin: 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.relacionadas-imagem {
+  flex-shrink: 0;
+  width: 120px;
+  height: 90px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f0f0f0;
+}
+
+.relacionadas-imagem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.relacionadas-img-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+}
+
+@media (max-width: 768px) {
+  .relacionadas-titulo {
+    font-size: 1.1rem;
+  }
+  
+  .relacionadas-imagem {
+    width: 100px;
+    height: 75px;
+  }
+  
+  .relacionadas-item {
+    padding: 12px;
+  }
+}
 </style>
 
 <article class="noticia-detalhes">
@@ -996,33 +1108,35 @@ rows="4"
   </div>
   {% endif %}
 
-  <!-- Notícias Relacionadas -->
-  {% if noticias_relacionadas %}
-  <div class="linha-tempo-secao">
-    <h2 class="linha-tempo-titulo">Notícias Relacionadas</h2>
-    <div class="linha-tempo-grid">
-      {% for noticia_rel in noticias_relacionadas %}
-      <a href="{% url 'noticia_detalhe' noticia_rel.slug %}" class="linha-tempo-card" data-icone="relogio">
-        <div class="linha-tempo-imagem-wrapper">
-          {% if noticia_rel.imagem %}
-          <img src="{{ noticia_rel.imagem.url }}" alt="{{ noticia_rel.titulo }}" class="linha-tempo-img">
-          {% else %}
-          <div class="linha-tempo-img-placeholder"></div>
-          {% endif %}
-        </div>
-        <div class="linha-tempo-info">
-          <p class="linha-tempo-texto">{{ noticia_rel.titulo }}</p>
-          <p class="linha-tempo-data">{{ noticia_rel.data_publicacao|date:"d M, Y" }}</p>
-        </div>
-      </a>
-      {% endfor %}
-    </div>
-  </div>
-  {% endif %}
 </article>
 
 <!-- Linha do Tempo -->
 {% include 'includes/linha_do_tempo_noticia.html' %}
+
+<!-- Notícias Relacionadas -->
+{% if noticias_relacionadas %}
+<div class="noticias-relacionadas-secao">
+  <h2 class="relacionadas-titulo">Notícias relacionadas</h2>
+  <div class="relacionadas-lista">
+    {% for noticia_rel in noticias_relacionadas %}
+    <a href="{% url 'noticia_detalhe' noticia_rel.slug %}" class="relacionadas-item">
+      <div class="relacionadas-texto">
+        <span class="relacionadas-categoria">{{ noticia_rel.categoria.nome }}</span>
+        <h3 class="relacionadas-item-titulo">{{ noticia_rel.titulo }}</h3>
+        <p class="relacionadas-resumo">{{ noticia_rel.resumo|truncatewords:15 }}</p>
+      </div>
+      <div class="relacionadas-imagem">
+        {% if noticia_rel.imagem %}
+        <img src="{{ noticia_rel.imagem.url }}" alt="{{ noticia_rel.titulo }}">
+        {% else %}
+        <div class="relacionadas-img-placeholder"></div>
+        {% endif %}
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
 
 <script>
 // Funções de compartilhamento

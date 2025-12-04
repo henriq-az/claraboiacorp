@@ -4,8 +4,8 @@
    =================================================== */
 
 .linhas-tempo-container {
-    margin: 16px 0;
-    padding: 0 0 100px;
+    margin: 8px 0;
+    padding: 0 0 8px;
 }
 
 .linha-tempo-section {
@@ -71,7 +71,7 @@
 
 /* ========== CARDS DO CARROSSEL ========== */
 .carrossel-card {
-    flex: 0 0 280px;
+    flex: 0 0 240px;
     scroll-snap-align: center;
     position: relative;
 }
@@ -79,8 +79,8 @@
 .carrossel-link {
     display: block;
     position: relative;
-    width: 280px;
-    height: 280px;
+    width: 240px;
+    height: 240px;
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
@@ -228,7 +228,7 @@
 /* ========== RESPONSIVO - TABLET ========== */
 @media (min-width: 768px) {
     .linhas-tempo-container {
-        padding: 0 0 100px;
+        padding: 0 0 8px;
     }
 
     .linha-tempo-titulo {
