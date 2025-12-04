@@ -142,6 +142,7 @@
             justify-content: flex-start;
             gap: 2px;
             padding: 10px; /* reduzido para aproximar texto das bordas do cartão */
+            padding-right: 35px; /* espaço mínimo para os botões */
             order: 0;
             overflow: hidden;
             min-width: 0;
@@ -175,6 +176,57 @@
             overflow: hidden;
             text-overflow: ellipsis;
             word-break: break-word;
+        }
+
+        /* Posicionamento dos botões de ação no canto inferior direito */
+        .ranking-actions {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            display: inline-flex;
+            gap: 8px;
+            align-items: center;
+            z-index: 5;
+        }
+
+        .ranking-actions .ranking-fav,
+        .ranking-actions .ranking-action {
+            width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            padding: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .ranking-actions .ranking-fav:hover,
+        .ranking-actions .ranking-action:hover {
+            background: rgba(222, 27, 36, 0.1);
+        }
+
+        .ranking-actions .ranking-fav svg { 
+            width: 20px; 
+            height: 20px; 
+            display: block; 
+        }
+
+        .ranking-actions .ranking-fav:hover svg path { 
+            stroke: #DE1B24; 
+        }
+
+        .ranking-actions .ranking-action svg { 
+            width: 18px; 
+            height: 18px; 
+            display: block; 
+        }
+
+        .ranking-actions .ranking-action:hover svg path { 
+            fill: #DE1B24; 
         }
 
         .bookmark-icon {
@@ -224,7 +276,10 @@
                 font-size: 14px;
             }
             /* em telas pequenas, reduzir também o padding interno do card para manter proporção */
-            .news-content { padding: 8px; }
+            .news-content { 
+                padding: 8px; 
+                padding-right: 30px;
+            }
         }
 
         @media (min-width: 768px) {
@@ -256,7 +311,7 @@
         <div class="underline"></div>
 
         <div class="news-list" id="newsList">
-            {% for noticia in noticias_hoje %}
+            {% for noticia in noticias_geral %}
             <a href="{% url 'noticia_detalhe' noticia.slug %}" class="news-item">
                 <div class="rank-badge">{{ forloop.counter }}</div>
                 <div class="news-content">
