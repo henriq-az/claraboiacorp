@@ -632,12 +632,25 @@ def admin_criar_noticia(request):
 
                     # Criar opções
                     opcoes = request.POST.getlist('opcao[]')
+                    opcoes_criadas = 0
                     for texto_opcao in opcoes:
                         texto_opcao = texto_opcao.strip()
                         if texto_opcao:
                             Opcao.objects.create(enquete=enquete, texto=texto_opcao)
-
-            messages.success(request, f'Notícia "{noticia.titulo}" criada com sucesso!')
+                            opcoes_criadas += 1
+                    
+                    # Validar se pelo menos 2 opções foram criadas
+                    if opcoes_criadas < 2:
+                        enquete.delete()
+                        messages.warning(request, f'Notícia criada, mas a enquete precisa ter no mínimo 2 opções.')
+                    else:
+                        messages.success(request, f'Notícia "{noticia.titulo}" criada com sucesso com enquete!')
+                        return redirect('admin_dashboard')
+                else:
+                    messages.warning(request, f'Notícia criada, mas a enquete precisa ter título e pergunta.')
+            else:
+                messages.success(request, f'Notícia "{noticia.titulo}" criada com sucesso!')
+            
             return redirect('admin_dashboard')
     else:
         form = NoticiaForm()
@@ -657,19 +670,16 @@ def admin_editar_noticia(request, noticia_id):
 
             # Processar enquete
             tem_enquete = request.POST.get('tem_enquete') == 'on'
-            print(f"[DEBUG] tem_enquete: {tem_enquete}")
 
             if tem_enquete:
                 titulo_enquete = request.POST.get('titulo_enquete', '').strip()
                 pergunta_enquete = request.POST.get('pergunta_enquete', '').strip()
-                print(f"[DEBUG] titulo: '{titulo_enquete}', pergunta: '{pergunta_enquete}'")
 
                 if titulo_enquete and pergunta_enquete:
                     # Atualizar ou criar enquete
                     try:
                         enquete = noticia.enquete
                         # Enquete já existe, atualizar
-                        print(f"[DEBUG] Atualizando enquete existente ID: {enquete.id}")
                         enquete.titulo = titulo_enquete
                         enquete.pergunta = pergunta_enquete
                         enquete.save()
@@ -677,40 +687,37 @@ def admin_editar_noticia(request, noticia_id):
                         enquete.opcoes.all().delete()
                     except Enquete.DoesNotExist:
                         # Enquete não existe, criar nova
-                        print("[DEBUG] Criando nova enquete")
                         enquete = Enquete.objects.create(
                             titulo=titulo_enquete,
                             pergunta=pergunta_enquete,
                             noticia=noticia
                         )
-                        print(f"[DEBUG] Enquete criada com ID: {enquete.id}")
 
                     # Criar opções
                     opcoes = request.POST.getlist('opcao[]')
-                    print(f"[DEBUG] Opcoes recebidas: {opcoes}")
+                    opcoes_criadas = 0
                     for texto_opcao in opcoes:
                         texto_opcao = texto_opcao.strip()
                         if texto_opcao:
-                            opcao = Opcao.objects.create(enquete=enquete, texto=texto_opcao)
-                            print(f"[DEBUG] Opcao criada: {opcao.id} - {texto_opcao}")
-
-                    # Verificar se a enquete foi salva
-                    noticia.refresh_from_db()
-                    if hasattr(noticia, 'enquete'):
-                        print(f"[DEBUG] VERIFICAÇÃO: Enquete existe! ID: {noticia.enquete.id}")
+                            Opcao.objects.create(enquete=enquete, texto=texto_opcao)
+                            opcoes_criadas += 1
+                    
+                    # Validar se pelo menos 2 opções foram criadas
+                    if opcoes_criadas < 2:
+                        enquete.delete()
+                        messages.warning(request, f'Notícia atualizada, mas a enquete foi removida (precisa ter no mínimo 2 opções).')
                     else:
-                        print("[DEBUG] ERRO: Enquete NÃO foi salva!")
+                        messages.success(request, f'Notícia "{noticia.titulo}" atualizada com sucesso!')
                 else:
-                    print("[DEBUG] Titulo ou pergunta vazios")
+                    messages.warning(request, f'Notícia atualizada, mas a enquete precisa ter título e pergunta.')
             else:
                 # Se não tem enquete mas tinha antes, deletar
                 try:
                     noticia.enquete.delete()
-                    print("[DEBUG] Enquete deletada")
+                    messages.success(request, f'Notícia "{noticia.titulo}" atualizada e enquete removida.')
                 except Enquete.DoesNotExist:
-                    pass
+                    messages.success(request, f'Notícia "{noticia.titulo}" atualizada com sucesso!')
 
-            messages.success(request, f'Notícia "{noticia.titulo}" atualizada com sucesso!')
             return redirect('admin_dashboard')
     else:
         form = NoticiaForm(instance=noticia)
