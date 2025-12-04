@@ -1,0 +1,31 @@
+{% load static %}
+<!-- Navegação Inferior (Mobile) -->
+<nav class="navegacao-inferior" id="navegacaoInferior" aria-label="Navegação rápida">
+<a href="{% url 'index' %}" class="nav-item nav-item-ativo">
+<img src="{% static 'images/Home.png' %}" alt="Início" class="icone-home">
+<span>Início</span>
+</a>
+
+<button id="botaoBusca" class="nav-item botao-busca" aria-label="Abrir busca">
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+<circle cx="18.3333" cy="18.3334" r="10" stroke="#33363F" stroke-width="3"/>
+<path d="M33.3333 33.3334L28.3333 28.3334" stroke="#33363F" stroke-width="3" stroke-linecap="round"/>
+</svg>
+<span>Pesquisa</span>
+</button>
+
+<a href="{% url 'neels' %}" class="nav-item">
+<img src="{% static 'images/NFC.png' %}" alt="Neels" class="icone-nfc">
+<span>Neels</span>
+</a>
+
+<a href="{% url 'mais_lidas' %}" class="nav-item">
+<img src="{% static 'images/Fire@3x.png' %}" alt="Mais Lidas" class="icone-fire">
+<span>Mais Lidas</span>
+</a>
+
+<a href="#perfil" class="nav-item">
+<img src="{% static 'images/Radio_Fill.png' %}" alt="Ao vivo" class="icone-radio">
+<span>Ao vivo</span>
+</a>
+</nav>
