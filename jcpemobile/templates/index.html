@@ -382,12 +382,11 @@ Salvar Preferências
   position: static;
   top: auto;
   left: auto;
-  font-size: 11px; /* ligeiramente reduzido conforme pedido */
-  font-weight: 700; /* também deixar as tags laterais mais grossas */
-  padding: 1px 6px; /* espaçamento um pouco menor */
-  margin-bottom: 1px;
-  margin-left: -7px; /* aproxima a tag da borda esquerda do cartão lateral */
+  font-size: 13px; /* ligeiramente reduzido conforme pedido */
+  font-weight: bold; /* também deixar as tags laterais mais grossas */
+  margin-left: -7px;
   display: inline-block;
+  margin-top: -15px;
 }
 
 .side .title {
@@ -1607,7 +1606,7 @@ Salvar Preferências
   padding: 1px 6px !important;
   border-radius: 6px !important;
   display: inline-block !important;
-  font-weight: 700 !important;
+  font-weight: bold !important;
 }
 
 /* Ajuste de alinhamento para o título e a barra da variante JC360 */
@@ -1640,18 +1639,13 @@ Salvar Preferências
 
 .jc360-variant .card.top .tag {
   position: static;
-  top: auto;
-  left: auto;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: bold;
   padding: 2px 7px;
   margin-bottom: 0;
   margin-left: -10px; /* alinha a tag com os outros cartões topo */
   align-self: flex-start;
   color: #6c3e96 !important;
-  background: transparent !important;
-  border-radius: 6px !important;
-
 }
 
 /* Overrides somente para a seção Blog Do Torcedor (segunda instância) */
@@ -2138,6 +2132,7 @@ Salvar Preferências
   -webkit-box-orient: vertical !important;
   -webkit-line-clamp: 2 !important;
   white-space: normal !important;
+  max-height: 34px !important;
   flex-shrink: 0 !important;
 }
 
