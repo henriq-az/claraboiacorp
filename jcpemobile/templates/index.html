@@ -46,28 +46,14 @@
 <!-- Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<head>
-<!-- Overrides finais de cor para Social1 (rosa) e Receita da boa (laranja) -->
-<style>
-/* Social1: rosa */
-body .pernambuco-section.jc360-variant.social1-section .pernambuco-header h2 { color: #000 !important; }
-body .pernambuco-section.jc360-variant.social1-section .pernambuco-underline { background: #e50069 !important; }
-body .pernambuco-section.jc360-variant.social1-section .tag { color: #e50069 !important; background: transparent !important; }
-
-/* Receita da boa: laranja */
-body .pernambuco-section.jc360-variant.receita-section .pernambuco-header h2 { color: #000 !important; }
-body .pernambuco-section.jc360-variant.receita-section .pernambuco-underline { background: #ff8200 !important; }
-body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !important; background: transparent !important; }
-</style>
-</head>
 <body data-user-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}">
 <!-- Barra Superior UOL -->
 <div class="barra-uol">
-<div class="barra-uol-container">
-<a href="https://www.uol.com.br" target="_blank" rel="noopener noreferrer">
-<img src="https://conteudo.imguol.com.br/c/_layout/v3/logoUOL2021/logo_completo_white.svg" width="68" height="24" alt="UOL - O melhor conteúdo" title="UOL - O melhor conteúdo">
-</a>
-</div>
+  <div class="barra-uol-container">
+    <a href="https://www.uol.com.br" target="_blank" rel="noopener noreferrer">
+    <img src="https://conteudo.imguol.com.br/c/_layout/v3/logoUOL2021/logo_completo_white.svg" width="68" height="24" alt="UOL - O melhor conteúdo" title="UOL - O melhor conteúdo">
+    </a>
+  </div>
 </div>
 
 <div class="top-bar"></div>
@@ -384,7 +370,7 @@ Salvar Preferências
   left: auto;
   font-size: 13px; /* ligeiramente reduzido conforme pedido */
   font-weight: bold; /* também deixar as tags laterais mais grossas */
-  margin-left: -7px;
+  margin-left: -6px;
   display: inline-block;
   margin-top: -15px;
 }
@@ -853,7 +839,7 @@ Salvar Preferências
   height: 5px;
   background-color: #E31B23;
   border-radius: 18px;
-  margin-left: 1px;
+  margin-left: -2px;
   margin-bottom: 40px;
 }
 
@@ -1552,7 +1538,7 @@ Salvar Preferências
 .pernambuco-underline {
   width: 60px;
   height: 5px;
-  background: linear-gradient(90deg, #DE1B24, #B0141E);
+  background: #DE1B24;
   margin-bottom: 24px;
   border-radius: 18px;
   margin-left: 16px;
@@ -1643,7 +1629,7 @@ Salvar Preferências
   font-weight: bold;
   padding: 2px 7px;
   margin-bottom: 0;
-  margin-left: -10px; /* alinha a tag com os outros cartões topo */
+  margin-left: -4px; /* alinha a tag com os outros cartões topo */
   align-self: flex-start;
   color: #6c3e96 !important;
 }
@@ -1664,18 +1650,20 @@ Salvar Preferências
 }
 
 .charge-header h2 {
-  font-size: 28px;
-  margin-bottom: 8px;
-  color: #1a1a1a;
-  font-weight: 700;
+  font-size: 24px;
+  margin-bottom: 2px;
+  color: #000000;
+  font-weight: bold;
+  margin-left: -6px;
 }
 
 .charge-underline {
   width: 60px;
-  height: 4px;
-  background: linear-gradient(90deg, #DE1B24, #B0141E);
+  height: 5px;
+  background: #DE1B24;
   margin-bottom: 24px;
   border-radius: 2px;
+  margin-left: -4px;
 }
 
 .charge-header {
