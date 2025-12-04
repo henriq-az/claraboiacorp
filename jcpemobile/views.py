@@ -262,31 +262,30 @@ def noticia_detalhe(request, slug):
             'total_noticias': noticias_linha.count()
         })
 
-    # Buscar notícias relacionadas (fallback se não houver linha do tempo)
+    # Buscar notícias relacionadas (sempre exibir)
     noticias_relacionadas = []
 
-    if not linhas_tempo_data:
-        # Fallback: buscar notícias relacionadas automaticamente
-        if noticia.categoria:
-            # Obter IDs das tags da notícia atual
-            tags_ids = noticia.tags.values_list('id', flat=True)
+    # Buscar notícias relacionadas automaticamente
+    if noticia.categoria:
+        # Obter IDs das tags da notícia atual
+        tags_ids = noticia.tags.values_list('id', flat=True)
 
-            if tags_ids:
-                # Buscar notícias da mesma categoria que compartilham pelo menos uma tag
-                noticias_relacionadas = Noticia.objects.filter(
-                    categoria=noticia.categoria,
-                    tags__id__in=tags_ids
-                ).exclude(
-                    id=noticia.id
-                ).distinct().select_related('categoria', 'autor').order_by('-data_publicacao')[:6]
+        if tags_ids:
+            # Buscar notícias da mesma categoria que compartilham pelo menos uma tag
+            noticias_relacionadas = Noticia.objects.filter(
+                categoria=noticia.categoria,
+                tags__id__in=tags_ids
+            ).exclude(
+                id=noticia.id
+            ).distinct().select_related('categoria', 'autor').order_by('-data_publicacao')[:6]
 
-            # Se não encontrou notícias com tags em comum, buscar apenas da mesma categoria
-            if len(noticias_relacionadas) == 0:
-                noticias_relacionadas = Noticia.objects.filter(
-                    categoria=noticia.categoria
-                ).exclude(
-                    id=noticia.id
-                ).select_related('categoria', 'autor').order_by('-data_publicacao')[:6]
+        # Se não encontrou notícias com tags em comum, buscar apenas da mesma categoria
+        if len(noticias_relacionadas) == 0:
+            noticias_relacionadas = Noticia.objects.filter(
+                categoria=noticia.categoria
+            ).exclude(
+                id=noticia.id
+            ).select_related('categoria', 'autor').order_by('-data_publicacao')[:6]
 
     return render(request, 'detalhes_noticia.html', {
         'noticia': noticia,

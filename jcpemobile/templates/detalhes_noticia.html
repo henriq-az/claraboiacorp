@@ -996,8 +996,7 @@ rows="4"
   </div>
   {% endif %}
 
-  <!-- Notícias Relacionadas (seção antiga - remover se não for mais usada) -->
-  {% comment %}
+  <!-- Notícias Relacionadas -->
   {% if noticias_relacionadas %}
   <div class="linha-tempo-secao">
     <h2 class="linha-tempo-titulo">Notícias Relacionadas</h2>
@@ -1020,7 +1019,6 @@ rows="4"
     </div>
   </div>
   {% endif %}
-  {% endcomment %}
 </article>
 
 <!-- Linha do Tempo -->
@@ -1194,7 +1192,6 @@ document.addEventListener('DOMContentLoaded', function() {
 </main>
 
 {% include 'includes/menu_inferior.html' %}
-{% include 'includes/footer.html' %}
 
 <!-- Incluir script de navegação (mantém o comportamento do botão de busca/menu) -->
 <script src="{% static 'js/app.js' %}"></script>
