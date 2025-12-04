@@ -264,6 +264,58 @@
     </div>
 
     <script>
+        // Funções globais para gerenciar enquete (precisam estar fora do DOMContentLoaded para os onclick inline funcionarem)
+        function toggleEnquete() {
+            const checkbox = document.getElementById('id_tem_enquete');
+            const enqueteFields = document.getElementById('enquete-fields');
+            enqueteFields.style.display = checkbox.checked ? 'block' : 'none';
+        }
+
+        function adicionarOpcao() {
+            const container = document.getElementById('opcoes-container');
+            const novaOpcao = document.createElement('div');
+            novaOpcao.className = 'opcao-item';
+            novaOpcao.style.cssText = 'display: flex; gap: 0.5rem; margin-bottom: 0.5rem;';
+            novaOpcao.innerHTML = `
+                <input type="text" name="opcao[]" placeholder="Nova opção"
+                       style="flex: 1; padding: 0.625rem 0.875rem; border: 1px solid #ced4da; border-radius: 6px;">
+                <button type="button" class="btn-remover-opcao" onclick="removerOpcao(this)"
+                        style="padding: 0.625rem 1rem; background: #dc3545; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                    Remover
+                </button>
+            `;
+            container.appendChild(novaOpcao);
+        }
+
+        function removerOpcao(btn) {
+            const container = document.getElementById('opcoes-container');
+            const opcoes = container.querySelectorAll('.opcao-item');
+
+            // Não permitir remover se houver apenas 2 opções
+            if (opcoes.length <= 2) {
+                alert('É necessário ter no mínimo 2 opções para a enquete.');
+                return;
+            }
+
+            btn.parentElement.remove();
+        }
+
+        // Função para obter o CSRF token (também precisa estar acessível globalmente)
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             // Elementos do DOM
             const modal = document.getElementById('modalAutor');
@@ -304,134 +356,82 @@
 
             // Fechar ao clicar fora do modal
             window.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                fecharModal();
-            }
-        });
-
-        // Função para obter o CSRF token
-        function getCookie(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                const cookies = document.cookie.split(';');
-                for (let i = 0; i < cookies.length; i++) {
-                    const cookie = cookies[i].trim();
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
-
-        // Salvar novo autor
-        if (btnSalvarAutor) {
-            btnSalvarAutor.addEventListener('click', async () => {
-                const nome = nomeAutorInput.value.trim();
-                const bio = bioAutorInput.value.trim();
-
-                // Validação
-                if (!nome) {
-                    erroNomeAutor.textContent = 'O nome do autor é obrigatório.';
-                    erroNomeAutor.style.display = 'block';
-                    nomeAutorInput.focus();
-                    return;
-                }
-
-                // Desabilitar botão durante o envio
-                btnSalvarAutor.disabled = true;
-                btnSalvarAutor.textContent = 'Salvando...';
-
-                try {
-                const response = await fetch('{% url "admin_criar_autor" %}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': getCookie('csrftoken')
-                    },
-                    body: JSON.stringify({ nome, bio })
-                });
-
-                const data = await response.json();
-
-                if (data.success) {
-                    // Adicionar o novo autor ao select
-                    const option = new Option(data.autor.nome, data.autor.id, true, true);
-                    selectAutor.add(option);
-                    
-                    // Mostrar mensagem de sucesso
-                    const container = document.querySelector('.form-container');
-                    const alerta = document.createElement('div');
-                    alerta.className = 'alert alert-success';
-                    alerta.innerHTML = `<strong>Sucesso!</strong> ${data.message}`;
-                    container.insertBefore(alerta, container.firstChild);
-                    
-                    // Remover alerta após 5 segundos
-                    setTimeout(() => alerta.remove(), 5000);
-                    
-                    // Fechar modal
+                if (e.target === modal) {
                     fecharModal();
-                } else {
-                    erroNomeAutor.textContent = data.error;
-                    erroNomeAutor.style.display = 'block';
-                }
-            } catch (error) {
-                console.error('Erro:', error);
-                erroNomeAutor.textContent = 'Erro ao criar autor. Tente novamente.';
-                erroNomeAutor.style.display = 'block';
-            } finally {
-                btnSalvarAutor.disabled = false;
-                    btnSalvarAutor.textContent = 'Salvar Autor';
                 }
             });
-        }
 
-        // Permitir Enter para salvar
-        if (nomeAutorInput && btnSalvarAutor) {
-            nomeAutorInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    btnSalvarAutor.click();
-                }
-            });
-        }
+            // Salvar novo autor
+            if (btnSalvarAutor) {
+                btnSalvarAutor.addEventListener('click', async () => {
+                    const nome = nomeAutorInput.value.trim();
+                    const bio = bioAutorInput.value.trim();
 
-        // Funções para gerenciar enquete
-        function toggleEnquete() {
-            const checkbox = document.getElementById('id_tem_enquete');
-            const enqueteFields = document.getElementById('enquete-fields');
-            enqueteFields.style.display = checkbox.checked ? 'block' : 'none';
-        }
+                    // Validação
+                    if (!nome) {
+                        erroNomeAutor.textContent = 'O nome do autor é obrigatório.';
+                        erroNomeAutor.style.display = 'block';
+                        nomeAutorInput.focus();
+                        return;
+                    }
 
-        function adicionarOpcao() {
-            const container = document.getElementById('opcoes-container');
-            const novaOpcao = document.createElement('div');
-            novaOpcao.className = 'opcao-item';
-            novaOpcao.style.cssText = 'display: flex; gap: 0.5rem; margin-bottom: 0.5rem;';
-            novaOpcao.innerHTML = `
-                <input type="text" name="opcao[]" placeholder="Nova opção"
-                       style="flex: 1; padding: 0.625rem 0.875rem; border: 1px solid #ced4da; border-radius: 6px;">
-                <button type="button" class="btn-remover-opcao" onclick="removerOpcao(this)"
-                        style="padding: 0.625rem 1rem; background: #dc3545; color: white; border: none; border-radius: 6px; cursor: pointer;">
-                    Remover
-                </button>
-            `;
-            container.appendChild(novaOpcao);
-        }
+                    // Desabilitar botão durante o envio
+                    btnSalvarAutor.disabled = true;
+                    btnSalvarAutor.textContent = 'Salvando...';
 
-        function removerOpcao(btn) {
-            const container = document.getElementById('opcoes-container');
-            const opcoes = container.querySelectorAll('.opcao-item');
+                    try {
+                        const response = await fetch('{% url "admin_criar_autor" %}', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': getCookie('csrftoken')
+                            },
+                            body: JSON.stringify({ nome, bio })
+                        });
 
-            // Não permitir remover se houver apenas 2 opções
-            if (opcoes.length <= 2) {
-                alert('É necessário ter no mínimo 2 opções para a enquete.');
-                return;
+                        const data = await response.json();
+
+                        if (data.success) {
+                            // Adicionar o novo autor ao select
+                            const option = new Option(data.autor.nome, data.autor.id, true, true);
+                            selectAutor.add(option);
+                            
+                            // Mostrar mensagem de sucesso
+                            const container = document.querySelector('.form-container');
+                            const alerta = document.createElement('div');
+                            alerta.className = 'alert alert-success';
+                            alerta.innerHTML = `<strong>Sucesso!</strong> ${data.message}`;
+                            container.insertBefore(alerta, container.firstChild);
+                            
+                            // Remover alerta após 5 segundos
+                            setTimeout(() => alerta.remove(), 5000);
+                            
+                            // Fechar modal
+                            fecharModal();
+                        } else {
+                            erroNomeAutor.textContent = data.error;
+                            erroNomeAutor.style.display = 'block';
+                        }
+                    } catch (error) {
+                        console.error('Erro:', error);
+                        erroNomeAutor.textContent = 'Erro ao criar autor. Tente novamente.';
+                        erroNomeAutor.style.display = 'block';
+                    } finally {
+                        btnSalvarAutor.disabled = false;
+                        btnSalvarAutor.textContent = 'Salvar Autor';
+                    }
+                });
             }
 
-            btn.parentElement.remove();
-        }
+            // Permitir Enter para salvar
+            if (nomeAutorInput && btnSalvarAutor) {
+                nomeAutorInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        btnSalvarAutor.click();
+                    }
+                });
+            }
 
         // Funcionalidade do botão Linha do Tempo
         const btnLinhaTempo = document.getElementById('btnLinhaTempo');
