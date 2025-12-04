@@ -155,6 +155,7 @@
             padding: 0;
         }
 
+        /* texto da categoria */
         .tag {
             display: block;
             font-family: 'Inter', sans-serif;
@@ -228,8 +229,15 @@
             stroke-linejoin: round;
         }
 
+        /* contorno do botão de salvar fiva preto */
         .ranking-actions .ranking-fav[aria-pressed="true"]:hover svg path { 
-            stroke: #E31B23 !important; 
+            stroke: black !important; 
+        }
+
+        /* Quando estiver salvo (aria-pressed="true"), o botão fica preto */
+        .ranking-fav[aria-pressed="true"] svg path{
+            fill: black !important;
+            stroke: black; !important;
         }
 
         /* faz o botão de compartilhar ficar vermelho */
@@ -334,7 +342,7 @@
                 {% endif %}
                 <div class="ranking-actions" role="group" aria-label="Ações da notícia">
 
-                    <button class="ranking-fav" onclick="toggleSalvarNoticia(event)" aria-label="Salvar" aria-pressed="false" data-noticia-id="{{ noticia.id }}">
+                    <button class="ranking-fav" onclick="toggleSalvarNoticia(event)" aria-label="Salvar" aria-pressed="{% if noticia.id in noticias_salvas_ids %}true{% else %}false{% endif %}" data-noticia-id="{{ noticia.id }}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="29" height="29" viewBox="0 0 29 29" fill="none" aria-hidden="true">
                             <path d="M6 11.8733C6 9.1046 6 7.72025 6.87868 6.86012C7.75736 6 9.17157 6 12 6H16C18.8284 6 20.2426 6 21.1213 6.86012C22 7.72025 22 9.1046 22 11.8733V18.5567C22 21.1833 22 22.4966 21.1557 22.8983C20.3114 23.3 19.2565 22.4886 17.1465 20.8659L16.4713 20.3465C15.2849 19.434 14.6917 18.9778 14 18.9778C13.3083 18.9778 12.7151 19.434 11.5287 20.3465L10.8535 20.8659C8.74355 22.4886 7.68859 23.3 6.84429 22.8983C6 22.4966 6 21.1833 6 18.5567V11.8733Z" stroke="black" stroke-width="2"/>
                         </svg>
