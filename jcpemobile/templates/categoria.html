@@ -15,7 +15,7 @@
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="Jornal do Commercio - JC PE">
+<meta property="og:title" content="conteudo - Jornal do Commercio">
 <meta property="og:description" content="As principais notícias de Pernambuco e do Brasil">
 <meta property="og:image" content="{% static 'images/logo-jc.png' %}">
 
@@ -45,116 +45,97 @@
 
 <!-- Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body data-user-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}">
-<!-- Barra Superior UOL -->
-<div class="barra-uol">
-<div class="barra-uol-container">
-<a href="https://www.uol.com.br" target="_blank" rel="noopener noreferrer">
-<img src="https://conteudo.imguol.com.br/c/_layout/v3/logoUOL2021/logo_completo_white.svg" width="68" height="24" alt="UOL - O melhor conteúdo" title="UOL - O melhor conteúdo">
-</a>
-</div>
-</div>
+  <style>
+  /* Seção Categoria */
+  .categoria-section {
+    margin: 40px 0;
+    padding: 0 16px;
+  }
 
-<div class="top-bar"></div>
+  .categoria-section h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 8px;
+  }
 
-{% include 'includes/menu_hamburguer.html' %}
+  .categoria-descricao {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 24px;
+  }
 
-<!-- Conteúdo Principal -->
-<main class="conteudo-principal" id="conteudoPrincipal">
-<div class="container">
+  .categoria-underline {
+    width: 60px;
+    height: 4px;
+    background-color: #DE1B24;
+    margin-bottom: 24px;
+  }
 
-<style>
-/* Seção Categoria */
-.categoria-section {
-  margin: 40px 0;
-  padding: 0 16px;
-}
+  .noticias-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
 
-.categoria-section h1 {
-  font-size: 28px;
-  font-weight: 700;
-  color: #000;
-  margin-bottom: 8px;
-}
+  .noticia-item {
+    display: flex;
+    gap: 16px;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 16px;
+  }
 
-.categoria-descricao {
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 24px;
-}
+  .noticia-item:last-child {
+    border-bottom: none;
+  }
 
-.categoria-underline {
-  width: 60px;
-  height: 4px;
-  background-color: #DE1B24;
-  margin-bottom: 24px;
-}
+  .noticia-img {
+    width: 140px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
 
-.noticias-lista {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
+  .noticia-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
 
-.noticia-item {
-  display: flex;
-  gap: 16px;
-  border-bottom: 1px solid #f0f0f0;
-  padding-bottom: 16px;
-}
+  .noticia-titulo {
+    font-size: 18px;
+    font-weight: 600;
+    color: #000;
+    margin: 0 0 8px 0;
+    line-height: 1.3;
+  }
 
-.noticia-item:last-child {
-  border-bottom: none;
-}
+  .noticia-titulo a {
+    color: #000;
+    text-decoration: none;
+  }
 
-.noticia-img {
-  width: 140px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 4px;
-  flex-shrink: 0;
-}
+  .noticia-titulo a:hover {
+    color: #DE1B24;
+  }
 
-.noticia-info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
+  .noticia-resumo {
+    font-size: 14px;
+    color: #666;
+    margin: 0 0 8px 0;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 
-.noticia-titulo {
-  font-size: 18px;
-  font-weight: 600;
-  color: #000;
-  margin: 0 0 8px 0;
-  line-height: 1.3;
-}
-
-.noticia-titulo a {
-  color: #000;
-  text-decoration: none;
-}
-
-.noticia-titulo a:hover {
-  color: #DE1B24;
-}
-
-.noticia-resumo {
-  font-size: 14px;
-  color: #666;
-  margin: 0 0 8px 0;
-  line-height: 1.4;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.noticia-meta {
-  font-size: 12px;
-  color: #999;
-}
+  .noticia-meta {
+    font-size: 12px;
+    color: #999;
+  }
 
 .sem-noticias {
   text-align: center;
@@ -169,60 +150,80 @@
 .conteudo-principal .container .categoria-section.categoria-receita h1 { color: #FF7A00 !important; }
 .conteudo-principal .container .categoria-section.categoria-receita .categoria-underline { background-color: #FF7A00 !important; }
 
-@media (max-width: 480px) {
-  .categoria-section h1 {
-    font-size: 24px;
+  @media (max-width: 480px) {
+    .categoria-section h1 {
+      font-size: 24px;
+    }
+
+    .noticia-item {
+      gap: 12px;
+    }
+
+    .noticia-img {
+      width: 100px;
+      height: 75px;
+    }
+
+    .noticia-titulo {
+      font-size: 16px;
+    }
+
+    .noticia-resumo {
+      font-size: 13px;
+    }
   }
 
-  .noticia-item {
-    gap: 12px;
+  @media (min-width: 768px) {
+    .categoria-section {
+      padding: 0 24px;
+    }
+
+    .categoria-section h1 {
+      font-size: 32px;
+    }
+
+    .noticia-img {
+      width: 180px;
+      height: 120px;
+    }
+
+    .noticia-titulo {
+      font-size: 20px;
+    }
+
+    .noticias-lista {
+      gap: 24px;
+    }
   }
 
-  .noticia-img {
-    width: 100px;
-    height: 75px;
+  @media (min-width: 1024px) {
+    .categoria-section {
+      padding: 0;
+      max-width: 900px;
+      margin: 40px auto;
+    }
   }
+  </style>
+</head>
 
-  .noticia-titulo {
-    font-size: 16px;
-  }
+<body data-user-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}">
 
-  .noticia-resumo {
-    font-size: 13px;
-  }
-}
+<!-- Barra Superior UOL -->
+<div class="barra-uol">
+  <div class="barra-uol-container">
+    <a href="https://www.uol.com.br" target="_blank" rel="noopener noreferrer">
+    <img src="https://conteudo.imguol.com.br/c/_layout/v3/logoUOL2021/logo_completo_white.svg" width="68" height="24" alt="UOL - O melhor conteúdo" title="UOL - O melhor conteúdo">
+    </a>
+  </div>
+</div>
 
-@media (min-width: 768px) {
-  .categoria-section {
-    padding: 0 24px;
-  }
+<div class="top-bar"></div>
 
-  .categoria-section h1 {
-    font-size: 32px;
-  }
+{% include 'includes/menu_hamburguer.html' %}
 
-  .noticia-img {
-    width: 180px;
-    height: 120px;
-  }
-
-  .noticia-titulo {
-    font-size: 20px;
-  }
-
-  .noticias-lista {
-    gap: 24px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .categoria-section {
-    padding: 0;
-    max-width: 900px;
-    margin: 40px auto;
-  }
-}
-</style>
+<!-- Conteúdo Principal -->
+<main class="conteudo-principal" id="conteudoPrincipal">
+  <div class="container">
 
 <!-- Seção Categoria -->
 <section class="categoria-section {% if categoria.nome|lower == 'social 1' %}categoria-social1{% elif categoria.nome|lower == 'receita da boa' %}categoria-receita{% endif %}">
@@ -232,46 +233,46 @@
     Últimas notícias da categoria <strong>{{ categoria.nome }}</strong>.
   </p>
 
-  <div class="noticias-lista">
-    {% if noticias %}
-      {% for noticia in noticias %}
-        <article class="noticia-item">
-          {% if noticia.imagem %}
-            <a href="{% url 'noticia_detalhe' noticia.slug %}">
-              <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" class="noticia-img">
-            </a>
-          {% endif %}
-
-          <div class="noticia-info">
-            <h2 class="noticia-titulo">
+    <div class="noticias-lista">
+      {% if noticias %}
+        {% for noticia in noticias %}
+          <article class="noticia-item">
+            {% if noticia.imagem %}
               <a href="{% url 'noticia_detalhe' noticia.slug %}">
-                {{ noticia.titulo }}
+                <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" class="noticia-img">
               </a>
-            </h2>
+            {% endif %}
 
-            <p class="noticia-resumo">
-              {{ noticia.conteudo|truncatewords:25 }}
-            </p>
+            <div class="noticia-info">
+              <h2 class="noticia-titulo">
+                <a href="{% url 'noticia_detalhe' noticia.slug %}">
+                  {{ noticia.titulo }}
+                </a>
+              </h2>
 
-            <div class="noticia-meta">
-              {% if noticia.autor %}
-                <span>Por {{ noticia.autor.nome }}</span>
-              {% endif %}
-              {% if noticia.autor and noticia.data_publicacao %}
-                <span> • </span>
-              {% endif %}
-              <span>{{ noticia.data_publicacao|date:"d/m/Y H:i" }}</span>
+              <p class="noticia-resumo">
+                {{ noticia.conteudo|truncatewords:25 }}
+              </p>
+
+              <div class="noticia-meta">
+                {% if noticia.autor %}
+                  <span>Por {{ noticia.autor.nome }}</span>
+                {% endif %}
+                {% if noticia.autor and noticia.data_publicacao %}
+                  <span> • </span>
+                {% endif %}
+                <span>{{ noticia.data_publicacao|date:"d/m/Y H:i" }}</span>
+              </div>
             </div>
-          </div>
-        </article>
-      {% endfor %}
-    {% else %}
-      <p class="sem-noticias">Nenhuma notícia encontrada nesta categoria.</p>
-    {% endif %}
-  </div>
-</section>
+          </article>
+        {% endfor %}
+      {% else %}
+        <p class="sem-noticias">Nenhuma notícia encontrada nesta categoria.</p>
+      {% endif %}
+    </div>
+  </section>
 
-</div>
+  </div>
 </main>
 
 <!-- Navegação Inferior (Mobile) -->
@@ -459,6 +460,7 @@
 
 <!-- Scripts -->
 <script src="{% static 'js/app.js' %}"></script>
+<script src="{% static 'js/header-animation.js' %}"></script>
 <script src="{% static 'js/navegacao.js' %}"></script>
 <script src="{% static 'js/busca.js' %}"></script>
 <script src="{% static 'js/noticias.js' %}"></script>

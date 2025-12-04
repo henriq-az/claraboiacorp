@@ -182,9 +182,11 @@ def detalhe_enquete(request, enquete_id):
 
 def neels(request):
     """View para a página Neels"""
-    # Pegar todas as notícias ordenadas por data de publicação
-    noticias = Noticia.objects.select_related('categoria', 'autor').order_by('-data_publicacao')
-    
+    # Pegar apenas notícias que possuem imagem vertical, ordenadas por data de publicação
+    noticias = Noticia.objects.select_related('categoria', 'autor').filter(
+        imagem_vertical__isnull=False
+    ).exclude(imagem_vertical='').order_by('-data_publicacao')
+
     context = {
         'noticias': noticias,
     }
@@ -420,29 +422,50 @@ def salvos(request):
 
 def mais_lidas(request):
     """View para página de notícias mais lidas"""
-    # Pegar notícias mais vistas hoje
-    noticias_hoje = Noticia.objects.all().annotate(
-        visualizacoes_dia=Count('visualizacoes', filter=Q(visualizacoes__data=timezone.now().date()))
-    ).filter(visualizacoes_dia__gt=0).order_by('-visualizacoes_dia')
-    # Pegar notícias mais vistas da semana
-    data_semana_atras = timezone.now().date() - timezone.timedelta(days=7)
-    noticias_semana = Noticia.objects.all().annotate(
-        visualizacoes_semana=Count('visualizacoes', filter=Q(visualizacoes__data__gte=data_semana_atras))
-    ).filter(visualizacoes_semana__gt=0).order_by('-visualizacoes_semana')
-    
-    # Pegar notícias mais vistas do mês
-    data_mes_atras = timezone.now().date() - timezone.timedelta(days=30)
-    noticias_mes = Noticia.objects.all().annotate(
-        visualizacoes_mes=Count('visualizacoes', filter=Q(visualizacoes__data__gte=data_mes_atras))
-    ).filter(visualizacoes_mes__gt=0).order_by('-visualizacoes_mes')
-    
+    hoje = timezone.now().date()
+    semana_atras = hoje - timezone.timedelta(days=7)
+    mes_atras = hoje - timezone.timedelta(days=30)
+
+    noticias = Noticia.objects.all()
+
+    # Hoje
+    noticias_hoje = noticias.annotate(
+        num_visualizacoes=Count(
+            'visualizacoes',
+            filter=Q(visualizacoes__data=hoje)
+        )
+    ).filter(num_visualizacoes__gt=0).order_by('-num_visualizacoes')[:15]
+
+    # Semana
+    noticias_semana = noticias.annotate(
+        num_visualizacoes=Count(
+            'visualizacoes',
+            filter=Q(visualizacoes__data__gte=semana_atras)
+        )
+    ).filter(num_visualizacoes__gt=0).order_by('-num_visualizacoes')[:15]
+
+    # Mês
+    noticias_mes = noticias.annotate(
+        num_visualizacoes=Count(
+            'visualizacoes',
+            filter=Q(visualizacoes__data__gte=mes_atras)
+        )
+    ).filter(num_visualizacoes__gt=0).order_by('-num_visualizacoes')[:15]
+
+    # Todos os tempos
+    noticias_geral = noticias.annotate(
+        total_visualizacoes=Count('visualizacoes')
+    ).filter(total_visualizacoes__gt=0).order_by('-total_visualizacoes')[:15]
+
     context = {
-        'noticias_hoje': noticias_hoje[:15],
-        'noticias_semana': noticias_semana[:15],
-        'noticias_mes': noticias_mes[:15],
+        'noticias_hoje': noticias_hoje,
+        'noticias_semana': noticias_semana,
+        'noticias_mes': noticias_mes,
+        'noticias_geral': noticias_geral,
     }
-    
+
     return render(request, 'mais_lidas.html', context)
+
 
 
 def painel_diario(request):

@@ -2158,6 +2158,177 @@ Salvar Preferências
   margin: 4px 0 0 0 !important;
   text-overflow: ellipsis !important;
 }
+
+/* =======================================================
+   BLOG DO TORCEDOR - make side cards match first session
+   Mobile only: copy first-session appearance but scoped
+   ======================================================= */
+@media (max-width: 480px) {
+  .blog-do-torcedor .pernambuco-cards > a.card.side,
+  .blog-do-torcedor .pernambuco-cards > a.card.top + a.card.side,
+  .blog-do-torcedor .pernambuco-cards > a.card.top + a.card.side + a.card.side,
+  .blog-do-torcedor .pernambuco-cards > a.card.top + a.card.side + a.card.side + a.card.side {
+    display: flex !important;
+    align-items: stretch !important;
+    justify-content: space-between !important;
+    padding: 0 !important;
+    border-radius: 18px !important;
+    overflow: hidden !important;
+    height: 120px !important;
+    min-height: 120px !important;
+  }
+
+  .blog-do-torcedor .pernambuco-cards > a.card.side img,
+  .blog-do-torcedor .pernambuco-cards > a.card.top + a.card.side img,
+  .blog-do-torcedor .pernambuco-cards > a.card.top + a.card.side + a.card.side img,
+  .blog-do-torcedor .pernambuco-cards > a.card.top + a.card.side + a.card.side + a.card.side img {
+    width: 46% !important;
+    flex: 0 0 46% !important;
+    max-width: 46% !important;
+    min-width: 0 !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center center !important;
+    border-radius: 0 12px 12px 0 !important;
+    margin: 0 !important;
+  }
+
+  .blog-do-torcedor .pernambuco-cards > a.card.side .content,
+  .blog-do-torcedor .pernambuco-cards > a.card.top + a.card.side .content,
+  .blog-do-torcedor .pernambuco-cards > a.card.top + a.card.side + a.card.side .content,
+  .blog-do-torcedor .pernambuco-cards > a.card.top + a.card.side + a.card.side + a.card.side .content {
+    padding: 8px 10px !important;
+    flex: 1 1 54% !important;
+    min-width: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    gap: 3px !important;
+  }
+
+  .blog-do-torcedor .pernambuco-cards > a.card.side .content .title,
+  .blog-do-torcedor .pernambuco-cards > a.card.top + a.card.side .content .title,
+  .blog-do-torcedor .pernambuco-cards > a.card.top + a.card.side + a.card.side .content .title,
+  .blog-do-torcedor .pernambuco-cards > a.card.top + a.card.side + a.card.side + a.card.side .content .title {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    line-height: 1.1 !important;
+    color: #111 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-line-clamp: 2 !important;
+    white-space: normal !important;
+    flex-shrink: 0 !important;
+  }
+
+  .blog-do-torcedor .pernambuco-cards > a.card.side .content .desc,
+  .blog-do-torcedor .pernambuco-cards > a.card.top + a.card.side .content .desc,
+  .blog-do-torcedor .pernambuco-cards > a.card.top + a.card.side + a.card.side .content .desc,
+  .blog-do-torcedor .pernambuco-cards > a.card.top + a.card.side + a.card.side + a.card.side .content .desc {
+    font-size: 12px !important;
+    font-weight: 400 !important;
+    color: #555 !important;
+    line-height: 1.4 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-line-clamp: 2 !important;
+    white-space: normal !important;
+    flex-shrink: 0 !important;
+  }
+}
+
+/* =======================================================
+   JC360 - make side cards match first session
+   Mobile only: copy first-session appearance but scoped
+   ======================================================= */
+@media (max-width: 480px) {
+  .jc360-variant .pernambuco-cards > a.card.side,
+  .jc360-variant .pernambuco-cards > a.card.top + a.card.side,
+  .jc360-variant .pernambuco-cards > a.card.top + a.card.side + a.card.side,
+  .jc360-variant .pernambuco-cards > a.card.top + a.card.side + a.card.side + a.card.side {
+    display: flex !important;
+    align-items: stretch !important;
+    justify-content: space-between !important;
+    padding: 0 !important;
+    border-radius: 18px !important;
+    overflow: hidden !important;
+    height: 120px !important;
+    min-height: 120px !important;
+  }
+
+  .jc360-variant .pernambuco-cards > a.card.side img,
+  .jc360-variant .pernambuco-cards > a.card.top + a.card.side img,
+  .jc360-variant .pernambuco-cards > a.card.top + a.card.side + a.card.side img,
+  .jc360-variant .pernambuco-cards > a.card.top + a.card.side + a.card.side + a.card.side img {
+    width: 46% !important;
+    flex: 0 0 46% !important;
+    max-width: 46% !important;
+    min-width: 0 !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center center !important;
+    border-radius: 0 12px 12px 0 !important;
+    margin: 0 !important;
+  }
+
+  .jc360-variant .pernambuco-cards > a.card.side .content,
+  .jc360-variant .pernambuco-cards > a.card.top + a.card.side .content,
+  .jc360-variant .pernambuco-cards > a.card.top + a.card.side + a.card.side .content,
+  .jc360-variant .pernambuco-cards > a.card.top + a.card.side + a.card.side + a.card.side .content {
+    padding: 8px 10px !important;
+    flex: 1 1 54% !important;
+    min-width: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    gap: 3px !important;
+  }
+
+  .jc360-variant .pernambuco-cards > a.card.side .content .title,
+  .jc360-variant .pernambuco-cards > a.card.top + a.card.side .content .title,
+  .jc360-variant .pernambuco-cards > a.card.top + a.card.side + a.card.side .content .title,
+  .jc360-variant .pernambuco-cards > a.card.top + a.card.side + a.card.side + a.card.side .content .title {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    line-height: 1.1 !important;
+    color: #111 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-line-clamp: 2 !important;
+    white-space: normal !important;
+    flex-shrink: 0 !important;
+  }
+
+  .jc360-variant .pernambuco-cards > a.card.side .content .desc,
+  .jc360-variant .pernambuco-cards > a.card.top + a.card.side .content .desc,
+  .jc360-variant .pernambuco-cards > a.card.top + a.card.side + a.card.side .content .desc,
+  .jc360-variant .pernambuco-cards > a.card.top + a.card.side + a.card.side + a.card.side .content .desc {
+    font-size: 12px !important;
+    font-weight: 400 !important;
+    color: #555 !important;
+    line-height: 1.4 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-line-clamp: 2 !important;
+    white-space: normal !important;
+    flex-shrink: 0 !important;
+  }
+}
+
 .container > a.card.top + a.card.side .content .tag,
 .container > a.card.top + a.card.side + a.card.side .content .tag,
 .container > a.card.top + a.card.side + a.card.side + a.card.side .content .tag {
@@ -3164,6 +3335,7 @@ animacaoStyle.textContent = `
 document.head.appendChild(animacaoStyle);
 </script>
 <script src="{% static 'js/app.js' %}"></script>
+<script src="{% static 'js/header-animation.js' %}"></script>
 <script src="{% static 'js/navegacao.js' %}"></script>
 <script src="{% static 'js/busca.js' %}"></script>
 <script src="{% static 'js/noticias.js' %}"></script>

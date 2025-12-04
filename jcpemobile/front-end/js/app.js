@@ -121,28 +121,7 @@ function inicializarObservadores() {
         });
     }
 
-    // Observer para header sticky
-    const header = document.getElementById('cabecalho');
-    let lastScroll = 0;
-
-    window.addEventListener('scroll', () => {
-        const currentScroll = window.pageYOffset;
-
-        if (currentScroll <= 0) {
-            header.classList.remove('escondido');
-            return;
-        }
-
-        if (currentScroll > lastScroll && currentScroll > 100) {
-            // Scrolling down
-            header.classList.add('escondido');
-        } else {
-            // Scrolling up
-            header.classList.remove('escondido');
-        }
-
-        lastScroll = currentScroll;
-    }, { passive: true });
+    // Animação do header foi movida para header-animation.js
 }
 
 // ===================================================

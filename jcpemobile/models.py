@@ -59,6 +59,7 @@ class Noticia(models.Model):
     resumo = models.TextField(max_length=300, blank=True, null=True)
     conteudo = models.TextField()
     imagem = models.ImageField(upload_to="noticias/", blank=True, null=True)
+    imagem_vertical = models.ImageField(upload_to="noticias/vertical/", blank=True, null=True, verbose_name='Imagem Vertical (Neels)', help_text='Imagem vertical para exibição na aba Neels (proporção 9:16)')
     categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, related_name="noticias")
     autor = models.ForeignKey(Autor, on_delete=models.SET_NULL, null=True, related_name="noticias")
     tags = models.ManyToManyField(Tag, blank=True, related_name="noticias")
@@ -68,11 +69,15 @@ class Noticia(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.titulo)
-        
+
         # Processar imagem para proporção 5:3 se foi feito upload
         if self.imagem:
             self._processar_imagem()
-        
+
+        # Processar imagem vertical para proporção 9:16 se foi feito upload
+        if self.imagem_vertical:
+            self._processar_imagem_vertical()
+
         super().save(*args, **kwargs)
 
     def _processar_imagem(self):
@@ -80,7 +85,7 @@ class Noticia(models.Model):
         try:
             # Abrir a imagem
             img = Image.open(self.imagem)
-            
+
             # Converter para RGB se necessário (para PNG com transparência)
             if img.mode in ('RGBA', 'LA', 'P'):
                 background = Image.new('RGB', img.size, (255, 255, 255))
@@ -88,12 +93,12 @@ class Noticia(models.Model):
                     img = img.convert('RGBA')
                 background.paste(img, mask=img.split()[-1] if img.mode == 'RGBA' else None)
                 img = background
-            
+
             # Proporção desejada: 2:1 (largura / altura = 2.0)
             proporcao_alvo = 2.0
             largura_original, altura_original = img.size
             proporcao_original = largura_original / altura_original
-            
+
             # Calcular dimensões para corte centralizado
             if proporcao_original > proporcao_alvo:
                 # Imagem mais larga - cortar largura
@@ -107,7 +112,7 @@ class Noticia(models.Model):
                 nova_altura = int(largura_original / proporcao_alvo)
                 x_offset = 0
                 y_offset = (altura_original - nova_altura) // 2
-            
+
             # Cortar imagem
             img_cortada = img.crop((
                 x_offset,
@@ -115,18 +120,18 @@ class Noticia(models.Model):
                 x_offset + nova_largura,
                 y_offset + nova_altura
             ))
-            
+
             # Redimensionar para tamanho otimizado (máximo 1200px de largura)
             largura_maxima = 1200
             if img_cortada.width > largura_maxima:
                 altura_proporcional = int(largura_maxima / proporcao_alvo)
                 img_cortada = img_cortada.resize((largura_maxima, altura_proporcional), Image.Resampling.LANCZOS)
-            
+
             # Salvar imagem processada
             output = BytesIO()
             img_cortada.save(output, format='JPEG', quality=90, optimize=True)
             output.seek(0)
-            
+
             # Atualizar campo de imagem
             nome_arquivo = os.path.splitext(os.path.basename(self.imagem.name))[0]
             self.imagem.save(
@@ -137,6 +142,70 @@ class Noticia(models.Model):
         except Exception as e:
             # Se houver erro no processamento, manter imagem original
             print(f"Erro ao processar imagem: {e}")
+            pass
+
+    def _processar_imagem_vertical(self):
+        """Redimensiona e corta a imagem vertical para proporção 9:16 (reels/stories)"""
+        try:
+            # Abrir a imagem
+            img = Image.open(self.imagem_vertical)
+
+            # Converter para RGB se necessário (para PNG com transparência)
+            if img.mode in ('RGBA', 'LA', 'P'):
+                background = Image.new('RGB', img.size, (255, 255, 255))
+                if img.mode == 'P':
+                    img = img.convert('RGBA')
+                background.paste(img, mask=img.split()[-1] if img.mode == 'RGBA' else None)
+                img = background
+
+            # Proporção desejada: 9:16 (largura / altura = 0.5625)
+            proporcao_alvo = 9 / 16
+            largura_original, altura_original = img.size
+            proporcao_original = largura_original / altura_original
+
+            # Calcular dimensões para corte centralizado
+            if proporcao_original > proporcao_alvo:
+                # Imagem mais larga - cortar largura
+                nova_largura = int(altura_original * proporcao_alvo)
+                nova_altura = altura_original
+                x_offset = (largura_original - nova_largura) // 2
+                y_offset = 0
+            else:
+                # Imagem mais alta - cortar altura
+                nova_largura = largura_original
+                nova_altura = int(largura_original / proporcao_alvo)
+                x_offset = 0
+                y_offset = (altura_original - nova_altura) // 2
+
+            # Cortar imagem
+            img_cortada = img.crop((
+                x_offset,
+                y_offset,
+                x_offset + nova_largura,
+                y_offset + nova_altura
+            ))
+
+            # Redimensionar para tamanho otimizado (máximo 1080px de largura)
+            largura_maxima = 1080
+            if img_cortada.width > largura_maxima:
+                altura_proporcional = int(largura_maxima / proporcao_alvo)
+                img_cortada = img_cortada.resize((largura_maxima, altura_proporcional), Image.Resampling.LANCZOS)
+
+            # Salvar imagem processada
+            output = BytesIO()
+            img_cortada.save(output, format='JPEG', quality=90, optimize=True)
+            output.seek(0)
+
+            # Atualizar campo de imagem vertical
+            nome_arquivo = os.path.splitext(os.path.basename(self.imagem_vertical.name))[0]
+            self.imagem_vertical.save(
+                f"{nome_arquivo}_vertical.jpg",
+                ContentFile(output.read()),
+                save=False
+            )
+        except Exception as e:
+            # Se houver erro no processamento, manter imagem original
+            print(f"Erro ao processar imagem vertical: {e}")
             pass
 
     def visualizacoes_do_dia(self):
