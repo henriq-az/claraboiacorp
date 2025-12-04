@@ -229,7 +229,7 @@
             stroke-linejoin: round;
         }
 
-        .ranking-actions .ranking-fav:hover svg path { 
+        .ranking-actions .ranking-fav[aria-pressed="true"]:hover svg path { 
             stroke: #DE1B24 !important; 
         }
 
@@ -313,6 +313,7 @@
 
 {% include 'includes/menu_hamburguer.html' %}
 
+<!-- Conteúdo Principal -->
 <main class="conteudo-principal">
     <div class="container">
         <h1># Ranking</h1>
@@ -332,11 +333,12 @@
                 <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=300&h=200&fit=crop" alt="{{ noticia.titulo }}" class="news-image">
                 {% endif %}
                 <div class="ranking-actions" role="group" aria-label="Ações da notícia">
-                    <span class="ranking-fav" role="button" tabindex="0" aria-label="Favoritar" title="Favoritar" onclick="salvarNoticia(event)">
+
+                    <button class="ranking-fav" onclick="toggleSalvarNoticia()" aria-label="Salvar" aria-pressed="false" data-noticia-id="{{ noticia.id }}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="29" height="29" viewBox="0 0 29 29" fill="none" aria-hidden="true">
                             <path d="M6 11.8733C6 9.1046 6 7.72025 6.87868 6.86012C7.75736 6 9.17157 6 12 6H16C18.8284 6 20.2426 6 21.1213 6.86012C22 7.72025 22 9.1046 22 11.8733V18.5567C22 21.1833 22 22.4966 21.1557 22.8983C20.3114 23.3 19.2565 22.4886 17.1465 20.8659L16.4713 20.3465C15.2849 19.434 14.6917 18.9778 14 18.9778C13.3083 18.9778 12.7151 19.434 11.5287 20.3465L10.8535 20.8659C8.74355 22.4886 7.68859 23.3 6.84429 22.8983C6 22.4966 6 21.1833 6 18.5567V11.8733Z" stroke="black" stroke-width="2"/>
                         </svg>
-                    </span>
+                    </button>
                     
                     <span class="ranking-action" role="button" tabindex="0" aria-label="Compartilhar" title="Compartilhar" onclick="compartilharNoticia(event)">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -684,140 +686,209 @@
 <script src="{% static 'js/login.js' %}"></script>
 <script src="{% static 'js/feedback.js' %}"></script>
 
-    <script>
-        function toggleBookmark(event, noticiaId) {
-            event.preventDefault();
-            event.stopPropagation();
+<script>
+    function toggleBookmark(event, noticiaId) {
+        event.preventDefault();
+        event.stopPropagation();
 
-            const icon = event.currentTarget;
-            const svg = icon.querySelector('svg');
+        const icon = event.currentTarget;
+        const svg = icon.querySelector('svg');
 
-            if (svg.getAttribute('fill') === 'none') {
-                svg.setAttribute('fill', '#DE1B24');
-                icon.style.opacity = '1';
-            } else {
-                svg.setAttribute('fill', 'none');
+        if (svg.getAttribute('fill') === 'none') {
+            svg.setAttribute('fill', '#DE1B24');
+            icon.style.opacity = '1';
+        } else {
+            svg.setAttribute('fill', 'none');
                 icon.style.opacity = '0.4';
-            }
         }
+    }
 
-        // Adaptar funções de noticias.js para o contexto do mais_lidas
-        function salvarNoticia(event) {
-            event.preventDefault();
-            event.stopPropagation();
+    function getNoticiasSalvasLocal() {
+        const salvas = localStorage.getItem('noticiasSalvas');
+        return salvas ? JSON.parse(salvas) : [];
+    }
 
-            const newsItem = event.currentTarget.closest('.news-item');
-            const newsTitle = newsItem.querySelector('.news-title').textContent;
-            const noticiaLink = newsItem.href;
-
-            // Obter ID da notícia da URL
-            const slugMatch = noticiaLink.match(/\/noticia\/([^\/]+)\//);
-            const noticiaId = slugMatch ? slugMatch[1] : Date.now().toString();
-
-            // Toggle do estado salvo
-            const botaoSalvar = event.currentTarget;
-            const svg = botaoSalvar.querySelector('svg');
-            const path = svg.querySelector('path');
-
-            let salvos = JSON.parse(localStorage.getItem('noticiasSalvas') || '[]');
-            const index = salvos.indexOf(noticiaId);
-
-            if (index > -1) {
-                // Remover dos salvos
-                salvos.splice(index, 1);
-                path.setAttribute('stroke', 'black');
-                mostrarToast('Notícia removida dos salvos', 'info');
-            } else {
-                // Adicionar aos salvos
-                salvos.push(noticiaId);
-                path.setAttribute('stroke', '#DE1B24');
-                mostrarToast('Notícia salva com sucesso!', 'sucesso');
-            }
-
-            localStorage.setItem('noticiasSalvas', JSON.stringify(salvos));
+    function salvarNoticiaLocal(noticiaId) {
+        const salvas = getNoticiasSalvasLocal();
+        if (!salvas.includes(noticiaId)) {
+            salvas.push(noticiaId);
+            localStorage.setItem('noticiasSalvas', JSON.stringify(salvas));
         }
+    }
 
-        function compartilharNoticia(event) {
-            event.preventDefault();
-            event.stopPropagation();
+    function removerNoticiaLocal(noticiaId) {
+        let salvas = getNoticiasSalvasLocal();
+        salvas = salvas.filter(id => id !== noticiaId);
+        localStorage.setItem('noticiasSalvas', JSON.stringify(salvas));
+    }
 
-            const newsItem = event.currentTarget.closest('.news-item');
-            const titulo = newsItem.querySelector('.news-title').textContent;
-            const url = newsItem.href;
+    function isNoticiaLocalmenteSalva(noticiaId) {
+        return getNoticiasSalvasLocal().includes(noticiaId);
+    }
 
-            if (navigator.share) {
-                // API nativa de compartilhamento
-                navigator.share({
-                    title: titulo,
-                    text: 'Veja esta notícia do Jornal do Commercio',
-                    url: url
-                }).catch(err => console.log('Compartilhamento cancelado'));
-            } else {
-                // Fallback - mostrar opções
-                mostrarOpcoesCompartilhamento(titulo, url);
-            }
-        }
+    // Função para salvar/remover notícia
+    function toggleSalvarNoticia() {
+        const btn = document.querySelector('.ranking-fav');
+        const noticiaId = btn.getAttribute('data-noticia-id');
+        const isSalva = btn.getAttribute('aria-pressed') === 'true';
 
-        function mostrarOpcoesCompartilhamento(titulo, url) {
-            const modal = document.createElement('div');
-            modal.className = 'modal-compartilhar-custom';
-            modal.innerHTML = `
-                <div class="modal-conteudo-custom">
-                    <h3>Compartilhar notícia</h3>
-                    <div class="opcoes-compartilhar">
-                        <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}" target="_blank" class="opcao-compartilhar">
-                            <i class="fab fa-facebook"></i> Facebook
-                        </a>
-                        <a href="https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(titulo)}" target="_blank" class="opcao-compartilhar">
-                            <i class="fab fa-twitter"></i> Twitter
-                        </a>
-                        <a href="https://wa.me/?text=${encodeURIComponent(titulo + ' ' + url)}" target="_blank" class="opcao-compartilhar">
-                            <i class="fab fa-whatsapp"></i> WhatsApp
-                        </a>
-                        <button onclick="copiarParaArea(event, '${url}')" class="opcao-compartilhar">
-                            <i class="fas fa-link"></i> Copiar link
-                        </button>
-                    </div>
-                    <button onclick="fecharModalCompartilhar()" class="botao-fechar">Fechar</button>
-                </div>
-            `;
-            document.body.appendChild(modal);
-            modal.style.display = 'flex';
-        }
+        {% if user.is_authenticated %}
+            // Usuário autenticado: salva no backend
+            const url = isSalva
+            ? `/remover-noticia-salva/${noticiaId}/`
+            : `/salvar-noticia/${noticiaId}/`;
 
-        function copiarParaArea(event, url) {
-            navigator.clipboard.writeText(url).then(() => {
-                mostrarToast('Link copiado!', 'sucesso');
-                fecharModalCompartilhar();
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Alterna o estado visual
+                    btn.setAttribute('aria-pressed', !isSalva);
+
+                    // Feedback visual
+                    if (!isSalva) {
+                        btn.style.transform = 'scale(1.2)';
+                        setTimeout(() => {
+                            btn.style.transform = '';
+                        }, 200);
+                    }
+                } else {
+                    alert(data.message || 'Erro ao processar a solicitação.');
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert('Erro ao processar a solicitação.');
             });
-        }
+        {% else %}
+            // Usuário não autenticado: salva no localStorage
+            if (isSalva) {
+                removerNoticiaLocal(noticiaId);
+                btn.setAttribute('aria-pressed', 'false');
+            } else {
+                salvarNoticiaLocal(noticiaId);
+                btn.setAttribute('aria-pressed', 'true');
 
-        function fecharModalCompartilhar() {
-            const modal = document.querySelector('.modal-compartilhar-custom');
-            if (modal) modal.remove();
-        }
+                // Feedback visual
+                btn.style.transform = 'scale(1.2)';
+                setTimeout(() => {
+                    btn.style.transform = '';
+                }, 200);
+            }
+        {% endif %}
+    }
 
-        function mostrarToast(mensagem, tipo) {
-            const toast = document.createElement('div');
-            toast.className = `toast toast-${tipo}`;
-            toast.textContent = mensagem;
-            toast.style.cssText = `
-                position: fixed;
-                bottom: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-                background: ${tipo === 'sucesso' ? '#00b783' : '#DE1B24'};
-                color: white;
-                padding: 12px 20px;
-                border-radius: 4px;
-                font-size: 14px;
-                z-index: 1000;
-                animation: slideUp 0.3s ease;
+    // Verificar estado inicial de salvamento quando a página carregar
+    document.addEventListener('DOMContentLoaded', function() {
+        const btn = document.querySelector('.salvar-btn');
+        const noticiaId = btn.getAttribute('data-noticia-id');
+
+        {% if user.is_authenticated %}
+            // Usuário autenticado: verifica no backend
+            fetch(`/verificar-noticia-salva/${noticiaId}/`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.salva) {
+                    btn.setAttribute('aria-pressed', 'true');
+                }
+            })
+            .catch(error => console.error('Erro ao verificar salvamento:', error));
+        {% else %}
+            // Usuário não autenticado: verifica no localStorage
+            if (isNoticiaLocalmenteSalva(noticiaId)) {
+                btn.setAttribute('aria-pressed', 'true');
+            }
+        {% endif %}
+    });
+
+
+    function compartilharNoticia(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const newsItem = event.currentTarget.closest('.news-item');
+        const titulo = newsItem.querySelector('.news-title').textContent;
+        const url = newsItem.href;
+
+        if (navigator.share) {
+            // API nativa de compartilhamento
+            navigator.share({
+                title: titulo,
+                text: 'Veja esta notícia do Jornal do Commercio',
+                url: url
+            }).catch(err => console.log('Compartilhamento cancelado'));
+        } else {
+            // Fallback - mostrar opções
+            mostrarOpcoesCompartilhamento(titulo, url);
+        }
+    }
+
+    function mostrarOpcoesCompartilhamento(titulo, url) {
+        const modal = document.createElement('div');
+        modal.className = 'modal-compartilhar-custom';
+        modal.innerHTML = `
+            <div class="modal-conteudo-custom">
+                <h3>Compartilhar notícia</h3>
+                <div class="opcoes-compartilhar">
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}" target="_blank" class="opcao-compartilhar">
+                        <i class="fab fa-facebook"></i> Facebook
+                    </a>
+                    <a href="https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(titulo)}" target="_blank" class="opcao-compartilhar">
+                        <i class="fab fa-twitter"></i> Twitter
+                    </a>
+                    <a href="https://wa.me/?text=${encodeURIComponent(titulo + ' ' + url)}" target="_blank" class="opcao-compartilhar">
+                        <i class="fab fa-whatsapp"></i> WhatsApp
+                    </a>
+                    <button onclick="copiarParaArea(event, '${url}')" class="opcao-compartilhar">
+                        <i class="fas fa-link"></i> Copiar link
+                    </button>
+                </div>
+                <button onclick="fecharModalCompartilhar()" class="botao-fechar">Fechar</button>
+            </div>
             `;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
-        }
-    </script>
+        document.body.appendChild(modal);
+        modal.style.display = 'flex';
+    }
+
+    function copiarParaArea(event, url) {
+        navigator.clipboard.writeText(url).then(() => {
+            mostrarToast('Link copiado!', 'sucesso');
+            fecharModalCompartilhar();
+        });
+    }
+
+    function fecharModalCompartilhar() {
+        const modal = document.querySelector('.modal-compartilhar-custom');
+        if (modal) modal.remove();
+    }
+
+    function mostrarToast(mensagem, tipo) {
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${tipo}`;
+        toast.textContent = mensagem;
+        toast.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: ${tipo === 'sucesso' ? '#00b783' : '#DE1B24'};
+            color: white;
+            padding: 12px 20px;
+            border-radius: 4px;
+            font-size: 14px;
+            z-index: 1000;
+            animation: slideUp 0.3s ease;
+        `;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+    }
+</script>
 
     <style>
         @keyframes slideUp {
