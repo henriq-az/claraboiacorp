@@ -48,7 +48,6 @@ function toggleBusca() {
     const barraBusca = document.getElementById('barraBusca');
     const campoBusca = document.querySelector('.campo-busca');
     const isAberta = barraBusca.classList.contains('ativa');
-
     if (isAberta) {
         fecharBusca();
     } else {
@@ -368,13 +367,15 @@ function executarBusca(termo) {
         ordenar: document.querySelector('.filtro-ordenar')?.value
     };
 
-    // Buscar
-    buscarNoticias(termo, filtros);
+    // Navegar para a rota de busca do servidor, incluindo filtros
+    const params = new URLSearchParams();
+    params.set('q', termo);
+    if (filtros.data) params.set('data', filtros.data);
+    if (filtros.categoria) params.set('categoria', filtros.categoria);
+    if (filtros.ordenar) params.set('ordenar', filtros.ordenar);
 
-    // Fechar busca após executar
-    setTimeout(() => {
-        fecharBusca();
-    }, 500);
+    // Redirecionar para a view Django que já pesquisa por título/resumo/conteúdo
+    window.location.href = '/buscar/?' + params.toString();
 }
 
 function simularResultadosBusca(termo, filtros) {

@@ -19,9 +19,15 @@
 </a>
 </div>
 
+<!-- Formulário de Busca -->
 <form action="{% url 'buscar' %}" method="get" class="search-form" role="search">
-  <input type="search" name="q" value="{{ request.GET.q|default:'' }}" placeholder="Pesquisar notícias" aria-label="Pesquisar notícias">
-  <button type="submit" aria-label="Buscar">Buscar</button>
+  <button type="button" id="botaoBusca" class="nav-item botao-busca" aria-label="Abrir busca">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <circle cx="18.3333" cy="18.3334" r="10" stroke="#33363F" stroke-width="3"/>
+            <path d="M33.3333 33.3334L28.3333 28.3334" stroke="#33363F" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <span>Pesquisa</span>
+    </button>
 </form>
 
 <!-- Ações do Cabeçalho -->
@@ -40,7 +46,7 @@
 <!-- Barra de Busca (Expansível) -->
 <div class="barra-busca" id="barraBusca" aria-hidden="true">
 <div class="busca-container">
-<input type="search" class="campo-busca" placeholder="Buscar notícias..." aria-label="Buscar notícias">
+<input class="campo-busca" type="search" name="q" value="{{ request.GET.q|default:'' }}" placeholder="Pesquisar notícias" aria-label="Pesquisar notícias">
 <button class="botao-filtros" aria-label="Filtros de busca">
 <i class="fas fa-filter"></i>
 </button>
@@ -135,26 +141,7 @@
     {% endfor %}
 </ul>
 </li>
-<!--
-<ul class="submenu">
-<li><a href="#pernambuco"><span>Pernambuco</span> <svg class="submenu-right" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-<li><a href="#politica"><span>Política</span> <svg class="submenu-right" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-<li><a href="#economia"><span>Economia</span> <svg class="submenu-right" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-<li><a href="#mundo"><span>Mundo</span> <svg class="submenu-right" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-<li><a href="#esportes"><span>Esportes</span> <svg class="submenu-right" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-<li><a href="#cultura"><span>Cultura</span> <svg class="submenu-right" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-<li><a href="#educacao"><span>Educação</span> <svg class="submenu-right" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-<li><a href="#mobilidade"><span>Mobilidade</span> <svg class="submenu-right" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-<li><a href="#culinaria"><span>Culinária</span> <svg class="submenu-right" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-<li><a href="#meio-ambiente"><span>Meio Ambiente</span> <svg class="submenu-right" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-<li><a href="#tecnologia"><span>Tecnologia</span> <svg class="submenu-right" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-<li><a href="#saude"><span>Saúde</span> <svg class="submenu-right" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-<li><a href="#entretenimento"><span>Entretenimento</span> <svg class="submenu-right" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-<li><a href="#global"><span>Global</span> <svg class="submenu-right" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-<li><a href="#nacional"><span>Nacional</span> <svg class="submenu-right" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-</ul>
-</li>
--->
+
 <!-- Seções Especiais -->
 <li class="menu-item">
 <a href="{% url 'mais_lidas' %}" class="menu-link">
@@ -173,8 +160,6 @@
 <span>Curtas</span>
 </a>
 </li>
-
-
 
 <!-- Canais -->
 <li class="menu-item menu-item-expansivel">
