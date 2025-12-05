@@ -248,6 +248,14 @@
     visibility: visible;
 }
 
+@media (max-width: 767px) {
+    /* Esconder o botão de busca dentro do cabeçalho em telas mobile.
+       Mantém o botão do menu inferior visível para uso em mobile. */
+    .cabecalho .botao-busca {
+        display: none !important;
+    }
+}
+
 .busca-container {
     display: flex;
     gap: var(--espaco-2);
