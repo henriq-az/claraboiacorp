@@ -63,10 +63,14 @@ function toggleBusca() {
 function abrirBusca() {
     const barraBusca = document.getElementById('barraBusca');
     const campoBusca = document.querySelector('.campo-busca');
+    const botoesBusca = document.querySelectorAll('.botao-busca');
 
     barraBusca.classList.add('ativa');
     barraBusca.setAttribute('aria-hidden', 'false');
     window.JC.state.buscaAberta = true;
+
+    // Adicionar classe ativo aos botões de busca (para ícone vermelho)
+    botoesBusca.forEach(botao => botao.classList.add('ativo'));
 
     // Focar no campo após animação
     setTimeout(() => {
@@ -76,10 +80,14 @@ function abrirBusca() {
 
 function fecharBusca() {
     const barraBusca = document.getElementById('barraBusca');
+    const botoesBusca = document.querySelectorAll('.botao-busca');
 
     barraBusca.classList.remove('ativa');
     barraBusca.setAttribute('aria-hidden', 'true');
     window.JC.state.buscaAberta = false;
+
+    // Remover classe ativo dos botões de busca (ícone volta ao normal)
+    botoesBusca.forEach(botao => botao.classList.remove('ativo'));
 
     // Fechar filtros também
     fecharFiltros();
