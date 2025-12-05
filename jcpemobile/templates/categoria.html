@@ -45,168 +45,9 @@
 
 <!-- Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-  /* Seção Categoria */
-  .categoria-section {
-    margin: 40px 0;
-    padding: 0 16px;
-  }
-
-  .categoria-section h1 {
-    font-size: 28px;
-    font-weight: 700;
-    color: #000;
-    margin-bottom: 8px;
-  }
-
-  .categoria-descricao {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 24px;
-  }
-
-  .categoria-underline {
-    width: 60px;
-    height: 4px;
-    background-color: #DE1B24;
-    margin-bottom: 24px;
-  }
-
-  .noticias-lista {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .noticia-item {
-    display: flex;
-    gap: 16px;
-    border-bottom: 1px solid #f0f0f0;
-    padding-bottom: 16px;
-  }
-
-  .noticia-item:last-child {
-    border-bottom: none;
-  }
-
-  .noticia-img {
-    width: 140px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 4px;
-    flex-shrink: 0;
-  }
-
-  .noticia-info {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .noticia-titulo {
-    font-size: 18px;
-    font-weight: 600;
-    color: #000;
-    margin: 0 0 8px 0;
-    line-height: 1.3;
-  }
-
-  .noticia-titulo a {
-    color: #000;
-    text-decoration: none;
-  }
-
-  .noticia-titulo a:hover {
-    color: #DE1B24;
-  }
-
-  .noticia-resumo {
-    font-size: 14px;
-    color: #666;
-    margin: 0 0 8px 0;
-    line-height: 1.4;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .noticia-meta {
-    font-size: 12px;
-    color: #999;
-  }
-
-.sem-noticias {
-  text-align: center;
-  padding: 40px 16px;
-  color: #666;
-  font-size: 16px;
-}
-
-/* Overrides de cor para Social 1 (rosa) e Receita da boa (laranja) */
-.conteudo-principal .container .categoria-section.categoria-social1 h1 { color: #E91E63 !important; }
-.conteudo-principal .container .categoria-section.categoria-social1 .categoria-underline { background-color: #E91E63 !important; }
-.conteudo-principal .container .categoria-section.categoria-receita h1 { color: #FF7A00 !important; }
-.conteudo-principal .container .categoria-section.categoria-receita .categoria-underline { background-color: #FF7A00 !important; }
-
-  @media (max-width: 480px) {
-    .categoria-section h1 {
-      font-size: 24px;
-    }
-
-    .noticia-item {
-      gap: 12px;
-    }
-
-    .noticia-img {
-      width: 100px;
-      height: 75px;
-    }
-
-    .noticia-titulo {
-      font-size: 16px;
-    }
-
-    .noticia-resumo {
-      font-size: 13px;
-    }
-  }
-
-  @media (min-width: 768px) {
-    .categoria-section {
-      padding: 0 24px;
-    }
-
-    .categoria-section h1 {
-      font-size: 32px;
-    }
-
-    .noticia-img {
-      width: 180px;
-      height: 120px;
-    }
-
-    .noticia-titulo {
-      font-size: 20px;
-    }
-
-    .noticias-lista {
-      gap: 24px;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .categoria-section {
-      padding: 0;
-      max-width: 900px;
-      margin: 40px auto;
-    }
-  }
-  </style>
+<link rel="stylesheet" href="{% static 'css/categoria.css' %}?v=2">
 </head>
-
-<body data-user-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}">
+<body>
 
 <!-- Barra Superior UOL -->
 <div class="barra-uol">
@@ -222,89 +63,34 @@
 {% include 'includes/menu_hamburguer.html' %}
 
 <!-- Conteúdo Principal -->
-<main class="conteudo-principal" id="conteudoPrincipal">
-  <div class="container">
+<main class="conteudo-principal">
+    <div class="container">
+        <h1>{{ categoria.nome }}</h1>
+        <div class="underline"></div>
 
-<!-- Seção Categoria -->
-<section class="categoria-section {% if categoria.nome|lower == 'social 1' %}categoria-social1{% elif categoria.nome|lower == 'receita da boa' %}categoria-receita{% endif %}">
-  <h1>{{ categoria.nome }}</h1>
-  <div class="categoria-underline"></div>
-  <p class="categoria-descricao">
-    Últimas notícias da categoria <strong>{{ categoria.nome }}</strong>.
-  </p>
-
-    <div class="noticias-lista">
-      {% if noticias %}
-        {% for noticia in noticias %}
-          <article class="noticia-item">
-            {% if noticia.imagem %}
-              <a href="{% url 'noticia_detalhe' noticia.slug %}">
-                <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" class="noticia-img">
-              </a>
+        <div class="news-list" id="newsList">
+            {% if noticias %}
+                {% for noticia in noticias %}
+                    <a href="{% url 'noticia_detalhe' noticia.slug %}" class="news-item">
+                        {% if noticia.imagem %}
+                            <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" class="news-imageMaisLidas">
+                        {% endif %}
+                        <div class="news-content">
+                            {% if noticia.categoria %}
+                                <span class="tag">{{ noticia.categoria.nome|upper }}</span>
+                            {% endif %}
+                            <h2 class="news-title">{{ noticia.titulo }}</h2>
+                        </div>
+                    </a>
+                {% endfor %}
+            {% else %}
+                <p class="sem-noticias">Nenhuma notícia encontrada nesta categoria.</p>
             {% endif %}
-
-            <div class="noticia-info">
-              <h2 class="noticia-titulo">
-                <a href="{% url 'noticia_detalhe' noticia.slug %}">
-                  {{ noticia.titulo }}
-                </a>
-              </h2>
-
-              <p class="noticia-resumo">
-                {{ noticia.conteudo|truncatewords:25 }}
-              </p>
-
-              <div class="noticia-meta">
-                {% if noticia.autor %}
-                  <span>Por {{ noticia.autor.nome }}</span>
-                {% endif %}
-                {% if noticia.autor and noticia.data_publicacao %}
-                  <span> • </span>
-                {% endif %}
-                <span>{{ noticia.data_publicacao|date:"d/m/Y H:i" }}</span>
-              </div>
-            </div>
-          </article>
-        {% endfor %}
-      {% else %}
-        <p class="sem-noticias">Nenhuma notícia encontrada nesta categoria.</p>
-      {% endif %}
+        </div>
     </div>
-  </section>
-
-  </div>
 </main>
 
-<!-- Navegação Inferior (Mobile) -->
-<nav class="navegacao-inferior" id="navegacaoInferior" aria-label="Navegação rápida">
-<a href="{% url 'index' %}" class="nav-item nav-item-ativo">
-<img src="{% static 'images/Home.png' %}" alt="Início" class="icone-home">
-<span>Início</span>
-</a>
-
-<button id="botaoBusca" class="nav-item botao-busca" aria-label="Abrir busca">
-<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
-<circle cx="18.3333" cy="18.3334" r="10" stroke="#33363F" stroke-width="3"/>
-<path d="M33.3333 33.3334L28.3333 28.3334" stroke="#33363F" stroke-width="3" stroke-linecap="round"/>
-</svg>
-<span>Pesquisa</span>
-</button>
-
-<a href="{% url 'neels' %}" class="nav-item">
-<img src="{% static 'images/NFC.png' %}" alt="Neels" class="icone-nfc">
-<span>Neels</span>
-</a>
-
-<a href="{% url 'mais_lidas' %}" class="nav-item">
-<img src="{% static 'images/Fire@3x.png' %}" alt="Mais Lidas" class="icone-fire">
-<span>Mais Lidas</span>
-</a>
-
-<a href="#perfil" class="nav-item">
-<img src="{% static 'images/Radio_Fill.png' %}" alt="Ao vivo" class="icone-radio">
-<span>Ao vivo</span>
-</a>
-</nav>
+{% include 'includes/menu_inferior.html' %}
 
 <!-- Nossos Produtos -->
 <section class="nossos-produtos">
@@ -458,32 +244,14 @@
 <!-- Modal de Login -->
 {% include 'login_modal.html' %}
 
-<!-- Scripts -->
+<!-- JavaScript -->
 <script src="{% static 'js/app.js' %}"></script>
-<script src="{% static 'js/header-animation.js' %}"></script>
 <script src="{% static 'js/navegacao.js' %}"></script>
 <script src="{% static 'js/busca.js' %}"></script>
 <script src="{% static 'js/noticias.js' %}"></script>
+<script src="{% static 'js/header-animation.js' %}"></script>
 <script src="{% static 'js/cadastro.js' %}"></script>
 <script src="{% static 'js/login.js' %}"></script>
 <script src="{% static 'js/feedback.js' %}"></script>
-
-    <script>
-        function toggleBookmark(event, noticiaId) {
-            event.preventDefault();
-            event.stopPropagation();
-            
-            const icon = event.currentTarget;
-            const svg = icon.querySelector('svg');
-            
-            if (svg.getAttribute('fill') === 'none') {
-                svg.setAttribute('fill', '#DE1B24');
-                icon.style.opacity = '1';
-            } else {
-                svg.setAttribute('fill', 'none');
-                icon.style.opacity = '0.4';
-            }
-        }
-    </script>
 </body>
 </html>
