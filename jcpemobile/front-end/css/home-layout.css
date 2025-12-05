@@ -1279,9 +1279,9 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
   cursor: pointer;
 }
 .ranking-actions .ranking-fav svg { width: 29px; height: 29px; display: block; }
-.ranking-actions .ranking-fav:hover svg path { stroke: #E31B23; }
+.ranking-actions .ranking-fav:hover svg path { stroke: black; }/*cor do botão de salvar quando passa o mouse por cima*/
 .ranking-actions .ranking-action svg { width: 24px; height: 24px; display: block; }
-.ranking-actions .ranking-action:hover svg path { fill: #E31B23 !important;  }
+.ranking-actions .ranking-action:hover svg path { fill: #E31B23 !important;  }/*cor do botão de compartilhar quando passa o mouse por cima*/
 
 @media (max-width: 480px) {
   .ranking-section {

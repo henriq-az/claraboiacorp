@@ -51,14 +51,14 @@ h1 {
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     transform: translateY(-2px);
 }
-.news-image {
-    width: 150px;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    flex-shrink: 0;
-    border-radius: 12px 0 0 12px;
-    order: -1;
+.news-imageMaisLidas {
+    width: 150px !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    flex-shrink: 0!important;
+    border-radius: 12px 0 0 12px !important;
+    order: -1 !important;
 }
 .news-content {
     flex: 1;
@@ -165,12 +165,15 @@ h1 {
     stroke-linecap: round;
     stroke-linejoin: round;
 }
+/* contorno do botão de salvar fiva preto */
 .ranking-actions .ranking-fav[aria-pressed="true"]:hover svg path { 
-    stroke: #E31B23 !important; 
+    /*stroke: #E31B23 !important;*/ 
+    stroke: black !important; 
 }
-/* faz o botão de compartilhar ficar vermelho */
-.ranking-actions .ranking-action:hover svg path { 
-    fill: #E31B23 !important; 
+/* Quando estiver salvo (aria-pressed="true"), o botão fica preto */
+.ranking-fav[aria-pressed="true"] svg path{
+    fill: black !important;
+    stroke: black !important;
 }
 
 .bookmark-icon {
