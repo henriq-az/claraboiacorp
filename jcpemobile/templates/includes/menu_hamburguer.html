@@ -19,27 +19,28 @@
 </a>
 </div>
 
-<!-- Formulário de Busca -->
-<form action="{% url 'buscar' %}" method="get" class="search-form" role="search">
-  <button type="button" id="botaoBusca" class="nav-item botao-busca" aria-label="Abrir busca">
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
-            <circle cx="18.3333" cy="18.3334" r="10" stroke="#33363F" stroke-width="3"/>
-            <path d="M33.3333 33.3334L28.3333 28.3334" stroke="#33363F" stroke-width="3" stroke-linecap="round"/>
-        </svg>
-        <span>Pesquisa</span>
-    </button>
-</form>
+<!-- Formulário de Busca (moved into .cabecalho-acoes) -->
 
 <!-- Ações do Cabeçalho -->
 <div class="cabecalho-acoes">
-<!-- Perfil -->
-<button class="botao-perfil" id="botaoPerfil" aria-label="Meu perfil">
-<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
-<path d="M25 16.6667C25 19.4281 22.7614 21.6667 20 21.6667C17.2386 21.6667 15 19.4281 15 16.6667C15 13.9053 17.2386 11.6667 20 11.6667C22.7614 11.6667 25 13.9053 25 16.6667Z" fill="#33363F" stroke="#33363F" stroke-width="2" stroke-linecap="round"/>
-<circle cx="20" cy="20" r="15" stroke="#33363F" stroke-width="3"/>
-<path d="M29.6342 31.3773C29.8461 31.261 29.9463 31.0092 29.8567 30.7847C29.214 29.1741 27.9759 27.7557 26.3024 26.7221C24.4943 25.6053 22.279 25 20 25C17.721 25 15.5057 25.6053 13.6976 26.7221C12.0241 27.7557 10.786 29.1741 10.1433 30.7847C10.0537 31.0092 10.1539 31.261 10.3658 31.3773C16.3662 34.6716 23.6338 34.6716 29.6342 31.3773Z" fill="#33363F"/>
-</svg>
-</button>
+    <!-- Mover o botão de busca para ficar ao lado do perfil -->
+    <form action="{% url 'buscar' %}" method="get" class="search-form" role="search">
+        <button type="button" id="botaoBusca" class="nav-item botao-busca" aria-label="Abrir busca">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+                <circle cx="18.3333" cy="18.3334" r="10" stroke="#33363F" stroke-width="3"/>
+                <path d="M33.3333 33.3334L28.3333 28.3334" stroke="#33363F" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+        </button>
+    </form>
+
+    <!-- Perfil -->
+    <button class="botao-perfil" id="botaoPerfil" aria-label="Meu perfil">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <path d="M25 16.6667C25 19.4281 22.7614 21.6667 20 21.6667C17.2386 21.6667 15 19.4281 15 16.6667C15 13.9053 17.2386 11.6667 20 11.6667C22.7614 11.6667 25 13.9053 25 16.6667Z" fill="#33363F" stroke="#33363F" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="20" cy="20" r="15" stroke="#33363F" stroke-width="3"/>
+            <path d="M29.6342 31.3773C29.8461 31.261 29.9463 31.0092 29.8567 30.7847C29.214 29.1741 27.9759 27.7557 26.3024 26.7221C24.4943 25.6053 22.279 25 20 25C17.721 25 15.5057 25.6053 13.6976 26.7221C12.0241 27.7557 10.786 29.1741 10.1433 30.7847C10.0537 31.0092 10.1539 31.261 10.3658 31.3773C16.3662 34.6716 23.6338 34.6716 29.6342 31.3773Z" fill="#33363F"/>
+        </svg>
+    </button>
 </div>
 </div>
 
