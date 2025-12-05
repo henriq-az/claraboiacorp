@@ -33,14 +33,19 @@ function inicializarBusca() {
 // ===================================================
 
 function configurarBotaoBusca() {
-    const botaoBusca = document.getElementById('botaoBusca');
+    // Seleciona todos os botões de busca da página (header e menu inferior)
+    const botoesBusca = document.querySelectorAll('.botao-busca');
     const barraBusca = document.getElementById('barraBusca');
 
-    if (!botaoBusca || !barraBusca) return;
+    if (!botoesBusca || botoesBusca.length === 0 || !barraBusca) return;
 
-    botaoBusca.addEventListener('click', (e) => {
-        e.stopPropagation();
-        toggleBusca();
+    botoesBusca.forEach(botao => {
+        // garantir que não será submetido como form
+        botao.type = botao.type || 'button';
+        botao.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleBusca();
+        });
     });
 }
 
