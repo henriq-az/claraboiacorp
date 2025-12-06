@@ -517,20 +517,22 @@ rows="4"
 
 .noticia-toggle-tamanho > div {
   display: inline-flex;
-  background: #f5f5f5;
+  background: #fff;
   border-radius: 24px;
-  padding: 4px;
+  padding: 0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+  overflow: hidden;
 }
 
 .toggle-btn {
-  padding: 8px 20px;
+  padding: 8px 24px;
   border: none;
-  background: transparent;
+  background: #fff;
   color: #666;
   font-size: 14px;
   font-weight: 600;
-  border-radius: 20px;
+  border-radius: 0;
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
@@ -539,10 +541,23 @@ rows="4"
   position: relative;
 }
 
+.toggle-btn:first-child {
+  border-radius: 24px 0 0 24px;
+}
+
+.toggle-btn:last-child {
+  border-radius: 0 24px 24px 0;
+  border-left: 1px solid #e0e0e0;
+}
+
 .toggle-btn.ativo {
   background: #DE1B24;
   color: #fff;
-  box-shadow: 0 2px 4px rgba(222, 27, 36, 0.3);
+  border-color: #DE1B24;
+}
+
+.toggle-btn.ativo:last-child {
+  border-left-color: #DE1B24;
 }
 
 .toggle-btn svg {
