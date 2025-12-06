@@ -517,8 +517,8 @@ function salvarHistoricoBusca(termo) {
 // ESTILOS ADICIONAIS
 // ===================================================
 
-const style = document.createElement('style');
-style.textContent = `
+const styleBusca = document.createElement('style');
+styleBusca.textContent = `
     .sugestoes-busca {
         position: absolute;
         top: 100%;
@@ -614,4 +614,4 @@ style.textContent = `
         font-size: 14px;
     }
 `;
-document.head.appendChild(style);
+document.head.appendChild(styleBusca);
