@@ -127,10 +127,15 @@ def lista_por_categoria(request, slug):
     noticias_categoria = todas_noticias.filter(categoria__slug=slug)
 
     print(f"[DEBUG] Categoria {slug} - Total filtrado: {noticias_categoria.count()}")
+    
+    noticias_salvas_ids = []
+    if request.user.is_authenticated:
+        noticias_salvas_ids = NoticaSalva.objects.filter(usuario=request.user).values_list('noticia_id', flat=True)
 
     context = {
         'categoria': Categoria.objects.get(slug=slug),
         'noticias': noticias_categoria,
+        'noticias_salvas_ids': noticias_salvas_ids,
     }
 
     return render(request, 'categoria.html', context)
