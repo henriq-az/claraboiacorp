@@ -1343,17 +1343,19 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
 }
 
 .ultimas-noticias-section .section-title {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: bold;
   color: #000000;
-  margin: 0 0 4px 0;
+  margin-left: -12px;
+  margin-bottom: 4px;
 }
 
 .ultimas-noticias-section .title-underline {
   width: 60px;
-  height: 4px;
+  height: 5px;
   background-color: #E31B23;
-  border-radius: 2px;
+  border-radius: 3px;
+  margin-left: -10px;
 }
 
 /* Carousel horizontal scrollable */
