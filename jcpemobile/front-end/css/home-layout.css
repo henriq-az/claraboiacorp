@@ -1715,43 +1715,42 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
 .painel-diario-section {
   margin: 32px auto;
   max-width: 650px;
-  padding: 0 20px;
+  padding: 0 16px;
 }
 
 .painel-diario-section h2 {
-  font-size: 24px;
+  font-size: 28px;
   color: #000000;
   font-weight: bold;
-  margin-left: -2px;
+  margin: 0 0 4px 0;
 }
 
 .painel-diario-underline {
   width: 60px;
-  height: 5px;
+  height: 4px;
   background-color: #E31B23;
-  margin-bottom: 24px;
-  border-radius: 18px;
+  margin-bottom: 20px;
+  border-radius: 2px;
 }
 
 .painel-diario-header {
   display: block;
-  margin-left: -20px;
+  margin-bottom: 16px;
+  padding-left: 4px;
 }
 
 .painel-diario-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  gap: 12px;
 }
 
 .painel-card {
   background: white;
-  border-radius: 12px;
-  /* Reduzido padding vertical para diminuir altura dos cards */
-  padding: 12px 14px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   transition: all 0.3s ease;
-  /* Removido min-width para permitir cards mais flexíveis */
 }
 
 .painel-card:hover {
@@ -1763,54 +1762,57 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
 
 .painel-card-icon {
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   flex-shrink: 0;
   color: #666;
+  stroke-width: 2;
 }
 
 .painel-card-title {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   color: #1a1a1a;
   margin: 0;
 }
 
 .painel-card-content {
-  font-size: 13px;
+  font-size: 14px;
   color: #333;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 .painel-mare-item {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 .painel-mare-label {
   font-weight: 500;
-  color: #666;
+  color: #1a1a1a;
+  font-size: 14px;
 }
 
 .painel-mare-time {
   font-weight: 600;
-  color: #1a1a1a;
+  color: #2196F3; /* Azul para Maré Alta */
+  font-size: 14px;
 }
 
 .painel-mare-time.baixa {
-  color: #DE1B24;
+  color: #DE1B24; /* Vermelho para Maré Baixa */
 }
 
 .painel-tempo-main {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 .painel-tempo-icon {
@@ -1819,15 +1821,15 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
 }
 
 .painel-temp-atual {
-  font-size: 32px;
+  font-size: 40px;
   font-weight: 700;
   color: #1a1a1a;
+  line-height: 1;
 }
 
 .painel-temp-range {
-  font-size: 12px;
-  color: #666;
-  margin-top: 4px;
+  font-size: 14px;
+  line-height: 1.8;
 }
 
 .painel-temp-max {
@@ -1849,18 +1851,20 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
 
 .painel-cotacao-label {
   font-weight: 500;
-  color: #666;
+  color: #1a1a1a;
+  font-size: 14px;
 }
 
 .painel-cotacao-valor {
   font-weight: 600;
   color: #DE1B24;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .painel-cotacao-seta {
   color: #DE1B24;
-  margin-right: 4px;
+  margin-right: 2px;
+  font-size: 16px;
 }
 
 .painel-megasena-header {
@@ -1872,39 +1876,44 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
 .painel-megasena-numeros {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
+  gap: 8px;
+  margin-top: 4px;
 }
 
 .painel-megasena-numero {
-  background: #1a1a1a;
+  background: #2c2c2c;
   color: white;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 700;
   border-radius: 50%;
-  width: 36px;
-  height: 36px;
+  width: 42px;
+  height: 42px;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 @media (max-width: 480px) {
   .painel-diario-section {
-    padding: 0 16px;
+    padding: 0 12px;
+  }
+
+  .painel-diario-section h2 {
+    font-size: 24px;
   }
 
   .painel-diario-header {
-    margin-left: -12px;
+    padding-left: 4px;
   }
 
   .painel-diario-grid {
-    /* Em mobile mantém 2 colunas para cards não ficarem muito pequenos */
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
   }
 
   .painel-card {
-    padding: 10px 12px;
+    padding: 12px;
   }
 
   .painel-card-title {
@@ -1916,25 +1925,43 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
   }
 
   .painel-temp-atual {
-    font-size: 28px;
+    font-size: 32px;
   }
 
   .painel-megasena-numero {
-    width: 32px;
-    height: 32px;
-    font-size: 14px;
+    width: 36px;
+    height: 36px;
+    font-size: 15px;
+  }
+
+  .painel-mare-label,
+  .painel-cotacao-label {
+    font-size: 13px;
+  }
+
+  .painel-mare-time,
+  .painel-cotacao-valor {
+    font-size: 13px;
   }
 }
 
 @media (min-width: 768px) {
   .painel-diario-section {
-    /* Aumentada muito mais a largura em telas maiores para diferença visível */
-    max-width: 850px;
+    max-width: 650px;
   }
-  
+
   .painel-card {
-    /* Padding reduzido para diminuir altura em desktop também */
-    padding: 14px 16px;
+    padding: 18px;
+  }
+
+  .painel-temp-atual {
+    font-size: 44px;
+  }
+
+  .painel-megasena-numero {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
   }
 }
 
