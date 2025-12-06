@@ -381,16 +381,115 @@ rows="4"
 .noticia-imagem {
   width: 100%;
   border-radius: 12px;
-  margin-bottom: 16px;
+  margin-bottom: 40px;
   display: block;
 }
 
 .noticia-imagem-credito {
   font-size: 11px;
   color: #999;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   font-style: italic;
 }
+
+/* Seção de Áudio (compacta - reduzida) */
+.audio-section {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 8px;
+  background: #FFFFFF;
+  border: 3px solid #E5E5E5;
+  border-radius: 100px;
+  margin-bottom: 40px;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+  max-width: 384px;
+  width: auto;
+}
+
+.audio-section:hover {
+  background: #FAFAFA;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.audio-play-btn {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.12s ease;
+  color: inherit;
+  padding: 0;
+}
+
+.audio-play-btn:hover {
+  background: #1A1A1A;
+  transform: scale(1.05);
+}
+
+.audio-play-btn svg {
+  width: 28px;
+  height: 28px;
+  margin-left: 2px;
+  margin-top: -4px;
+}
+
+.audio-play-btn svg path {
+  fill: #000000;
+}
+
+.audio-info {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.audio-title {
+  font-size: 13px;
+  font-weight: bolder;
+  color: #000000;
+  line-height: 1.2;
+  font-family: 'Inter', sans-serif;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.audio-separator {
+  font-size: 14px;
+  font-weight: bolder;
+  color: #000000;
+  margin: 0 4px;
+}
+
+.audio-duration {
+  font-size: 13px;
+  color: #000000;
+  font-weight: bolder;
+  font-family: 'Inter', sans-serif;
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .audio-section {
+    display: flex; /* full-width on small screens */
+    width: 88%;
+    max-width: 100%;
+    padding: 8px 12px;
+    margin-left: 20px;
+  }
+  .audio-info { min-width: 0; }
+}
+
 
 .noticia-toggle-tamanho {
   display: flex;
@@ -1039,6 +1138,20 @@ rows="4"
   <p class="noticia-imagem-credito">{{ noticia.credito_imagem }}</p>
   {% endif %}
   {% endif %}
+  
+  <!-- Seção de Áudio -->
+  <div class="audio-section">
+    <button class="audio-play-btn" aria-label="Reproduzir áudio">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 6L20 14L8 22V6Z" fill="currentColor"/>
+      </svg>
+    </button>
+    <div class="audio-info">
+      <span class="audio-title">Clique aqui e escute a matéria</span>
+    </div>
+    <span class="audio-separator">|</span>
+    <span class="audio-duration">2 min</span>
+  </div>
   
   <!-- Toggle Longa/Curta -->
   <div class="noticia-toggle-tamanho">
