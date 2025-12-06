@@ -510,33 +510,49 @@ rows="4"
 
 .noticia-toggle-tamanho {
   display: flex;
-  gap: 8px;
-  margin-bottom: 20px;
   justify-content: center;
+  gap: 0;
+  margin-bottom: 20px;
+}
+
+.noticia-toggle-tamanho > div {
+  display: inline-flex;
+  background: #f5f5f5;
+  border-radius: 24px;
+  padding: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .toggle-btn {
-  flex: 1;
-  padding: 10px 20px;
-  border: 1px solid #DE1B24;
-  background: #fff;
-  color: #DE1B24;
+  padding: 8px 20px;
+  border: none;
+  background: transparent;
+  color: #666;
   font-size: 14px;
   font-weight: 600;
   border-radius: 20px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
 }
 
 .toggle-btn.ativo {
-  background: #FFC0CB;
-  border-color: #FFC0CB;
-  color: #DE1B24;
+  background: #DE1B24;
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(222, 27, 36, 0.3);
 }
 
 .toggle-btn svg {
-  margin-right: 4px;
-  vertical-align: middle;
+  width: 16px;
+  height: 16px;
+  display: none;
+}
+
+.toggle-btn.ativo svg {
+  display: block;
 }
 
 .noticia-conteudo {
@@ -1160,15 +1176,20 @@ rows="4"
   
   <!-- Toggle Longa/Curta -->
   <div class="noticia-toggle-tamanho">
-    <button class="toggle-btn ativo" id="btnLonga" onclick="toggleVersao('longa')">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-        <path d="M8 7V3.5L12 7.5L8 11.5V8H4V7H8Z"/>
-      </svg>
-      Longa
-    </button>
-    <button class="toggle-btn" id="btnCurta" onclick="toggleVersao('curta')">
-      Curta
-    </button>
+    <div>
+      <button class="toggle-btn ativo" id="btnLonga" onclick="toggleVersao('longa')">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+        </svg>
+        Longa
+      </button>
+      <button class="toggle-btn" id="btnCurta" onclick="toggleVersao('curta')">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+        </svg>
+        Curta
+      </button>
+    </div>
   </div>
 
   <!-- Versão Longa (padrão) -->
