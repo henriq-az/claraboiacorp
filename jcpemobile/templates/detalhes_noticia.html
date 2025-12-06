@@ -428,11 +428,27 @@ rows="4"
   transition: transform 0.12s ease, background 0.12s ease;
   color: inherit;
   padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .audio-play-btn:hover {
   background: #1A1A1A;
   transform: scale(1.05);
+}
+
+/* Remover highlight/outline/efeitos indesejados ao clicar (focus/active) */
+.audio-play-btn:focus,
+.audio-play-btn:active {
+  outline: none;
+  box-shadow: none;
+  background: transparent;
+}
+
+.audio-play-btn:focus-visible {
+  outline: none;
+  box-shadow: none;
 }
 
 .audio-play-btn svg {
