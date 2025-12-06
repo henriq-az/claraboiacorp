@@ -381,7 +381,13 @@ class NoticiaLinhaDoTempo(models.Model):
         verbose_name="Ordem",
         help_text="Ordem de exibição (deixe 0 para ordenar automaticamente por data)"
     )
+    ativa = models.BooleanField(
+        default=True,
+        verbose_name="Ativa",
+        help_text="Indica se a notícia está ativa na linha do tempo"
+    )
     adicionada_em = models.DateTimeField(auto_now_add=True, verbose_name="Adicionada em")
+    atualizada_em = models.DateTimeField(auto_now=True, verbose_name="Atualizada em")
 
     class Meta:
         verbose_name = "Notícia na Linha do Tempo"
