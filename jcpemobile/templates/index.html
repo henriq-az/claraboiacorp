@@ -370,26 +370,27 @@ Salvar Preferências
     <h2 class="section-title">Últimas Notícias</h2>
     <div class="title-underline"></div>
   </div>
-  
-  <div class="news-list">
+
+  <div class="news-carousel">
     {% if noticias_ultimas %}
       {% for noticia in noticias_ultimas %}
-      <a href="{% url 'noticia_detalhe' noticia.slug %}" class="card side" style="text-decoration: none; color: inherit;">
-        <div class="content">
-          <span class="tag">{{ noticia.categoria.nome }}</span>
-          <h2 class="title">{{ noticia.titulo }}</h2>
+      <a href="{% url 'noticia_detalhe' noticia.slug %}" class="news-card-carousel" style="text-decoration: none;">
+        {% if noticia.imagem %}
+        <div class="card-background" style="background-image: url('{{ noticia.imagem.url }}');"></div>
+        {% else %}
+        <div class="card-background" style="background-color: #ccc;"></div>
+        {% endif %}
+        <div class="card-overlay">
+          <span class="carousel-tag">{{ noticia.categoria.nome }}</span>
+          <h3 class="carousel-title">{{ noticia.titulo }}</h3>
           {% if noticia.resumo %}
-          <p class="desc">{{ noticia.resumo|truncatewords:18 }}</p>
+          <p class="carousel-desc">{{ noticia.resumo|truncatewords:10 }}</p>
           {% elif noticia.subtitulo %}
-          <p class="desc">{{ noticia.subtitulo|truncatewords:18 }}</p>
+          <p class="carousel-desc">{{ noticia.subtitulo|truncatewords:10 }}</p>
           {% else %}
-          <p class="desc">{{ noticia.conteudo|striptags|truncatewords:18 }}</p>
+          <p class="carousel-desc">{{ noticia.conteudo|striptags|truncatewords:10 }}</p>
           {% endif %}
         </div>
-             {% if noticia.imagem %}
-             <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" loading="lazy"
-               style="display:block; width:45%; height:100%; object-fit:cover; object-position:center center; border-radius:0 18px 18px 0;" />
-             {% endif %}
       </a>
       {% endfor %}
     {% else %}

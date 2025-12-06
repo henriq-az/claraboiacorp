@@ -1332,55 +1332,131 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
 /* Seção Últimas Notícias */
 .ultimas-noticias-section {
   margin: 32px auto;
-  /* Permitir que a seção ultrapasse a largura do .container centralizado
-     tornando-a full-viewport width; o conteúdo interno será centralizado
-     em .news-list com um max-width maior para que os cartões fiquem mais largos. */
-  width: 100vw;
-  position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-  padding: 0 20px;
+  width: 100%;
+  padding: 0 12px;
   box-sizing: border-box;
 }
 
 .ultimas-noticias-section .section-header {
-  margin-bottom: 24px;
-  /* remover deslocamento negativo para alinhar com os demais títulos */
-  margin-left: 11px;
+  margin-bottom: 16px;
+  padding-left: 4px;
 }
 
 .ultimas-noticias-section .section-title {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: bold;
   color: #000000;
-  margin-left: -15px;
-  margin-bottom: 1px;
+  margin: 0 0 4px 0;
 }
 
 .ultimas-noticias-section .title-underline {
   width: 60px;
-  height: 5px;
+  height: 4px;
   background-color: #E31B23;
-  border-radius: 18px;
-  margin-left: -12px;
-  margin-bottom: 40px;
+  border-radius: 2px;
 }
 
+/* Carousel horizontal scrollable */
+.ultimas-noticias-section .news-carousel {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  padding: 8px 4px 16px 4px;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.ultimas-noticias-section .news-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+/* News card with background image */
+.news-card-carousel {
+  position: relative;
+  min-width: 240px;
+  width: 240px;
+  height: 320px;
+  border-radius: 16px;
+  overflow: hidden;
+  scroll-snap-align: start;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.news-card-carousel .card-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.news-card-carousel .card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.5) 60%, transparent 100%);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.news-card-carousel .carousel-tag {
+  display: inline-block;
+  background-color: #E31B23;
+  color: white;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 4px 10px;
+  border-radius: 4px;
+  text-transform: capitalize;
+  align-self: flex-start;
+}
+
+.news-card-carousel .carousel-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  margin: 0;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.news-card-carousel .carousel-desc {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Legacy styles - kept for reference but not used with new carousel layout */
+/*
 .ultimas-noticias-section .news-list {
   display: flex;
   flex-direction: column;
   gap: 14px;
-}
-
-/* Inner constrains the content of the section to a wider centered column */
-.ultimas-noticias-section .news-list {
   max-width: 1100px;
   margin: 0 auto;
 }
 
-/* Forçar os cards da seção Últimas Notícias a usar o estilo side e permitir imagem maior */
 .ultimas-noticias-section .card.side {
   display: flex;
   align-items: stretch;
@@ -1390,30 +1466,29 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
   border-radius: 18px;
   overflow: hidden;
   width: 100%;
-  min-height: 4px; /* reduzida: menor altura (ajuste extra) */
+  min-height: 4px;
 }
 
 .ultimas-noticias-section .card.side .content {
   flex: 1 1 40%;
   padding: 6px 8px;
-  display: flex; /* ensure content is a column flex so children can be constrained */
+  display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 4px;
-  min-height: 0; /* allow flex children to shrink properly */
-  overflow: hidden; /* clip any overflowing content inside the content area */
+  min-height: 0;
+  overflow: hidden;
 }
 
-/* Ensure the description does not escape the card: clamp and hide overflow */
 .ultimas-noticias-section .card.side .content .desc {
   margin: 0;
   flex: 0 1 auto;
-  min-height: 0; /* allow it to shrink inside flex container */
+  min-height: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2; /* show up to 2 lines */
+  -webkit-line-clamp: 2;
   line-clamp: 2;
 }
 
@@ -1427,7 +1502,6 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
   }
 }
 
-/* Cards de notícias */
 .news-item {
   display: flex;
   align-items: stretch;
@@ -1444,21 +1518,18 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
   min-height: 100px;
 }
 
-/* Ajuste de altura específico para a seção Últimas Notícias (menor, igual aos cartões side) */
-  .ultimas-noticias-section .news-item {
-    min-height: 4px; /* menor altura por padrão (ajuste extra) */
-  }
+.ultimas-noticias-section .news-item {
+  min-height: 4px;
+}
 
 @media (min-width: 768px) {
   .ultimas-noticias-section .news-item {
-    min-height: 40px; /* ligeiro aumento em telas maiores, mantido compacto */
+    min-height: 40px;
   }
 }
 
-/* Ajuste final seguro: garantir apenas um mínimo menor na sessão Últimas Notícias
-   sem forçar height/max-height rígidos que cortam o layout. Mantemos overflow hidden. */
-  .ultimas-noticias-section .card.side,
-  .ultimas-noticias-section .news-item {
+.ultimas-noticias-section .card.side,
+.ultimas-noticias-section .news-item {
   min-height: 4px !important;
   overflow: hidden !important;
 }
@@ -1470,6 +1541,7 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
     overflow: hidden !important;
   }
 }
+*/
 
 .news-content {
   flex: 1;
@@ -1549,12 +1621,34 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
   fill: #666;
 }
 
-/* Responsivo para Últimas Notícias */
+/* Responsivo para Últimas Notícias - Carousel version */
 @media (max-width: 480px) {
   .ultimas-noticias-section {
-    padding: 0 16px;
+    padding: 0 12px;
   }
 
+  .news-card-carousel {
+    min-width: 220px;
+    width: 220px;
+    height: 300px;
+  }
+
+  .news-card-carousel .carousel-tag {
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+
+  .news-card-carousel .carousel-title {
+    font-size: 15px;
+  }
+
+  .news-card-carousel .carousel-desc {
+    font-size: 12px;
+  }
+}
+
+/* Legacy responsive styles - not used with new carousel */
+/*
   .news-item {
     min-height: 96px;
   }
@@ -2736,10 +2830,8 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
 
 /* Removido: todas as seções agora usam apenas o CSS base .card.side sem overrides */
 
-/* Specific override to allow Últimas Notícias cards to be much smaller
-   This is intentionally placed at the end to beat other generic overrides. */
-/* Strong final override for Últimas Notícias: allow cards to shrink to content
-   and ensure images/content do not force large heights. Kept at document end. */
+/* Legacy overrides for Últimas Notícias - not used with new carousel layout */
+/*
 body .conteudo-principal .ultimas-noticias-section .card.side,
 body .conteudo-principal .ultimas-noticias-section .news-item,
 body .conteudo-principal .ultimas-noticias-section .news-list a.card.side {
@@ -2763,7 +2855,6 @@ body .conteudo-principal .ultimas-noticias-section .card.side img {
   object-fit: cover !important;
 }
 
-/* Make Últimas Notícias cards match the 'card.side' style used in the first session */
 body .conteudo-principal .ultimas-noticias-section .news-list a.card.side .content,
 body .conteudo-principal .ultimas-noticias-section .news-list a.card.side + a.card.side .content,
 body .conteudo-principal .ultimas-noticias-section .news-list a.card.side + a.card.side + a.card.side .content {
@@ -2802,7 +2893,6 @@ body .conteudo-principal .ultimas-noticias-section .news-list a.card.side + a.ca
   min-height: 0 !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
-  /* Truncate to 2 lines */
   display: -webkit-box !important;
   -webkit-box-orient: vertical !important;
   -webkit-line-clamp: 2 !important;
@@ -2822,7 +2912,6 @@ body .conteudo-principal .ultimas-noticias-section .news-list a.card.side .conte
   overflow: hidden !important;
 }
 
-/* Ensure title appears above the summary and the summary is visible below it */
 body .conteudo-principal .ultimas-noticias-section .news-list a.card.side .content,
 body .conteudo-principal .container > a.card.top + a.card.side .content {
   display: flex !important;
@@ -2835,6 +2924,7 @@ body .conteudo-principal .container > a.card.top + a.card.side .content .title {
   order: 0 !important;
   display: block !important;
 }
+*/
 
 /* Final safety: enforce title above summary for any side-card variant */
 .conteudo-principal .card.side .content,
@@ -2914,6 +3004,7 @@ body .conteudo-principal .container > a.card.top + a.card.side + a.card.side + a
     flex: 1 1 auto !important;
 }
 
+/*
   body .conteudo-principal .ultimas-noticias-section .news-list a.card.side .content {
     padding: 10px !important;
     display: flex !important;
@@ -2948,8 +3039,6 @@ body .conteudo-principal .container > a.card.top + a.card.side + a.card.side + a
   }
 }
 
-/* Final size override for Últimas Notícias cards */
-/* Final size override for Últimas Notícias cards */
 body .conteudo-principal .ultimas-noticias-section .news-list a.card.side,
 body .conteudo-principal .ultimas-noticias-section .news-list a.card.side + a.card.side,
 body .conteudo-principal .ultimas-noticias-section .news-list a.card.side + a.card.side + a.card.side {
@@ -2957,6 +3046,7 @@ body .conteudo-principal .ultimas-noticias-section .news-list a.card.side + a.ca
   min-height: 120px !important;
   overflow: hidden !important;
 }
+*/
 
 /* Final mobile override: force Pernambuco main card to full width on small screens
    This appears at the end to ensure it wins over earlier, conflicting rules. */
