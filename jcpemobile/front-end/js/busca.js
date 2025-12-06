@@ -35,24 +35,31 @@ function inicializarBusca() {
 function configurarBotaoBusca() {
     // Seleciona todos os botões de busca da página (header e menu inferior)
     const botoesBusca = document.querySelectorAll('.botao-busca');
-    const barraBusca = document.getElementById('barraBusca');
+    const popupBusca = document.getElementById('popupBusca');
 
-    if (!botoesBusca || botoesBusca.length === 0 || !barraBusca) return;
+    if (!botoesBusca || botoesBusca.length === 0 || !popupBusca) return;
 
     botoesBusca.forEach(botao => {
         // garantir que não será submetido como form
         botao.type = botao.type || 'button';
         botao.addEventListener('click', (e) => {
             e.stopPropagation();
+            e.preventDefault();
             toggleBusca();
         });
+    });
+
+    // Fechar popup ao clicar fora
+    document.addEventListener('click', (e) => {
+        if (!popupBusca.contains(e.target) && !e.target.closest('.botao-busca')) {
+            fecharBusca();
+        }
     });
 }
 
 function toggleBusca() {
-    const barraBusca = document.getElementById('barraBusca');
-    const campoBusca = document.querySelector('.campo-busca');
-    const isAberta = barraBusca.classList.contains('ativa');
+    const popupBusca = document.getElementById('popupBusca');
+    const isAberta = popupBusca.classList.contains('aberto');
     if (isAberta) {
         fecharBusca();
     } else {
@@ -61,39 +68,41 @@ function toggleBusca() {
 }
 
 function abrirBusca() {
-    const barraBusca = document.getElementById('barraBusca');
-    const campoBusca = document.querySelector('.campo-busca');
+    const popupBusca = document.getElementById('popupBusca');
+    const campoBusca = document.querySelector('.popup-campo-busca');
     const botoesBusca = document.querySelectorAll('.botao-busca');
 
-    barraBusca.classList.add('ativa');
-    barraBusca.setAttribute('aria-hidden', 'false');
-    window.JC.state.buscaAberta = true;
+    if (!popupBusca) return;
+
+    popupBusca.classList.add('aberto');
+
+    if (window.JC && window.JC.state) {
+        window.JC.state.buscaAberta = true;
+    }
 
     // Adicionar classe ativo aos botões de busca (para ícone vermelho)
     botoesBusca.forEach(botao => botao.classList.add('ativo'));
 
     // Focar no campo após animação
     setTimeout(() => {
-        campoBusca.focus();
+        if (campoBusca) campoBusca.focus();
     }, 300);
 }
 
 function fecharBusca() {
-    const barraBusca = document.getElementById('barraBusca');
+    const popupBusca = document.getElementById('popupBusca');
     const botoesBusca = document.querySelectorAll('.botao-busca');
 
-    barraBusca.classList.remove('ativa');
-    barraBusca.setAttribute('aria-hidden', 'true');
-    window.JC.state.buscaAberta = false;
+    if (!popupBusca) return;
+
+    popupBusca.classList.remove('aberto');
+
+    if (window.JC && window.JC.state) {
+        window.JC.state.buscaAberta = false;
+    }
 
     // Remover classe ativo dos botões de busca (ícone volta ao normal)
     botoesBusca.forEach(botao => botao.classList.remove('ativo'));
-
-    // Fechar filtros também
-    fecharFiltros();
-
-    // Limpar sugestões
-    limparSugestoes();
 }
 
 // ===================================================

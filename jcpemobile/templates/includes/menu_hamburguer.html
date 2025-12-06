@@ -43,41 +43,17 @@
     </button>
 </div>
 </div>
-
-<!-- Barra de Busca (Expansível) -->
-<div class="barra-busca" id="barraBusca" aria-hidden="true">
-    
-    <div class="busca-container">
-        <input class="campo-busca" type="search" name="q" value="{{ request.GET.q|default:'' }}" placeholder="Pesquisar notícias" aria-label="Pesquisar notícias">
-        <button class="botao-filtros" aria-label="Filtros de busca">
-            <i class="fas fa-filter"></i>
-        </button>
-    </div>
-
-    <div class="filtros-busca" id="filtrosBusca">
-        <select class="filtro-data" aria-label="Filtrar por data">
-            <option value="">Todas as datas</option>
-            <option value="hoje">Hoje</option>
-            <option value="semana">Esta semana</option>
-            <option value="mes">Este mês</option>
-        </select>
-
-        <select class="filtro-categoria" aria-label="Filtrar por categoria">
-            <option value="">Todas as categorias</option>
-            {% for categoria in categorias_menu %}
-                <option value="{{ categoria.slug }}">{{ categoria.nome }}</option>
-            {% endfor %}
-        </select>
-
-        <select class="filtro-ordenar" aria-label="Ordenar por">
-            <option value="relevancia">Mais relevantes</option>
-            <option value="recentes">Mais recentes</option>
-            <option value="antigas">Mais antigas</option>
-        </select>
-    </div>
-
-</div>
 </header>
+
+<!-- Popup de Busca -->
+<div class="popup-busca" id="popupBusca">
+    <div class="popup-busca-conteudo">
+        <form action="{% url 'buscar' %}" method="get" class="popup-busca-form">
+            <input class="popup-campo-busca" type="search" name="q" value="{{ request.GET.q|default:'' }}" placeholder="faça sua pesquisa" aria-label="Pesquisar notícias">
+            <button class="popup-botao-pesquisar" type="submit">pesquisar</button>
+        </form>
+    </div>
+</div>
 
 <!-- Overlay do Menu -->
 <div class="menu-overlay" id="menuOverlay"></div>
