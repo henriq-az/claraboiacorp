@@ -57,10 +57,10 @@
 
 .popup-botao-pesquisar {
   padding: 14px 32px;
-  background: white;
-  color: #999;
+  background: #de1b24;
+  color: #ffffff;
   border: 1px solid #ddd;
-  border-radius: 50px;
+  border-radius: 100px;
   font-size: 15px;
   font-weight: 500;
   cursor: pointer;

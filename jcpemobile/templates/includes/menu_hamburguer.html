@@ -49,8 +49,8 @@
 <div class="popup-busca" id="popupBusca">
     <div class="popup-busca-conteudo">
         <form action="{% url 'buscar' %}" method="get" class="popup-busca-form">
-            <input class="popup-campo-busca" type="search" name="q" value="{{ request.GET.q|default:'' }}" placeholder="faça sua pesquisa" aria-label="Pesquisar notícias">
-            <button class="popup-botao-pesquisar" type="submit">pesquisar</button>
+            <input class="popup-campo-busca" type="search" name="q" value="{{ request.GET.q|default:'' }}" placeholder="Faça sua pesquisa" aria-label="Pesquisar notícias">
+            <button class="popup-botao-pesquisar" type="submit">Pesquisar</button>
         </form>
     </div>
 </div>
