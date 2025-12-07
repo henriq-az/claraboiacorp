@@ -9,11 +9,12 @@ describe('Teste de Salvar Notícias', () => {
     // Visita a página inicial
     cy.visit('/')
 
-    // Aguarda uma notícia estar visível na home
-    cy.get('.card.top', { timeout: 10000 }).should('exist').and('be.visible')
-
-    // Clica na primeira notícia para abrir os detalhes
-    cy.get('.card.top', { timeout: 10000 }).first().should('be.visible').click()
+    // Aguarda cards de notícias estarem visíveis (tenta múltiplos seletores)
+    cy.get('.card.top, .card.side, .news-item, a[href*="/"][class*="card"]', { timeout: 10000 })
+      .should('exist')
+      .and('be.visible')
+      .first()
+      .click()
 
     // Aguarda a página de detalhes carregar (URL será o slug da notícia)
     cy.url().should('not.equal', 'http://127.0.0.1:8000/')

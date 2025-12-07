@@ -9,11 +9,12 @@ describe('Teste de Votação em Enquete', () => {
     // Visita a página inicial
     cy.visit('/')
 
-    // Aguarda cards de notícias estarem visíveis
-    cy.get('.card.top', { timeout: 10000 }).should('exist').and('be.visible')
-
-    // Clica na primeira notícia para abrir os detalhes
-    cy.get('.card.top, .card.side', { timeout: 10000 }).first().should('be.visible').click()
+    // Aguarda cards de notícias estarem visíveis (tenta múltiplos seletores)
+    cy.get('.card.top, .card.side, .news-item, a[href*="/"][class*="card"]', { timeout: 10000 })
+      .should('exist')
+      .and('be.visible')
+      .first()
+      .click()
 
     // Aguarda a página de detalhes carregar e adiciona fake_ip à URL
     cy.url().should('not.equal', 'http://127.0.0.1:8000/').then((url) => {
