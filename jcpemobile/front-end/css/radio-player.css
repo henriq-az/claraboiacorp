@@ -1,0 +1,337 @@
+/* ===================================================
+   RADIO-PLAYER.CSS - JORNAL DO COMMERCIO
+   Player de Rádio Ao Vivo com Drop-up
+
+   ESTRATÉGIA DE RESPONSIVIDADE:
+   - Usa clamp() para dimensionamento fluido em qualquer resolução
+   - Sintaxe: clamp(mínimo, ideal, máximo)
+   - Todos os elementos se adaptam automaticamente ao viewport
+   - Breakpoints: 340px, 480px, 1024px
+   - Em telas < 340px: esconde ícone de volume
+   - Flexbox com space-between distribui elementos uniformemente
+   =================================================== */
+
+/* ===================================================
+   OVERLAY - Fundo escuro da página
+   =================================================== */
+
+.radio-player-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #1F1F1F;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 250ms ease-in-out, visibility 250ms ease-in-out;
+    z-index: 299;
+    pointer-events: none;
+}
+
+.radio-player-overlay.ativo {
+    opacity: 0; /* Desabilitado para permitir navegação */
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* ===================================================
+   RADIO PLAYER - Container Principal
+   =================================================== */
+
+.radio-player {
+    position: fixed;
+    bottom: 58px; /* Mais próximo do menu */
+    left: 12px;
+    right: 12px;
+    height: 100px; /* Reduzido para ser mais compacto */
+    background: #FFFFFF;
+    border-radius: 24px 24px 0 0; /* Apenas cantos superiores arredondados */
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08),
+                0 -2px 8px rgba(0, 0, 0, 0.04);
+    z-index: 299; /* Atrás da navegação inferior (z-index: 300) */
+    overflow: hidden; /* CRÍTICO: Impede vazamento de elementos */
+
+    /* Estado escondido */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(64px); /* Desce exatamente a altura do player */
+    transition: transform 250ms ease-in-out,
+                opacity 250ms ease-in-out,
+                visibility 250ms ease-in-out;
+
+    /* Centralização e max-width */
+    max-width: 680px;
+    margin: 0 auto;
+}
+
+/* Estado ativo - slide up */
+.radio-player.ativo {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* ===================================================
+   CONTAINER INTERNO - Layout Horizontal
+   =================================================== */
+
+.radio-player-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    padding: 0 clamp(16px, 4vw, 32px);
+    margin-top: -10px;
+    gap: clamp(8px, 2vw, 20px);
+}
+
+/* ===================================================
+   BOTÃO DE PLAY/PAUSE
+   =================================================== */
+
+.radio-play-button {
+    width: clamp(32px, 7vw, 42px);
+    height: clamp(32px, 7vw, 42px);
+    border-radius: 50%; /* círculo perfeito */
+    background: #2C2F39;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 150ms ease-in-out;
+    flex-shrink: 0;
+    padding: 0;
+}
+
+.radio-play-button:hover {
+    background: #3a3d47;
+    transform: scale(1.05);
+}
+
+.radio-play-button:active {
+    transform: scale(0.95);
+}
+
+.radio-play-button svg {
+    width: clamp(14px, 3.5vw, 18px);
+    height: clamp(14px, 3.5vw, 18px);
+}
+
+/* Toggle entre play e pause */
+.radio-player.playing .play-icon {
+    display: none;
+}
+
+.radio-player.playing .pause-icon {
+    display: block !important;
+}
+
+/* ===================================================
+   TIMER
+   =================================================== */
+
+.radio-timer {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: clamp(12px, 3vw, 16px);
+    font-weight: 500; /* medium */
+    color: #303030;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+    min-width: clamp(40px, 9vw, 55px);
+    text-align: left;
+}
+
+/* ===================================================
+   ÍCONE DE VOLUME
+   =================================================== */
+
+.radio-volume-icon {
+    width: clamp(22px, 5.5vw, 32px);
+    height: clamp(22px, 5.5vw, 32px);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.radio-volume-icon svg {
+    width: clamp(22px, 5.5vw, 32px);
+    height: clamp(22px, 5.5vw, 32px);
+}
+
+/* ===================================================
+   SLIDER DE VOLUME CUSTOMIZADO
+   Slider simples e fino com visual customizado
+   =================================================== */
+
+.radio-volume-slider {
+    flex: 1 1 auto;
+    min-width: clamp(60px, 15vw, 140px);
+    max-width: clamp(100px, 25vw, 220px);
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Track (trilha) do slider */
+.volume-track {
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    background: #E5E5E5;
+    border-radius: 50px;
+    overflow: hidden;
+}
+
+/* Preenchimento do slider */
+.volume-fill {
+    height: 100%;
+    background: #303030;
+    border-radius: 50px;
+    transition: width 0.1s ease;
+    position: relative;
+}
+
+/* Bolinha do thumb */
+.volume-fill::after {
+    content: '';
+    position: absolute;
+    right: -7px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+    background: #303030;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    transition: transform 0.15s ease;
+}
+
+/* Input escondido mas funcional */
+.volume-input-hidden {
+    width: 100%;
+    height: 20px;
+    opacity: 0;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+}
+
+/* Hover na bolinha */
+.radio-volume-slider:hover .volume-fill::after {
+    transform: translateY(-50%) scale(1.2);
+}
+
+/* ===================================================
+   BOTÃO "VER PROGRAMAÇÃO"
+   =================================================== */
+
+.radio-programacao-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: clamp(30px, 6vw, 38px);
+    padding: 0 clamp(12px, 3.5vw, 24px);
+    background: #2C2F39;
+    color: #FFFFFF;
+    font-size: clamp(10px, 2.5vw, 14px);
+    font-weight: 700; /* bold */
+    border-radius: calc(clamp(30px, 6vw, 38px) / 2); /* altura/2 = cápsula */
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 150ms ease-in-out;
+    flex-shrink: 0;
+    border: none;
+    cursor: pointer;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.radio-programacao-button:hover {
+    background: #3a3d47;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(44, 47, 57, 0.3);
+}
+
+.radio-programacao-button:active {
+    transform: translateY(0);
+}
+
+/* ===================================================
+   RESPONSIVIDADE
+   =================================================== */
+
+/* Tablets e desktop - centralização */
+@media (min-width: 768px) {
+    .radio-player {
+        left: 50%;
+        transform: translateX(-50%) translateY(64px); /* Desce exatamente a altura do player */
+        width: calc(100% - 48px);
+        max-width: 700px;
+    }
+
+    .radio-player.ativo {
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+/* Ajustes específicos para telas muito pequenas */
+@media (max-width: 340px) {
+    .radio-player-container {
+        padding: 0 12px;
+        gap: 6px;
+    }
+
+    .radio-volume-icon {
+        display: none; /* Esconde ícone apenas em telas extremamente pequenas */
+    }
+}
+
+/* Ajustes para telas pequenas */
+@media (min-width: 341px) and (max-width: 480px) {
+    .radio-player-container {
+        padding: 0 clamp(14px, 3vw, 20px);
+        gap: clamp(8px, 1.5vw, 12px);
+    }
+}
+
+/* Ajustes para tablets */
+@media (min-width: 481px) and (max-width: 1023px) {
+    .radio-player-container {
+        padding: 0 clamp(20px, 3.5vw, 28px);
+        gap: clamp(12px, 2vw, 16px);
+    }
+}
+
+/* Desktop e telas grandes */
+@media (min-width: 1024px) {
+    .radio-player-container {
+        padding: 0 32px;
+        gap: 20px;
+    }
+}
+
+/* ===================================================
+   ACESSIBILIDADE
+   =================================================== */
+
+/* Focus states para navegação por teclado */
+.radio-play-button:focus-visible,
+.volume-input:focus-visible,
+.radio-programacao-button:focus-visible {
+    outline: 2px solid #2C2F39;
+    outline-offset: 2px;
+}
+
+/* Reduz animações para usuários com preferência */
+@media (prefers-reduced-motion: reduce) {
+    .radio-player,
+    .radio-player-overlay,
+    .radio-play-button,
+    .radio-programacao-button,
+    .volume-input::-webkit-slider-thumb,
+    .volume-input::-moz-range-thumb {
+        transition: none;
+    }
+}

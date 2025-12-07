@@ -41,6 +41,7 @@
 <link rel="stylesheet" href="{% static 'css/responsivo.css' %}">
 <link rel="stylesheet" href="{% static 'css/modal-cadastro.css' %}">
 <link rel="stylesheet" href="{% static 'css/modal-feedback.css' %}">
+<link rel="stylesheet" href="{% static 'css/radio-player.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -198,6 +199,8 @@
 <span>Ao vivo</span>
 </a>
 </nav>
+
+{% include 'includes/radio_player.html' %}
 
 <!-- Nossos Produtos -->
 <section class="nossos-produtos">
@@ -360,6 +363,7 @@
 <script src="{% static 'js/cadastro.js' %}"></script>
 <script src="{% static 'js/login.js' %}"></script>
 <script src="{% static 'js/feedback.js' %}"></script>
+<script src="{% static 'js/radio-player.js' %}"></script>
 
     <script>
         function toggleBookmark(event, noticiaId) {

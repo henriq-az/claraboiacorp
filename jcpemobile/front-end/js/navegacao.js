@@ -506,19 +506,26 @@ function configurarSubmenusNivel2() {
 
 function configurarNavegacaoInferior() {
     const navItens = document.querySelectorAll('.navegacao-inferior .nav-item');
-    
+
     console.log('🔴 Navegação inferior configurada. Total de itens:', navItens.length);
 
     navItens.forEach(item => {
         item.addEventListener('click', (e) => {
             const itemHref = item.getAttribute('href');
-            
+
             console.log('🔴 Click detectado no item:', itemHref);
+
+            // IMPORTANTE: Botão de rádio (#radio) NÃO deve mudar o estado ativo
+            // O radio-player.js gerencia esse comportamento separadamente
+            if (itemHref === '#radio') {
+                console.log('🔴 Botão de rádio clicado - preservando estado ativo atual');
+                return; // Não faz nada aqui, deixa radio-player.js gerenciar
+            }
 
             // Always add the visual "ativo" state immediately for feedback
             navItens.forEach(i => i.classList.remove('nav-item-ativo'));
             item.classList.add('nav-item-ativo');
-            
+
             console.log('🔴 Classe nav-item-ativo adicionada ao item');
 
             // If this is a real link (navigates away), allow the browser to follow it
@@ -552,6 +559,10 @@ function executarAcaoNavegacao(href) {
             break;
         case '#perfil':
             mostrarPerfil();
+            break;
+        case '#radio':
+            // Radio player é gerenciado por radio-player.js
+            // Este case garante que o estado da navegação seja atualizado
             break;
     }
 }

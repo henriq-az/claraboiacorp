@@ -36,11 +36,13 @@
 <link rel="stylesheet" href="{% static 'css/base.css' %}">
 <link rel="stylesheet" href="{% static 'css/componentes.css' %}">
 <link rel="stylesheet" href="{% static 'css/layout.css' %}?v=9">
+<link rel="stylesheet" href="{% static 'css/menu_inferior.css' %}">
 <link rel="stylesheet" href="{% static 'css/home-layout.css' %}">
 <link rel="stylesheet" href="{% static 'css/nossos-produtos.css' %}">
 <link rel="stylesheet" href="{% static 'css/responsivo.css' %}">
 <link rel="stylesheet" href="{% static 'css/modal-cadastro.css' %}">
 <link rel="stylesheet" href="{% static 'css/modal-feedback.css' %}">
+<link rel="stylesheet" href="{% static 'css/radio-player.css' %}">
 
 <!-- Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -105,6 +107,7 @@
 </main>
 
 {% include 'includes/menu_inferior.html' %}
+{% include 'includes/radio_player.html' %}
 
 <!-- Nossos Produtos -->
 <section class="nossos-produtos">
@@ -264,6 +267,7 @@
 <script src="{% static 'js/cadastro.js' %}"></script>
 <script src="{% static 'js/login.js' %}"></script>
 <script src="{% static 'js/feedback.js' %}"></script>
+<script src="{% static 'js/radio-player.js' %}"></script>
 <script>
     function toggleBookmark(event, noticiaId) {
         event.preventDefault();

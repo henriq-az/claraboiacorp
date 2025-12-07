@@ -18,10 +18,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<!-- CSS do projeto -->
+<!-- CSS - Ordem Importante (mesma de index.html) -->
+<link rel="stylesheet" href="{% static 'css/reset.css' %}">
 <link rel="stylesheet" href="{% static 'css/variaveis.css' %}">
-<link rel="stylesheet" href="{% static 'css/layout.css' %}">
+<link rel="stylesheet" href="{% static 'css/base.css' %}">
+<link rel="stylesheet" href="{% static 'css/componentes.css' %}">
+<link rel="stylesheet" href="{% static 'css/layout.css' %}?v=9">
+<link rel="stylesheet" href="{% static 'css/menu_inferior.css' %}">
 <link rel="stylesheet" href="{% static 'css/neels.css' %}">
+<link rel="stylesheet" href="{% static 'css/responsivo.css' %}">
+<link rel="stylesheet" href="{% static 'css/modal-feedback.css' %}">
+<link rel="stylesheet" href="{% static 'css/radio-player.css' %}">
 </head>
 <body>
 <!-- Barra Superior UOL -->
@@ -81,39 +88,14 @@
     </div>
 </div>
 
-<!-- Navegação Inferior (Mobile) -->
-<nav class="navegacao-inferior" id="navegacaoInferior" aria-label="Navegação rápida">
-    <a href="{% url 'index' %}" class="nav-item">
-        <img src="{% static 'images/Home.png' %}" alt="Início" class="icone-home">
-        <span>Início</span>
-    </a>
-
-    <button id="botaoBusca" class="nav-item botao-busca" aria-label="Abrir busca">
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
-            <circle cx="18.3333" cy="18.3334" r="10" stroke="#33363F" stroke-width="3"/>
-            <path d="M33.3333 33.3334L28.3333 28.3334" stroke="#33363F" stroke-width="3" stroke-linecap="round"/>
-        </svg>
-        <span>Pesquisa</span>
-    </button>
-
-    <a href="{% url 'neels' %}" class="nav-item nav-item-ativo">
-        <img src="{% static 'images/NFC.png' %}" alt="Neels" class="icone-nfc">
-        <span>Neels</span>
-    </a>
-
-    <a href="{% url 'mais_lidas' %}" class="nav-item">
-        <img src="{% static 'images/Fire@3x.png' %}" alt="Mais Lidas" class="icone-fire">
-        <span>Mais Lidas</span>
-    </a>
-
-    <a href="#perfil" class="nav-item">
-        <img src="{% static 'images/Radio_Fill.png' %}" alt="Ao vivo" class="icone-radio">
-        <span>Ao vivo</span>
-    </a>
-</nav>
+{% include 'includes/menu_inferior.html' %}
+{% include 'includes/radio_player.html' %}
 
 <!-- JavaScript do projeto -->
+<script src="{% static 'js/navegacao.js' %}"></script>
+<script src="{% static 'js/busca.js' %}"></script>
 <script src="{% static 'js/neels.js' %}"></script>
+<script src="{% static 'js/radio-player.js' %}"></script>
 
 </body>
 </html>

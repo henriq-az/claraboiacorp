@@ -231,12 +231,8 @@ h1 {
         padding-top: 140px;
     }
 }
-        @keyframes slideUp {
-            from { transform: translateX(-50%) translateY(100px); opacity: 0; }
-            to { transform: translateX(-50%) translateY(0); opacity: 1; }
-        }
 
-        .modal-compartilhar-custom {
+.modal-compartilhar-custom {
             position: fixed;
             top: 0;
             left: 0;

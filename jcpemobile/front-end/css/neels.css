@@ -1,24 +1,13 @@
-/* Reset específico para a página de Reels */
-html, body {
-    height: 100% !important;
-    overflow: hidden !important;
-    font-family: 'Inter', sans-serif !important;
-    background: #000 !important;
-    margin: 0 !important;
-    padding: 0 !important;
+/* Estilos específicos para a página de Reels */
+body {
+    font-family: 'Inter', sans-serif;
+    background: #000;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
 }
 
-/* Remove contorno do botão de busca */
-.navegacao-inferior .botao-busca {
-    border: none !important;
-    outline: none !important;
-    background: transparent !important;
-}
-
-/* Remove sublinhado dos links da navegação */
-.navegacao-inferior a {
-    text-decoration: none !important;
-}
+/* NOTA: Estilos do menu inferior foram movidos para menu_inferior.css */
 
 /* Container principal dos reels */
 .reels-container {
@@ -28,6 +17,7 @@ html, body {
     right: 0;
     bottom: 0;
     overflow: hidden;
+    z-index: 1;
 }
 
 /* Wrapper que contém todos os slides */
@@ -78,18 +68,20 @@ html, body {
 /* Conteúdo do slide */
 .reel-content {
     position: absolute;
-    bottom: 150px;
+    bottom: 100px; /* Reduzido de 150px para dar mais espaço ao conteúdo */
     left: 0;
     right: 80px;
     padding: 20px;
     z-index: 3;
     color: white;
     transition: all 0.3s ease;
+    max-height: 40vh; /* Limita altura máxima para não cobrir toda a tela */
 }
 
 /* Quando o texto está expandido, ajusta a posição */
 .reel-content.expanded {
-    bottom: 160px;
+    bottom: 100px; /* Ajustado proporcionalmente */
+    max-height: 50vh; /* Mais espaço quando expandido */
 }
 
 /* Tag da categoria */
@@ -112,6 +104,7 @@ html, body {
     font-weight: 700;
     line-height: 1.3;
     margin-bottom: 12px;
+    color: #FFFFFF !important; /* Branco puro */
     text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
@@ -119,7 +112,8 @@ html, body {
 .reel-description {
     font-size: 17px;
     line-height: 1.5;
-    opacity: 0.9;
+    color: #D1D5DB !important; /* Cinza claro para contraste */
+    opacity: 1; /* Remove opacity para usar apenas a cor */
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -196,7 +190,7 @@ html, body {
     bottom: 190px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 10px;
     z-index: 1000;
     pointer-events: auto;
 }
@@ -219,7 +213,7 @@ html, body {
 }
 
 .reel-action:hover {
-    background: rgba(255,255,255,0.25);
+    background: transparent; /* Sem fundo no hover */
 }
 
 .reel-action:active {
@@ -310,3 +304,4 @@ html, body {
         height: 40px;
     }
 }
+

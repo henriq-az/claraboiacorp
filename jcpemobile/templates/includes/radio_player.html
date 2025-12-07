@@ -1,0 +1,50 @@
+{% load static %}
+<!-- Player de Rádio Ao Vivo - Drop-up -->
+<div class="radio-player-overlay" id="radioPlayerOverlay"></div>
+
+<div class="radio-player" id="radioPlayer">
+    <div class="radio-player-container">
+
+        <!-- Botão de Play/Pause -->
+        <button class="radio-play-button" id="radioPlayButton" aria-label="Play/Pause">
+            <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M8 5v14l11-7L8 5z" fill="#FFFFFF"/>
+            </svg>
+            <svg class="pause-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display: none;">
+                <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" fill="#FFFFFF"/>
+            </svg>
+        </button>
+
+        <!-- Timer -->
+        <div class="radio-timer" id="radioTimer">00:00</div>
+
+        <!-- Ícone de Volume -->
+        <div class="radio-volume-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M3 9v6h4l5 5V4L7 9H3z" fill="#303030"/>
+                <path d="M15.54 8.46a5 5 0 010 7.07" stroke="#303030" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M17.07 6.93a7 7 0 010 10.14" stroke="#303030" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+        </div>
+
+        <!-- Slider de Volume Customizado -->
+        <div class="radio-volume-slider" id="radioVolumeSliderContainer">
+            <div class="volume-track">
+                <div class="volume-fill" id="volumeFill" style="width: 85%;"></div>
+            </div>
+            <input type="range"
+                   class="volume-input-hidden"
+                   id="radioVolumeSlider"
+                   min="0"
+                   max="100"
+                   value="85"
+                   aria-label="Volume">
+        </div>
+
+        <!-- Botão Ver Programação -->
+        <button class="radio-programacao-button" type="button">
+            Ver Programação
+        </button>
+
+    </div>
+</div>

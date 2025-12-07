@@ -30,6 +30,8 @@
 <link rel="stylesheet" href="{% static 'css/layout.css' %}?v=9">
 <link rel="stylesheet" href="{% static 'css/home-layout.css' %}">
 <link rel="stylesheet" href="{% static 'css/responsivo.css' %}">
+<link rel="stylesheet" href="{% static 'css/modal-feedback.css' %}">
+<link rel="stylesheet" href="{% static 'css/radio-player.css' %}">
 <link rel="stylesheet" href="{% static 'css/popup-busca.css' %}">
 <link rel="stylesheet" href="{% static 'css/busca-resultados.css' %}">
 
@@ -213,8 +215,11 @@
 </a>
 </nav>
 
+{% include 'includes/radio_player.html' %}
+
 <script src="{% static 'js/app.js' %}"></script>
 <script src="{% static 'js/navegacao.js' %}"></script>
 <script src="{% static 'js/busca.js' %}"></script>
+<script src="{% static 'js/radio-player.js' %}"></script>
 </body>
 </html>
