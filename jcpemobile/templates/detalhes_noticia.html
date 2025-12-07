@@ -397,7 +397,7 @@ rows="4"
 
 /* Seção de Áudio (compacta - reduzida) */
 .audio-section {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 8px;
   padding: 8px 8px;
@@ -405,11 +405,13 @@ rows="4"
   border: 3px solid #E5E5E5;
   border-radius: 100px;
   margin-bottom: 40px;
+  margin-left: auto;
+  margin-right: auto;
   cursor: pointer;
   transition: all 0.12s ease;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
   max-width: 384px;
-  width: auto;
+  width: fit-content;
 }
 
 .audio-section:hover {
@@ -500,11 +502,12 @@ rows="4"
 
 @media (max-width: 480px) {
   .audio-section {
-    display: flex; /* full-width on small screens */
-    width: 88%;
-    max-width: 100%;
+    display: flex;
+    width: fit-content;
+    max-width: 88%;
     padding: 8px 12px;
-    margin-left: 20px;
+    margin-left: auto;
+    margin-right: auto;
   }
   .audio-info { min-width: 0; }
 }
