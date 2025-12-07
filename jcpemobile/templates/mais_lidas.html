@@ -552,7 +552,7 @@
     // FILTRO DE RANKING
     // ===================================================
     
-    let filtroAtual = 'todos'; // Filtro padrão
+    let filtroAtual = 'dia'; // Filtro padrão
     const noticias = {
         dia: [
             {% for noticia in noticias_hoje %}
@@ -656,9 +656,10 @@
 
     // Inicializar com o filtro padrão ao carregar a página
     document.addEventListener('DOMContentLoaded', () => {
-        // Por padrão, mostrar "Todos os tempos"
-        document.getElementById('btnTodos').classList.add('ativo');
-        renderizarNoticias('todos');
+        // Inicializar com 'Hoje' selecionado
+        document.querySelectorAll('.toggle-btn-filtro').forEach(btn => btn.classList.remove('ativo'));
+        document.getElementById('btnDia').classList.add('ativo');
+        renderizarNoticias('dia');
     });
 </script>
 </body>
