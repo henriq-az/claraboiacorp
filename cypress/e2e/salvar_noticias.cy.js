@@ -10,10 +10,10 @@ describe('Teste de Salvar Notícias', () => {
     cy.visit('/')
 
     // Aguarda uma notícia estar visível na home
-    cy.get('.card.top').should('be.visible')
+    cy.get('.card.top', { timeout: 10000 }).should('exist').and('be.visible')
 
     // Clica na primeira notícia para abrir os detalhes
-    cy.get('.card.top').first().click()
+    cy.get('.card.top', { timeout: 10000 }).first().should('be.visible').click()
 
     // Aguarda a página de detalhes carregar (URL será o slug da notícia)
     cy.url().should('not.equal', 'http://127.0.0.1:8000/')

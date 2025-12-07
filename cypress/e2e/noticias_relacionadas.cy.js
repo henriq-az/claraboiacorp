@@ -3,8 +3,8 @@ describe('Teste E2E - Notícias Relacionadas', () => {
     // Visita a home
     cy.visit('/')
 
-    // Clica no primeiro título de notícia disponível
-    cy.get('.title').first().click({ force: true })
+    // Clica no primeiro card de notícia disponível
+    cy.get('.card.top', { timeout: 10000 }).should('exist').first().click({ force: true })
 
     // Verifica que abriu uma página de notícia
     cy.url().should('match', /\/[^\s]+\/$/)
