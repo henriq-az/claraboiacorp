@@ -48,76 +48,6 @@
 <!-- Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="stylesheet" href="{% static 'css/mais_lidas.css' %}?v=2">
-
-<style>
-/* Estilo do Toggle de Filtro de Ranking */
-.ranking-filtro-toggle {
-  display: flex;
-  justify-content: center;
-  gap: 0;
-  margin-bottom: 24px;
-}
-
-.ranking-filtro-toggle > div {
-  display: inline-flex;
-  background: #fff;
-  border-radius: 24px;
-  padding: 0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e0e0e0;
-  overflow: hidden;
-}
-
-.toggle-btn-filtro {
-  padding: 10px 14px;
-  border: none;
-  background: #fff;
-  color: #666;
-  font-size: 12px;
-  font-weight: 600;
-  border-radius: 0;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  position: relative;
-  white-space: nowrap;
-}
-
-.toggle-btn-filtro:first-child {
-  border-radius: 24px 0 0 24px;
-}
-
-.toggle-btn-filtro:last-child {
-  border-radius: 0 24px 24px 0;
-}
-
-.toggle-btn-filtro:not(:first-child) {
-  border-left: 1px solid #e0e0e0;
-}
-
-.toggle-btn-filtro.ativo {
-  background: #DE1B24;
-  color: #fff;
-  border-color: #DE1B24;
-}
-
-.toggle-btn-filtro.ativo:not(:first-child) {
-  border-left-color: #DE1B24;
-}
-
-@media (max-width: 480px) {
-  .toggle-btn-filtro {
-    padding: 8px 10px;
-    font-size: 11px;
-  }
-
-  .ranking-filtro-toggle > div {
-    gap: 0;
-  }
-}
-</style>
 </head>
 <body>
 
@@ -138,7 +68,7 @@
 <!-- Conteúdo Principal -->
 <main class="conteudo-principal">
     <div class="container">
-        <h1># Ranking</h1>
+        <h1>Mais lidas</h1>
         <div class="underline"></div>
 
         <!-- Botões de Filtro -->
