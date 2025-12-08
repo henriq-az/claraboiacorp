@@ -1247,12 +1247,12 @@ rows="4"
 
   <!-- Versão Longa (padrão) -->
   <div class="noticia-conteudo" id="conteudoLongo" style="display: block;">
-    {{ noticia.conteudo|safe }}
+    {{ noticia.conteudo|linebreaks }}
   </div>
 
   <!-- Versão Curta (oculta inicialmente) -->
   <div class="noticia-conteudo" id="conteudoCurto" style="display: none;">
-    {{ noticia.resumo|safe }}
+    {{ noticia.resumo|linebreaks }}
   </div>
 
   <!-- Enquete -->
