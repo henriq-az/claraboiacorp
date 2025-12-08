@@ -42,25 +42,3 @@ jobs:
     - name: Verificar sintaxe do código
       run: |
         python manage.py check
-
-  deploy:
-    name: Deploy para PythonAnywhere
-    runs-on: ubuntu-latest
-    needs: test
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    
-    steps:
-    - name: Deploy via SSH
-      uses: appleboy/ssh-action@v1.0.0
-      with:
-        host: ssh.pythonanywhere.com
-        username: ${{ secrets.PYTHONANYWHERE_USERNAME }}
-        password: ${{ secrets.PYTHONANYWHERE_PASSWORD }}
-        script: |
-          cd ~/claraboiacorp
-          git pull origin main
-          source venv/bin/activate
-          pip install -r requirements.txt
-          python manage.py migrate
-          python manage.py collectstatic --noinput
-          touch /var/www/${{ secrets.PYTHONANYWHERE_USERNAME }}_pythonanywhere_com_wsgi.py
