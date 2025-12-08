@@ -720,6 +720,12 @@ Salvar Preferências
     </div>
 
   </div>
+  <div class="video-carousel-dots" aria-hidden="true">
+    <span class="dot active"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+  </div>
 </section>
 
 </div>
@@ -1107,6 +1113,62 @@ document.head.appendChild(animacaoStyle);
       ticking = true;
     }
   }, { passive: true });
+})();
+</script>
+
+<!-- Script para sincronizar dots do carrossel de vídeos -->
+<script>
+(function() {
+  const carousel = document.querySelector('.video-carousel');
+  const dots = document.querySelectorAll('.video-carousel-dots .dot');
+  const cards = document.querySelectorAll('.video-card');
+  
+  if (!carousel || dots.length === 0 || cards.length === 0) return;
+  
+  let ticking = false;
+  
+  function updateActiveDot() {
+    const scrollLeft = carousel.scrollLeft;
+    const cardWidth = cards[0].offsetWidth;
+    const gap = 16; // gap between cards
+    const totalWidth = cardWidth + gap;
+    
+    // Calculate which card is most visible
+    const activeIndex = Math.round(scrollLeft / totalWidth);
+    const clampedIndex = Math.max(0, Math.min(activeIndex, dots.length - 1));
+    
+    // Update dots
+    dots.forEach((dot, index) => {
+      if (index === clampedIndex) {
+        dot.classList.add('active');
+      } else {
+        dot.classList.remove('active');
+      }
+    });
+    
+    ticking = false;
+  }
+  
+  // Listen to scroll events
+  carousel.addEventListener('scroll', function() {
+    if (!ticking) {
+      window.requestAnimationFrame(updateActiveDot);
+      ticking = true;
+    }
+  }, { passive: true });
+  
+  // Optional: Click on dots to navigate
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', function() {
+      const cardWidth = cards[0].offsetWidth;
+      const gap = 16;
+      const scrollPosition = index * (cardWidth + gap);
+      carousel.scrollTo({
+        left: scrollPosition,
+        behavior: 'smooth'
+      });
+    });
+  });
 })();
 </script>
 </body>

@@ -1008,6 +1008,31 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
   width: 100%;
 }
 
+/* Carousel dots/indicators */
+.video-carousel-dots {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 12px;
+}
+.video-carousel-dots .dot {
+  width: 8px;
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+}
+.video-carousel-dots .dot:hover {
+  background: #b0b0b0;
+  transform: scale(1.15);
+}
+.video-carousel-dots .dot.active {
+  background: #2473B5;
+  transform: scale(1.2);
+}
+
 .video-destaque-card {
   background: #fff;
   border-radius: 24px;
