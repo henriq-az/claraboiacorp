@@ -1,4 +1,5 @@
 {% load static %}
+{% load noticia_filters %}
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -602,6 +603,31 @@ rows="4"
   max-width: 100%;
   height: auto;
   display: block;
+}
+
+/* ========== ANÚNCIOS INLINE ========== */
+.anuncio-inline {
+  margin: 24px 0;
+  width: 100%;
+  text-align: center;
+  background: #f9f9f9;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.anuncio-inline img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border-radius: 8px;
+}
+
+@media (max-width: 480px) {
+  .anuncio-inline {
+    padding: 12px;
+    margin: 20px 0;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1247,12 +1273,17 @@ rows="4"
 
   <!-- Versão Longa (padrão) -->
   <div class="noticia-conteudo" id="conteudoLongo" style="display: block;">
-    {{ noticia.conteudo|linebreaks }}
+    {{ noticia.conteudo|inserir_anuncios }}
   </div>
 
   <!-- Versão Curta (oculta inicialmente) -->
   <div class="noticia-conteudo" id="conteudoCurto" style="display: none;">
     {{ noticia.resumo|linebreaks }}
+    
+    <!-- Banner após texto curto -->
+    <div class="anuncio-inline" style="margin: 24px 0; width: 100%; text-align: center;">
+        <img src="https://jc.uol.com.br/img/selo_revista_recall.png" alt="Publicidade" style="max-width: 100%; height: auto; border-radius: 8px;">
+    </div>
   </div>
 
   <!-- Enquete -->
