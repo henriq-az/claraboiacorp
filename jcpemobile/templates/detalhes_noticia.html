@@ -1125,6 +1125,39 @@ rows="4"
     padding: 12px;
   }
 }
+
+/* ========== BANNER DE ANÚNCIO ========== */
+.banner-anuncio-section {
+  margin: 32px 0;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  overflow: hidden;
+  background: transparent;
+}
+
+.banner-anuncio {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 12px;
+}
+
+.banner-anuncio img {
+  width: 100%;
+  display: block;
+  height: auto;
+  border-radius: 8px;
+}
+
+@media (min-width: 768px) {
+  .banner-anuncio {
+    padding: 0 20px;
+  }
+}
 </style>
 
 <article class="noticia-detalhes">
@@ -1271,6 +1304,13 @@ rows="4"
 
 <!-- Linha do Tempo -->
 {% include 'includes/linha_do_tempo_noticia.html' %}
+
+<!-- Banner de Anúncio após Linha do Tempo -->
+<section class="banner-anuncio-section" aria-label="Espaço publicitário">
+  <div class="banner-anuncio">
+    <img src="https://jc.uol.com.br/img/selo_revista_recall.png" alt="Banner Publicitário">
+  </div>
+</section>
 
 <!-- Notícias Relacionadas -->
 {% if noticias_relacionadas %}
