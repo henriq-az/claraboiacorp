@@ -801,19 +801,21 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
 }
 
 .video-carousel-title {
-  font-size: 20px;
-  font-weight: 700;
-  color: #000;
-  margin-bottom: 8px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #000000;
+  margin-bottom: 4px;
   text-align: left;
+  margin-left: 1px;
 }
 
 .video-carousel-underline {
   width: 60px;
-  height: 4px;
+  height: 5px;
   background-color: #0066CC;
-  border-radius: 2px;
-  margin-bottom: 16px;
+  border-radius: 3px;
+  margin-bottom: 40px;
+  margin-left: 4px;
 }
 
 .video-carousel {
