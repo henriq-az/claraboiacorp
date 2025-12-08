@@ -661,49 +661,70 @@ Salvar Preferências
 
 <!-- Carrossel de Vídeos -->
 <section class="video-carousel-section">
-  <h2 class="video-carousel-title">Vídeos da TV Jornal</h2>
+  <div class="video-section-header">
+    <h2 class="video-carousel-title">Vídeos da TV Jornal</h2>
+    <div class="video-carousel-underline"></div>
+  </div>
   <div class="video-carousel">
     
     <div class="video-card">
-      <div style="position: relative;">
+      <div class="video-thumbnail-wrapper">
         <img class="video-thumbnail" src="https://s2-oglobo.glbimg.com/YIfXTNlGq2B-yF3cZwAK85b2QvM=/0x0:4816x3211/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_da025474c0c44edd99332dddb09cabe8/internal_photos/bs/2024/a/l/hELZB2Tvaa4gECCGhFxQ/107026302-pa-brasilia-df-22-05-2024-entrevista-exclusiva-senador-sergio-moro-em-seu-gabinete-fot.jpg" alt="Vídeo 1">
         <div class="video-play-icon"></div>
       </div>
       <div class="video-card-content">
-        <h3 class="video-title">Governador anuncia novas medidas para infraestrutura urbana</h3>
+        <div class="video-tags">
+          <span class="video-tag">WALDSON RALBINO</span>
+        </div>
+        <h3 class="video-title">Idosa é vítima de golpe após pagar por um medicamento fantasma</h3>
       </div>
     </div>
 
     <div class="video-card">
-      <div style="position: relative;">
+      <div class="video-thumbnail-wrapper">
         <img class="video-thumbnail" src="https://s2-oglobo.glbimg.com/YIfXTNlGq2B-yF3cZwAK85b2QvM=/0x0:4816x3211/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_da025474c0c44edd99332dddb09cabe8/internal_photos/bs/2024/a/l/hELZB2Tvaa4gECCGhFxQ/107026302-pa-brasilia-df-22-05-2024-entrevista-exclusiva-senador-sergio-moro-em-seu-gabinete-fot.jpg" alt="Vídeo 2">
         <div class="video-play-icon"></div>
       </div>
       <div class="video-card-content">
-        <h3 class="video-title">Santa Cruz vence partida decisiva no campeonato estadual</h3>
+        <div class="video-tags">
+          <span class="video-tag">WALDSON RALBINO</span>
+        </div>
+        <h3 class="video-title">Mobilizado: Acidente de trânsito causa transtornos</h3>
       </div>
     </div>
 
     <div class="video-card">
-      <div style="position: relative;">
+      <div class="video-thumbnail-wrapper">
         <img class="video-thumbnail" src="https://s2-oglobo.glbimg.com/YIfXTNlGq2B-yF3cZwAK85b2QvM=/0x0:4816x3211/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_da025474c0c44edd99332dddb09cabe8/internal_photos/bs/2024/a/l/hELZB2Tvaa4gECCGhFxQ/107026302-pa-brasilia-df-22-05-2024-entrevista-exclusiva-senador-sergio-moro-em-seu-gabinete-fot.jpg" alt="Vídeo 3">
         <div class="video-play-icon"></div>
       </div>
       <div class="video-card-content">
-        <h3 class="video-title">Especialistas debatem educação no estado de Pernambuco</h3>
+        <div class="video-tags">
+          <span class="video-tag">WALDSON RALBINO</span>
+        </div>
+        <h3 class="video-title">Especialistas debatem educação no estado</h3>
       </div>
     </div>
 
     <div class="video-card">
-      <div style="position: relative;">
+      <div class="video-thumbnail-wrapper">
         <img class="video-thumbnail" src="https://s2-oglobo.glbimg.com/YIfXTNlGq2B-yF3cZwAK85b2QvM=/0x0:4816x3211/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_da025474c0c44edd99332dddb09cabe8/internal_photos/bs/2024/a/l/hELZB2Tvaa4gECCGhFxQ/107026302-pa-brasilia-df-22-05-2024-entrevista-exclusiva-senador-sergio-moro-em-seu-gabinete-fot.jpg" alt="Vídeo 4">
         <div class="video-play-icon"></div>
       </div>
       <div class="video-card-content">
-        <h3 class="video-title">Polícia esclarece caso de intoxicação em bar do Recife</h3>
+        <div class="video-tags">
+          <span class="video-tag">WALDSON RALBINO</span>
+        </div>
+        <h3 class="video-title">Polícia esclarece caso no Recife</h3>
       </div>
     </div>
 
+  </div>
+  <div class="video-carousel-dots" aria-hidden="true">
+    <span class="dot active"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
   </div>
 </section>
 
@@ -1092,6 +1113,62 @@ document.head.appendChild(animacaoStyle);
       ticking = true;
     }
   }, { passive: true });
+})();
+</script>
+
+<!-- Script para sincronizar dots do carrossel de vídeos -->
+<script>
+(function() {
+  const carousel = document.querySelector('.video-carousel');
+  const dots = document.querySelectorAll('.video-carousel-dots .dot');
+  const cards = document.querySelectorAll('.video-card');
+  
+  if (!carousel || dots.length === 0 || cards.length === 0) return;
+  
+  let ticking = false;
+  
+  function updateActiveDot() {
+    const scrollLeft = carousel.scrollLeft;
+    const cardWidth = cards[0].offsetWidth;
+    const gap = 16; // gap between cards
+    const totalWidth = cardWidth + gap;
+    
+    // Calculate which card is most visible
+    const activeIndex = Math.round(scrollLeft / totalWidth);
+    const clampedIndex = Math.max(0, Math.min(activeIndex, dots.length - 1));
+    
+    // Update dots
+    dots.forEach((dot, index) => {
+      if (index === clampedIndex) {
+        dot.classList.add('active');
+      } else {
+        dot.classList.remove('active');
+      }
+    });
+    
+    ticking = false;
+  }
+  
+  // Listen to scroll events
+  carousel.addEventListener('scroll', function() {
+    if (!ticking) {
+      window.requestAnimationFrame(updateActiveDot);
+      ticking = true;
+    }
+  }, { passive: true });
+  
+  // Optional: Click on dots to navigate
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', function() {
+      const cardWidth = cards[0].offsetWidth;
+      const gap = 16;
+      const scrollPosition = index * (cardWidth + gap);
+      carousel.scrollTo({
+        left: scrollPosition,
+        behavior: 'smooth'
+      });
+    });
+  });
 })();
 </script>
 </body>
