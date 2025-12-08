@@ -6,3 +6,6 @@
 
 ## Status do CI/CD
 Pipeline configurado e testando deploy automático
+
+## 🧪 Testes Automatizados
+✅ 4 testes Django rodando no GitHub Actions
