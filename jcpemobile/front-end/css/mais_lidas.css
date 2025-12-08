@@ -1,8 +1,6 @@
 /* Reset do conteúdo principal */
 .conteudo-principal {
     background-color: #f5f5f5;
-    padding: 20px;
-    padding-top: 60px;
     min-height: 100vh;
 }
 .container {
@@ -256,7 +254,7 @@ h1 {
 @media (max-width: 480px) {
     .conteudo-principal {
         padding: 16px;
-        padding-top: 100px;
+        padding-top: 120px;
     }
 
     .news-item {
@@ -289,13 +287,6 @@ h1 {
   .ranking-filtro-toggle > div {
     gap: 0;
   }
-}
-
-@media (min-width: 768px) {
-    .conteudo-principal {
-        padding: 24px;
-        padding-top: 140px;
-    }
 }
 
 .modal-compartilhar-custom {
