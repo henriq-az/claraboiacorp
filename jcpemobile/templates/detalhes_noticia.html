@@ -1,4 +1,5 @@
 {% load static %}
+{% load noticia_filters %}
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -604,6 +605,31 @@ rows="4"
   display: block;
 }
 
+/* ========== ANÚNCIOS INLINE ========== */
+.anuncio-inline {
+  margin: 24px 0;
+  width: 100%;
+  text-align: center;
+  background: #f9f9f9;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.anuncio-inline img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border-radius: 8px;
+}
+
+@media (max-width: 480px) {
+  .anuncio-inline {
+    padding: 12px;
+    margin: 20px 0;
+  }
+}
+
 @media (max-width: 480px) {
   .conteudo-principal {
     padding: 12px;
@@ -1125,6 +1151,39 @@ rows="4"
     padding: 12px;
   }
 }
+
+/* ========== BANNER DE ANÚNCIO ========== */
+.banner-anuncio-section {
+  margin: 32px 0;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  overflow: hidden;
+  background: transparent;
+}
+
+.banner-anuncio {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 12px;
+}
+
+.banner-anuncio img {
+  width: 100%;
+  display: block;
+  height: auto;
+  border-radius: 8px;
+}
+
+@media (min-width: 768px) {
+  .banner-anuncio {
+    padding: 0 20px;
+  }
+}
 </style>
 
 <article class="noticia-detalhes">
@@ -1214,12 +1273,17 @@ rows="4"
 
   <!-- Versão Longa (padrão) -->
   <div class="noticia-conteudo" id="conteudoLongo" style="display: block;">
-    {{ noticia.conteudo|safe }}
+    {{ noticia.conteudo|inserir_anuncios }}
   </div>
 
   <!-- Versão Curta (oculta inicialmente) -->
   <div class="noticia-conteudo" id="conteudoCurto" style="display: none;">
-    {{ noticia.resumo|safe }}
+    {{ noticia.resumo|linebreaks }}
+    
+    <!-- Banner após texto curto -->
+    <div class="anuncio-inline" style="margin: 24px 0; width: 100%; text-align: center;">
+        <img src="https://jc.uol.com.br/img/selo_revista_recall.png" alt="Publicidade" style="max-width: 100%; height: auto; border-radius: 8px;">
+    </div>
   </div>
 
   <!-- Enquete -->
@@ -1271,6 +1335,13 @@ rows="4"
 
 <!-- Linha do Tempo -->
 {% include 'includes/linha_do_tempo_noticia.html' %}
+
+<!-- Banner de Anúncio após Linha do Tempo -->
+<section class="banner-anuncio-section" aria-label="Espaço publicitário">
+  <div class="banner-anuncio">
+    <img src="https://jc.uol.com.br/img/selo_revista_recall.png" alt="Banner Publicitário">
+  </div>
+</section>
 
 <!-- Notícias Relacionadas -->
 {% if noticias_relacionadas %}
@@ -1458,11 +1529,68 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<!-- Footer em branco para espaço de scroll -->
-<div style="height: 100px; background: transparent;"></div>
-
 </div>
 </main>
+
+<!-- Nossos Produtos -->
+<section class="nossos-produtos">
+<div class="nossos-produtos-container">
+<h2 class="nossos-produtos-titulo">Nossos Produtos</h2>
+<div class="produtos-grid">
+<a href="https://www.ne10.uol.com.br/interior" target="_blank" class="produto-item" title="NE10 Interior">
+<div class="produto-icone">
+<img src="https://sjcc.ne10.uol.com.br/rodape_global/img/ne10interior.webp" alt="NE10 Interior">
+</div>
+<span class="produto-nome">NE10 Interior</span>
+</a>
+
+<a href="https://www.radiojornal.ne10.uol.com.br/" target="_blank" class="produto-item" title="Rádio Jornal">
+<div class="produto-icone">
+<img src="https://sjcc.ne10.uol.com.br/rodape_global/img/radio.webp" alt="Rádio Jornal">
+</div>
+<span class="produto-nome">Rádio Jornal</span>
+</a>
+
+<a href="https://tvjornal.ne10.uol.com.br/" target="_blank" class="produto-item" title="TV Jornal">
+<div class="produto-icone">
+<img src="https://sjcc.ne10.uol.com.br/rodape_global/img/tvjornal.webp" alt="TV Jornal">
+</div>
+<span class="produto-nome">TV Jornal</span>
+</a>
+
+<a href="https://jc.ne10.uol.com.br/" target="_blank" class="produto-item" title="Jornal do Commercio">
+<div class="produto-icone">
+<img src="https://sjcc.ne10.uol.com.br/rodape_global/img/jc-novo.webp" alt="Jornal do Commercio">
+</div>
+<span class="produto-nome">Jornal do Commercio</span>
+</a>
+
+<a href="https://www.blogdotorcedor.com.br/" target="_blank" class="produto-item" title="Blog do Torcedor">
+<div class="produto-icone">
+<img src="https://sjcc.ne10.uol.com.br/rodape_global/img/blog_do_torcedor.webp" alt="Blog do Torcedor">
+</div>
+<span class="produto-nome">Blog do Torcedor</span>
+</a>
+
+<a href="https://www.social1.com.br/" target="_blank" class="produto-item" title="Social1">
+<div class="produto-icone">
+<img src="https://sjcc.ne10.uol.com.br/rodape_global/img/social.webp" alt="Social1">
+</div>
+<span class="produto-nome">Social1</span>
+</a>
+
+<a href="https://www.receitadaboa.com.br/" target="_blank" class="produto-item" title="Receita da Boa">
+<div class="produto-icone">
+<img src="https://sjcc.ne10.uol.com.br/rodape_global/img/receita_da_boa.webp" alt="Receita da Boa">
+</div>
+<span class="produto-nome">Receita da Boa</span>
+</a>
+</div>
+</div>
+</section>
+
+<!-- Rodapé -->
+{% include 'includes/footer.html' %}
 
 {% include 'includes/menu_inferior.html' %}
 {% include 'includes/radio_player.html' %}
