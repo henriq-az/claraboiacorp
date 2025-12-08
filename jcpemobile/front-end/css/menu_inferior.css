@@ -30,7 +30,7 @@
     /* Visual */
     background: rgba(255, 255, 255, 0.98);
     border: none;
-    border-radius: 35px;
+    border-radius: 25px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15), 0 2px 10px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(10px);
 
@@ -127,14 +127,18 @@
     transform: scale(1.05);
 }
 
-/* Aplicar filtro VERMELHO a TODOS os ícones quando ativos */
-.navegacao-inferior .nav-item-ativo .icone-home,
-.navegacao-inferior .nav-item-ativo .icone-nfc,
-.navegacao-inferior .nav-item-ativo .icone-fire,
-.navegacao-inferior .nav-item-ativo .icone-radio {
-    opacity: 1 !important;
-    -webkit-filter: invert(18%) sepia(98%) saturate(7474%) hue-rotate(356deg) brightness(91%) contrast(109%) !important;
-    filter: invert(18%) sepia(98%) saturate(7474%) hue-rotate(356deg) brightness(91%) contrast(109%) !important;
+/* Aplicar cor VERMELHA aos SVGs quando ativos */
+.navegacao-inferior .nav-item-ativo svg path[stroke] {
+    stroke: #DE1B24 !important;
+}
+
+.navegacao-inferior .nav-item-ativo svg circle[stroke] {
+    stroke: #DE1B24 !important;
+}
+
+/* Para paths que tem fill (como o ícone de "Mais Lidas") */
+.navegacao-inferior .nav-item-ativo svg path[fill]:not([fill="none"]) {
+    fill: #DE1B24 !important;
 }
 
 /* Indicador visual moderno - removido */
@@ -146,51 +150,22 @@
    ÍCONES DA NAVEGAÇÃO
    =================================================== */
 
-/* Ícone Home - Cor padrão #33363F */
-.icone-home {
-    width: 40px;
-    height: 40px;
-    object-fit: contain;
-    display: inline-block;
-    -webkit-filter: brightness(0) saturate(100%) invert(20%) sepia(5%) saturate(1000%) hue-rotate(180deg) brightness(95%) contrast(90%);
-    filter: brightness(0) saturate(100%) invert(20%) sepia(5%) saturate(1000%) hue-rotate(180deg) brightness(95%) contrast(90%);
+/* SVGs da navegação - Cor padrão #33363F */
+.navegacao-inferior svg {
     transition: all 0.2s ease;
 }
 
-/* Ícone NFC (Neels) - Cor padrão #33363F */
-.icone-nfc {
-    width: 40px;
-    height: 40px;
-    object-fit: contain;
-    display: inline-block;
-    -webkit-filter: brightness(0) saturate(100%) invert(20%) sepia(5%) saturate(1000%) hue-rotate(180deg) brightness(95%) contrast(90%);
-    filter: brightness(0) saturate(100%) invert(20%) sepia(5%) saturate(1000%) hue-rotate(180deg) brightness(95%) contrast(90%);
-    transition: all 0.2s ease;
+.navegacao-inferior svg path,
+.navegacao-inferior svg circle {
+    transition: stroke 0.2s ease, fill 0.2s ease;
 }
 
-/* Ícone Fire (Mais Lidas) - Cor padrão #33363F */
-.icone-fire {
-    width: 40px;
-    height: 40px;
-    object-fit: contain;
-    display: inline-block;
-    -webkit-filter: brightness(0) saturate(100%) invert(20%) sepia(5%) saturate(1000%) hue-rotate(180deg) brightness(95%) contrast(90%) !important;
-    filter: brightness(0) saturate(100%) invert(20%) sepia(5%) saturate(1000%) hue-rotate(180deg) brightness(95%) contrast(90%) !important;
-    transition: all 0.2s ease;
+/* Botão "AO VIVO" - SEMPRE VERMELHO */
+#botaoRadio svg path {
+    stroke: #DE1B24 !important;
+    fill: #DE1B24 !important;
 }
 
-/* Ícone Rádio (Ao vivo) - SEMPRE VERMELHO */
-.icone-radio {
-    width: 40px;
-    height: 40px;
-    object-fit: contain;
-    display: inline-block;
-    -webkit-filter: invert(18%) sepia(98%) saturate(7474%) hue-rotate(356deg) brightness(91%) contrast(109%) !important;
-    filter: invert(18%) sepia(98%) saturate(7474%) hue-rotate(356deg) brightness(91%) contrast(109%) !important;
-    transition: all 0.2s ease;
-}
-
-/* Texto do botão "AO VIVO" - SEMPRE VERMELHO */
 #botaoRadio span {
     color: #DE1B24 !important;
 }
@@ -252,20 +227,8 @@
 
 /* Telas muito pequenas - reduz ícones */
 @media (max-width: 360px) {
-    .icone-home,
-    .icone-nfc,
-    .icone-fire,
-    .icone-radio {
+    .navegacao-inferior svg {
         width: 18px;
         height: 18px;
-    }
-
-    .navegacao-inferior .botao-busca svg {
-        width: 18px;
-        height: 18px;
-    }
-
-    .icone-fire {
-        transform: none;
     }
 }
