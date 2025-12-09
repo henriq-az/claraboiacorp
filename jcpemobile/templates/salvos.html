@@ -2,565 +2,431 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<!-- Meta Tags Essenciais -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-<!-- SEO e Meta Informações -->
-<meta name="description" content="Jornal do Commercio - O mais tradicional veículo de comunicação de Pernambuco. Notícias, reportagens e cobertura completa.">
-<meta name="keywords" content="notícias, pernambuco, recife, jornal, commercio, jc, política, economia, esportes">
+<meta name="description" content="Notícias salvas - Jornal do Commercio">
+<meta name="keywords" content="notícias, pernambuco, recife, jornal, commercio, jc">
 <meta name="author" content="Jornal do Commercio">
-<meta name="robots" content="index, follow">
 
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website">
-<meta property="og:title" content="TOP 10 Mais Lidas - Jornal do Commercio">
-<meta property="og:description" content="As notícias mais lidas do Jornal do Commercio">
-<meta property="og:image" content="{% static 'images/logo-jc.png' %}">
-
-<!-- Favicon -->
 <link rel="icon" type="image/png" href="{% static 'images/jc-favicon.png' %}">
+<title>Salvos - Jornal do Commercio</title>
 
-<!-- Título -->
-<title>TOP 10 Mais Lidas - Jornal do Commercio</title>
-
-<!-- Fontes -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<!-- CSS - Ordem Importante -->
 <link rel="stylesheet" href="{% static 'css/reset.css' %}">
 <link rel="stylesheet" href="{% static 'css/variaveis.css' %}">
 <link rel="stylesheet" href="{% static 'css/base.css' %}">
 <link rel="stylesheet" href="{% static 'css/componentes.css' %}">
 <link rel="stylesheet" href="{% static 'css/layout.css' %}?v=9">
-<link rel="stylesheet" href="{% static 'css/home-layout.css' %}">
-<link rel="stylesheet" href="{% static 'css/nossos-produtos.css' %}">
-<link rel="stylesheet" href="{% static 'css/responsivo.css' %}">
-<link rel="stylesheet" href="{% static 'css/modal-cadastro.css' %}">
-<link rel="stylesheet" href="{% static 'css/modal-feedback.css' %}">
+<link rel="stylesheet" href="{% static 'css/menu_inferior.css' %}">
 <link rel="stylesheet" href="{% static 'css/radio-player.css' %}">
 <link rel="stylesheet" href="{% static 'css/popup-busca.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+body {
+    background-color: #f5f5f5;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.salvos-container {
+    max-width: 100%;
+    padding: 140px 16px 100px;
+    background-color: #f5f5f5;
+}
+
+.salvos-header {
+    margin-bottom: 24px;
+}
+
+.salvos-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 8px;
+}
+
+.salvos-underline {
+    width: 80px;
+    height: 4px;
+    background-color: #DE1B24;
+    border-radius: 2px;
+}
+
+.salvos-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.salvos-item {
+    display: flex;
+    align-items: flex-start;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+}
+
+.salvos-item:active {
+    transform: scale(0.98);
+}
+
+.salvos-item-image {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.salvos-item-content {
+    flex: 1;
+    padding: 16px 16px 16px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.salvos-item-tag {
+    font-size: 12px;
+    font-weight: 600;
+    color: #DE1B24;
+    text-transform: capitalize;
+    letter-spacing: 0.3px;
+}
+
+.salvos-item-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #000;
+    line-height: 1.3;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.salvos-item-desc {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.salvos-item-menu {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.salvos-item-menu svg {
+    width: 20px;
+    height: 20px;
+    fill: #666;
+}
+
+.salvos-empty {
+    text-align: center;
+    padding: 60px 20px;
+    background: white;
+    border-radius: 12px;
+    margin-top: 20px;
+}
+
+.salvos-empty p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 16px;
+}
+
+.salvos-empty a {
+    color: #DE1B24;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+/* Notificação Toast */
+.notificacao-feedback {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 10000;
+    animation: slideUp 0.3s ease-out;
+    font-size: 14px;
+    font-weight: 500;
+    min-width: 200px;
+    justify-content: center;
+}
+
+.notificacao-success {
+    background-color: #10b981;
+    color: white;
+}
+
+.notificacao-error {
+    background-color: #ef4444;
+    color: white;
+}
+
+.notificacao-feedback i {
+    font-size: 1.1rem;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translate(-50%, 100%);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+    to {
+        transform: translate(-50%, 100%);
+        opacity: 0;
+    }
+}
+</style>
 </head>
 <body>
 <!-- Barra Superior UOL -->
 <div class="barra-uol">
-<div class="barra-uol-container">
-<a href="https://www.uol.com.br" target="_blank" rel="noopener noreferrer">
-<img src="https://conteudo.imguol.com.br/c/_layout/v3/logoUOL2021/logo_completo_white.svg" width="68" height="24" alt="UOL - O melhor conteúdo" title="UOL - O melhor conteúdo">
-</a>
+    <div class="barra-uol-container">
+        <a href="https://www.uol.com.br" target="_blank" rel="noopener noreferrer">
+            <img src="https://conteudo.imguol.com.br/c/_layout/v3/logoUOL2021/logo_completo_white.svg" width="68" height="24" alt="UOL - O melhor conteúdo">
+        </a>
+    </div>
 </div>
-</div>
-
-<div class="top-bar"></div>
 
 {% include 'includes/menu_hamburguer.html' %}
 
-<main class="conteudo-principal">
-    <div class="container">
-        <h1>#Salvos</h1>
-        <div class="underline"></div>
-
-        <div class="news-list" id="newsList">
-            {% if user.is_authenticated %}
-                {% if salvos_list %}
-                    {% for item in salvos_list %}
-                    <a href="{% url 'noticia_detalhe' item.noticia.slug %}" class="news-item">
-                        <div class="news-content">
-                            <div class="news-header">
-                                <span class="tag">{{ item.noticia.categoria.nome }}</span>
-                                <h2 class="news-title">{{ item.noticia.titulo }}</h2>
-                            </div>
-                            <p class="news-desc">{{ item.noticia.resumo|truncatewords:20 }}</p>
-                        </div>
-                        {% if item.noticia.imagem %}
-                        <img src="{{ item.noticia.imagem.url }}" alt="{{ item.noticia.titulo }}" class="news-image">
-                        {% else %}
-                        <img src="{% static 'images/placeholder.jpg' %}" alt="{{ item.noticia.titulo }}" class="news-image">
-                        {% endif %}
-                        <div class="more-options" onclick="removerNoticia(event, {{ item.noticia.id }})">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <circle cx="12" cy="5" r="2"/>
-                                <circle cx="12" cy="12" r="2"/>
-                                <circle cx="12" cy="19" r="2"/>
-                            </svg>
-                        </div>
-                    </a>
-                    {% endfor %}
-                {% else %}
-                    <div style="text-align: center; padding: 40px; color: #666;">
-                        <p>Você ainda não salvou nenhuma notícia.</p>
-                        <a href="{% url 'index' %}" style="color: #DE1B24; text-decoration: none; font-weight: 600;">Explorar notícias</a>
-                    </div>
-                {% endif %}
-            {% else %}
-                <div id="noticiasSalvasLocal"></div>
-            {% endif %}
-        </div>
-
-        <!-- Seção Últimas Notícias -->
-        <div class="ranking-section">
-            <div class="section-header">
-                <h2 class="section-title">Últimas Notícias</h2>
-                <div class="title-underline"></div>
-            </div>
-            
-            <div class="news-list">
-            <!-- Notícia 1 - Pernambuco -->
-            <a href="#" class="news-item">
-                <div class="news-content">
-                    <div class="news-header">
-                        <span class="tag">Pernambuco</span>
-                        <h2 class="news-title">Polícia investiga série de crimes no centro da cidade</h2>
-                    </div>
-                    <p class="news-desc">Autoridades buscam pistas sobre os incidentes ocorridos nas últimas semanas na região central</p>
-                </div>
-                <img src="https://s2-oglobo.glbimg.com/YIfXTNlGq2B-yF3cZwAK85b2QvM=/0x0:4816x3211/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_da025474c0c44edd99332dddb09cabe8/internal_photos/bs/2024/a/l/hELZB2Tvaa4gECCGhFxQ/107026302-pa-brasilia-df-22-05-2024-entrevista-exclusiva-senador-sergio-moro-em-seu-gabinete-fot.jpg" alt="Notícia Pernambuco" class="news-image">
-                <div class="more-options">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <circle cx="12" cy="5" r="2"/>
-                        <circle cx="12" cy="12" r="2"/>
-                        <circle cx="12" cy="19" r="2"/>
-                    </svg>
-                </div>
-            </a>
-
-            <!-- Notícia 2 - Nacional -->
-            <a href="#" class="news-item">
-                <div class="news-content">
-                    <div class="news-header">
-                        <span class="tag">Nacional</span>
-                        <h2 class="news-title">Governo anuncia novas medidas econômicas para 2025</h2>
-                    </div>
-                    <p class="news-desc">Pacote inclui incentivos fiscais e programas de geração de emprego em todo o país</p>
-                </div>
-                <img src="https://kyoto.com.br/wp-content/uploads/2021/10/BTS.jpg" alt="Notícia Nacional" class="news-image">
-                <div class="more-options">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <circle cx="12" cy="5" r="2"/>
-                        <circle cx="12" cy="12" r="2"/>
-                        <circle cx="12" cy="19" r="2"/>
-                    </svg>
-                </div>
-            </a>
-
-            <!-- Notícia 3 - Esportes -->
-            <a href="#" class="news-item">
-                <div class="news-content">
-                    <div class="news-header">
-                        <span class="tag">Esportes</span>
-                        <h2 class="news-title">Time local conquista título do campeonato regional</h2>
-                    </div>
-                    <p class="news-desc">Vitória emocionante garante a taça após disputa acirrada contra o rival histórico</p>
-                </div>
-                <img src="https://s2-oglobo.glbimg.com/YIfXTNlGq2B-yF3cZwAK85b2QvM=/0x0:4816x3211/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_da025474c0c44edd99332dddb09cabe8/internal_photos/bs/2024/a/l/hELZB2Tvaa4gECCGhFxQ/107026302-pa-brasilia-df-22-05-2024-entrevista-exclusiva-senador-sergio-moro-em-seu-gabinete-fot.jpg" alt="Notícia Esportes" class="news-image">
-                <div class="more-options">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <circle cx="12" cy="5" r="2"/>
-                        <circle cx="12" cy="12" r="2"/>
-                        <circle cx="12" cy="19" r="2"/>
-                    </svg>
-                </div>
-            </a>
-        </div>
-        </div>
+<!-- Container Principal -->
+<div class="salvos-container">
+    <div class="salvos-header">
+        <h1 class="salvos-title"># Salvos</h1>
+        <div class="salvos-underline"></div>
     </div>
-</main>
 
-<!-- Navegação Inferior (Mobile) -->
-<nav class="navegacao-inferior" id="navegacaoInferior" aria-label="Navegação rápida">
-<a href="{% url 'index' %}" class="nav-item nav-item-ativo">
-<img src="{% static 'images/Home.png' %}" alt="Início" class="icone-home">
-<span>Início</span>
-</a>
+    <div class="salvos-list">
+        {% if user.is_authenticated %}
+            {% if salvos_list %}
+                {% for item in salvos_list %}
+                <a href="{% url 'noticia_detalhe' item.noticia.slug %}" class="salvos-item">
+                    {% if item.noticia.imagem %}
+                    <img src="{{ item.noticia.imagem.url }}" alt="{{ item.noticia.titulo }}" class="salvos-item-image">
+                    {% else %}
+                    <img src="{% static 'images/placeholder.jpg' %}" alt="{{ item.noticia.titulo }}" class="salvos-item-image">
+                    {% endif %}
 
-<button id="botaoBusca" class="nav-item botao-busca" aria-label="Abrir busca">
-<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
-<circle cx="18.3333" cy="18.3334" r="10" stroke="#33363F" stroke-width="3"/>
-<path d="M33.3333 33.3334L28.3333 28.3334" stroke="#33363F" stroke-width="3" stroke-linecap="round"/>
-</svg>
-<span>Pesquisa</span>
-</button>
+                    <div class="salvos-item-content">
+                        <span class="salvos-item-tag">{{ item.noticia.categoria.nome }}</span>
+                        <h2 class="salvos-item-title">{{ item.noticia.titulo }}</h2>
+                        <p class="salvos-item-desc">{{ item.noticia.resumo|truncatewords:15 }}</p>
+                    </div>
 
-<a href="{% url 'neels' %}" class="nav-item">
-<img src="{% static 'images/NFC.png' %}" alt="Neels" class="icone-nfc">
-<span>Neels</span>
-</a>
+                    <div class="salvos-item-menu" onclick="removerNoticia(event, {{ item.noticia.id }})">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <circle cx="12" cy="5" r="2"/>
+                            <circle cx="12" cy="12" r="2"/>
+                            <circle cx="12" cy="19" r="2"/>
+                        </svg>
+                    </div>
+                </a>
+                {% endfor %}
+            {% else %}
+                <div class="salvos-empty">
+                    <p>Você ainda não salvou nenhuma notícia.</p>
+                    <a href="{% url 'index' %}">Explorar notícias</a>
+                </div>
+            {% endif %}
+        {% else %}
+            <div id="noticiasSalvasLocal"></div>
+        {% endif %}
+    </div>
+</div>
 
-<a href="{% url 'mais_lidas' %}" class="nav-item">
-<img src="{% static 'images/Fire@3x.png' %}" alt="Mais Lidas" class="icone-fire">
-<span>Mais Lidas</span>
-</a>
-
-<a href="#perfil" class="nav-item">
-<img src="{% static 'images/Radio_Fill.png' %}" alt="Ao vivo" class="icone-radio">
-<span>Ao vivo</span>
-</a>
-</nav>
-
+{% include 'includes/menu_inferior.html' %}
 {% include 'includes/radio_player.html' %}
 
-<!-- Nossos Produtos -->
-<section class="nossos-produtos">
-<div class="nossos-produtos-container">
-<h2 class="nossos-produtos-titulo">Nossos Produtos</h2>
-<div class="produtos-grid">
-<a href="https://www.ne10.uol.com.br/interior" target="_blank" class="produto-item" title="NE10 Interior">
-<div class="produto-icone">
-<img src="https://sjcc.ne10.uol.com.br/rodape_global/img/ne10interior.webp" alt="NE10 Interior">
-</div>
-<span class="produto-nome">NE10 Interior</span>
-</a>
-
-<a href="https://www.radiojornal.ne10.uol.com.br/" target="_blank" class="produto-item" title="Rádio Jornal">
-<div class="produto-icone">
-<img src="https://sjcc.ne10.uol.com.br/rodape_global/img/radio.webp" alt="Rádio Jornal">
-</div>
-<span class="produto-nome">Rádio Jornal</span>
-</a>
-
-<a href="https://tvjornal.ne10.uol.com.br/" target="_blank" class="produto-item" title="TV Jornal">
-<div class="produto-icone">
-<img src="https://sjcc.ne10.uol.com.br/rodape_global/img/tvjornal.webp" alt="TV Jornal">
-</div>
-<span class="produto-nome">TV Jornal</span>
-</a>
-
-<a href="https://jc.ne10.uol.com.br/" target="_blank" class="produto-item" title="Jornal do Commercio">
-<div class="produto-icone">
-<img src="https://sjcc.ne10.uol.com.br/rodape_global/img/jc-novo.webp" alt="Jornal do Commercio">
-</div>
-<span class="produto-nome">Jornal do Commercio</span>
-</a>
-
-<a href="https://www.blogdotorcedor.com.br/" target="_blank" class="produto-item" title="Blog do Torcedor">
-<div class="produto-icone">
-<img src="https://sjcc.ne10.uol.com.br/rodape_global/img/blog_do_torcedor.webp" alt="Blog do Torcedor">
-</div>
-<span class="produto-nome">Blog do Torcedor</span>
-</a>
-
-<a href="https://www.social1.com.br/" target="_blank" class="produto-item" title="Social1">
-<div class="produto-icone">
-<img src="https://sjcc.ne10.uol.com.br/rodape_global/img/social.webp" alt="Social1">
-</div>
-<span class="produto-nome">Social1</span>
-</a>
-
-<a href="https://www.receitadaboa.com.br/" target="_blank" class="produto-item" title="Receita da Boa">
-<div class="produto-icone">
-<img src="https://sjcc.ne10.uol.com.br/rodape_global/img/receita_da_boa.webp" alt="Receita da Boa">
-</div>
-<span class="produto-nome">Receita da Boa</span>
-</a>
-</div>
-</div>
-</section>
-
-<!-- Rodapé -->
-<footer class="rodape" id="rodape">
-<div class="rodape-conteudo">
-<div class="rodape-logo">
-<img src="https://jc.uol.com.br/img/logo.svg" alt="Jornal do Commercio" class="logo-imagem">
-<p>O jornal mais tradicional de Pernambuco</p>
-
-<h3 class="rodape-redes-titulo">Nossas Redes</h3>
-<div class="rodape-redes-sociais">
-<a href="https://www.facebook.com/jornaldocommercio" target="_blank" class="icone-social icone-facebook" aria-label="Facebook">
-<i class="fab fa-facebook-f"></i>
-</a>
-<a href="https://www.instagram.com/jornaldocommercio" target="_blank" class="icone-social icone-instagram" aria-label="Instagram">
-<i class="fab fa-instagram"></i>
-</a>
-<a href="https://twitter.com/jornalcommercio" target="_blank" class="icone-social icone-twitter" aria-label="Twitter">
-<svg xmlns="http://www.w3.org/2000/svg" width="34" height="35" viewBox="0 0 34 35" fill="none">
-<circle cx="14.5946" cy="15.4054" r="14.5946" fill="#D9D9D9"/>
-<path d="M11.1514 7.90039L11.1807 7.9375L15.4121 13.2725L20.6582 7.92969L20.6875 7.90039H22.4531L22.2861 8.07031L16.2012 14.2676L23.0781 22.9375L23.207 23.0996H17.8936L17.8633 23.0625L13.2607 17.2607L7.55859 23.0703L7.5293 23.0996H5.76172L5.92871 22.9297L12.4717 16.2666L5.96289 8.0625L5.83496 7.90039H11.1514ZM18.5391 21.8662H20.6084L10.5049 9.13086H8.43555L18.5391 21.8662Z" fill="#33363F" stroke="#33363F" stroke-width="0.2"/>
-</svg>
-</a>
-<a href="https://www.linkedin.com/company/jornal-do-commercio" target="_blank" class="icone-social icone-linkedin" aria-label="LinkedIn">
-<i class="fab fa-linkedin-in"></i>
-</a>
-<a href="https://www.youtube.com/@jornaldocommercio" target="_blank" class="icone-social icone-youtube" aria-label="YouTube">
-<i class="fab fa-youtube"></i>
-</a>
-<a href="https://www.tiktok.com/@jornaldocommercio" target="_blank" class="icone-social icone-tiktok" aria-label="TikTok">
-<i class="fab fa-tiktok"></i>
-</a>
-</div>
-</div>
-
-<div class="rodape-links">
-<div class="rodape-coluna">
-<h3>Canais</h3>
-<ul>
-<li><a href="{% url 'index' %}">Últimas Notícias</a></li>
-<li><a href="#colunas">Colunas</a></li>
-<li><button class="btn-feedback-footer" onclick="abrirModalFeedback()">Envie seu Feedback</button></li>
-</ul>
-</div>
-
-<div class="rodape-coluna">
-<h3>Institucionais</h3>
-<ul>
-<li><a href="#quem-somos">Quem Somos</a></li>
-<li><a href="https://www.jcpm.com.br/sustentabilidade/" target="_blank">Práticas ASG JCPM</a></li>
-<li><a href="https://ne10.uol.com.br/privacidade/" target="_blank">Privacidade</a></li>
-<li><a href="#melhores-praticas">Melhores Práticas</a></li>
-<li><a href="#lgpd">LGPD</a></li>
-<li><a href="#publicacoes">Publicações</a></li>
-<li><a href="#expediente">Expediente</a></li>
-<li><a href="#fale-conosco">Fale Conosco</a></li>
-<li><a href="https://sjcc.gupy.io/" target="_blank">Trabalhe Conosco</a></li>
-</ul>
-</div>
-
-<div class="rodape-coluna">
-<h3>Serviços</h3>
-<ul>
-<li><a href="#noticias-whatsapp">Notícias pelo WhatsApp</a></li>
-<li><a href="#newsletter">Newsletter JC</a></li>
-<li><a href="#publicidade-legal">Publicidade Legal</a></li>
-<li><a href="https://ads.sjcc.com.br/?utm_source=jc_site&utm_medium=bt_anuncie_conosco&utm_campaign=anuncie_aqui_rodape&_gl=1*2yvvs*_ga*NzAwNTE0NTM1LjE3NTUyNjUzOTc.*_ga_S1QTC8L49Z*czE3NjE2NTkyMjMkbzI2JGcxJHQxNzYxNjYwNzk5JGoyOCRsMCRoMA.." target="_blank">Anuncie Conosco</a></li>
-</ul>
-</div>
-
-<div class="rodape-coluna">
-<h3>Aplicativos</h3>
-<ul>
-<li><a href="#app-jc">Jornal do Commercio</a></li>
-<li><a href="#app-radio">Rádio Jornal</a></li>
-</ul>
-</div>
-</div>
-</div>
-
-<div class="rodape-copyright">
-<p>&copy; 2025 Jornal do Commercio. Todos os direitos reservados.</p>
-</div>
-
-<div class="rodape-grupo-jcpm">
-<p class="rodape-grupo-texto">Jornal @ 2025 - Uma empresa do grupo JCPM</p>
-<p class="rodape-licenciamento">PARA SOLICITAÇÃO DE LICENCIAMENTO, CONTACTAR EDITORES@NE10.COM.BR</p>
-<img src="https://imagens.ne10.uol.com.br/jcpm/logo_jcpm_footer.svg" alt="Grupo JCPM" class="marca-grupo-jcpm">
-</div>
-</footer>
-
-<!-- Modal de Cadastro -->
-{% include 'cadastro_modal.html' %}
-
-<!-- Modal de Login -->
-{% include 'login_modal.html' %}
-
 <!-- JavaScript -->
-<script src="{% static 'js/app.js' %}"></script>
-<script src="{% static 'js/header-animation.js' %}"></script>
 <script src="{% static 'js/navegacao.js' %}"></script>
 <script src="{% static 'js/busca.js' %}"></script>
-<script src="{% static 'js/noticias.js' %}"></script>
-<script src="{% static 'js/cadastro.js' %}"></script>
-<script src="{% static 'js/login.js' %}"></script>
-<script src="{% static 'js/feedback.js' %}"></script>
 <script src="{% static 'js/radio-player.js' %}"></script>
 
-    <script>
-        function toggleBookmark(event, noticiaId) {
-            event.preventDefault();
-            event.stopPropagation();
-            
-            const icon = event.currentTarget;
-            const svg = icon.querySelector('svg');
-            
-            if (svg && svg.getAttribute) {
-                const currentFill = svg.getAttribute('fill');
-                if (!currentFill || currentFill === 'none') {
-                    svg.setAttribute('fill', '#DE1B24');
-                    icon.style.opacity = '1';
-                } else {
-                    svg.setAttribute('fill', 'none');
-                    icon.style.opacity = '0.4';
-                }
-            }
-        }
+<script>
+function mostrarNotificacao(mensagem, tipo) {
+    const notificacaoExistente = document.querySelector('.notificacao-feedback');
+    if (notificacaoExistente) {
+        notificacaoExistente.remove();
+    }
 
-        function mostrarNotificacao(mensagem, tipo) {
-            const notificacaoExistente = document.querySelector('.notificacao-feedback');
-            if (notificacaoExistente) {
-                notificacaoExistente.remove();
-            }
+    const notificacao = document.createElement('div');
+    notificacao.className = `notificacao-feedback notificacao-${tipo}`;
+    notificacao.innerHTML = `
+        <i class="fas fa-${tipo === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+        <span>${mensagem}</span>
+    `;
 
-            const notificacao = document.createElement('div');
-            notificacao.className = `notificacao-feedback notificacao-${tipo}`;
-            notificacao.innerHTML = `
-                <i class="fas fa-${tipo === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
-                <span>${mensagem}</span>
+    document.body.appendChild(notificacao);
+
+    setTimeout(() => {
+        notificacao.style.animation = 'slideDown 0.3s ease-out';
+        setTimeout(() => notificacao.remove(), 300);
+    }, 3000);
+}
+
+// Função para carregar notícias salvas do localStorage
+async function carregarNoticiasSalvasLocal() {
+    const container = document.getElementById('noticiasSalvasLocal');
+    if (!container) return;
+
+    const salvas = localStorage.getItem('noticiasSalvas');
+    if (!salvas) {
+        container.innerHTML = `
+            <div class="salvos-empty">
+                <p>Você ainda não salvou nenhuma notícia.</p>
+                <a href="{% url 'index' %}">Explorar notícias</a>
+            </div>
+        `;
+        return;
+    }
+
+    const ids = JSON.parse(salvas);
+    if (ids.length === 0) {
+        container.innerHTML = `
+            <div class="salvos-empty">
+                <p>Você ainda não salvou nenhuma notícia.</p>
+                <a href="{% url 'index' %}">Explorar notícias</a>
+            </div>
+        `;
+        return;
+    }
+
+    // Buscar notícias por IDs
+    try {
+        const response = await fetch(`/api/noticias/?ids=${ids.join(',')}`);
+        const noticias = await response.json();
+
+        if (noticias.length === 0) {
+            container.innerHTML = `
+                <div class="salvos-empty">
+                    <p>Você ainda não salvou nenhuma notícia.</p>
+                    <a href="{% url 'index' %}">Explorar notícias</a>
+                </div>
             `;
-
-            // Adicionar estilos apenas uma vez
-            if (!document.getElementById('notificacao-feedback-styles')) {
-                const styleElement = document.createElement('style');
-                styleElement.id = 'notificacao-feedback-styles';
-                styleElement.textContent = `
-                    .notificacao-feedback {
-                        position: fixed;
-                        top: 80px;
-                        right: 20px;
-                        padding: 15px 20px;
-                        border-radius: 8px;
-                        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-                        display: flex;
-                        align-items: center;
-                        gap: 10px;
-                        z-index: 10000;
-                        animation: slideInRight 0.3s ease-out;
-                        font-size: 0.95rem;
-                        font-weight: 500;
-                    }
-                    .notificacao-success { background-color: #10b981; color: white; }
-                    .notificacao-error { background-color: #ef4444; color: white; }
-                    .notificacao-feedback i { font-size: 1.2rem; }
-                    @keyframes slideInRight {
-                        from { transform: translateX(100%); opacity: 0; }
-                        to { transform: translateX(0); opacity: 1; }
-                    }
-                    @keyframes slideOutRight {
-                        from { transform: translateX(0); opacity: 1; }
-                        to { transform: translateX(100%); opacity: 0; }
-                    }
-                `;
-                document.head.appendChild(styleElement);
-            }
-
-            document.body.appendChild(notificacao);
-
-            setTimeout(() => {
-                notificacao.style.animation = 'slideOutRight 0.3s ease-out';
-                setTimeout(() => notificacao.remove(), 300);
-            }, 3000);
+            return;
         }
 
-        // Função para carregar notícias salvas do localStorage
-        async function carregarNoticiasSalvasLocal() {
-            const container = document.getElementById('noticiasSalvasLocal');
-            if (!container) return;
+        container.innerHTML = noticias.map(noticia => `
+            <a href="/${noticia.slug}/" class="salvos-item">
+                <img src="${noticia.imagem || '{% static "images/placeholder.jpg" %}'}" alt="${noticia.titulo}" class="salvos-item-image">
 
-            const salvas = localStorage.getItem('noticiasSalvas');
-            if (!salvas) {
-                container.innerHTML = `
-                    <div style="text-align: center; padding: 40px; color: #666;">
-                        <p>Você ainda não salvou nenhuma notícia.</p>
-                        <a href="{% url 'index' %}" style="color: #DE1B24; text-decoration: none; font-weight: 600;">Explorar notícias</a>
-                    </div>
-                `;
-                return;
-            }
+                <div class="salvos-item-content">
+                    <span class="salvos-item-tag">${noticia.categoria || 'Notícia'}</span>
+                    <h2 class="salvos-item-title">${noticia.titulo}</h2>
+                    <p class="salvos-item-desc">${noticia.resumo || ''}</p>
+                </div>
 
-            const ids = JSON.parse(salvas);
-            if (ids.length === 0) {
-                container.innerHTML = `
-                    <div style="text-align: center; padding: 40px; color: #666;">
-                        <p>Você ainda não salvou nenhuma notícia.</p>
-                        <a href="{% url 'index' %}" style="color: #DE1B24; text-decoration: none; font-weight: 600;">Explorar notícias</a>
-                    </div>
-                `;
-                return;
-            }
+                <div class="salvos-item-menu" onclick="removerNoticiaLocal(event, ${noticia.id})">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <circle cx="12" cy="5" r="2"/>
+                        <circle cx="12" cy="12" r="2"/>
+                        <circle cx="12" cy="19" r="2"/>
+                    </svg>
+                </div>
+            </a>
+        `).join('');
+    } catch (error) {
+        console.error('Erro ao carregar notícias salvas:', error);
+        container.innerHTML = `
+            <div class="salvos-empty">
+                <p>Erro ao carregar notícias salvas.</p>
+            </div>
+        `;
+    }
+}
 
-            // Buscar notícias por IDs
-            try {
-                const response = await fetch(`/api/noticias/?ids=${ids.join(',')}`);
-                const noticias = await response.json();
+// Função para remover notícia salva (usuário logado)
+function removerNoticia(event, noticiaId) {
+    event.preventDefault();
+    event.stopPropagation();
 
-                if (noticias.length === 0) {
-                    container.innerHTML = `
-                        <div style="text-align: center; padding: 40px; color: #666;">
-                            <p>Você ainda não salvou nenhuma notícia.</p>
-                            <a href="{% url 'index' %}" style="color: #DE1B24; text-decoration: none; font-weight: 600;">Explorar notícias</a>
-                        </div>
-                    `;
-                    return;
-                }
+    if (!confirm('Deseja remover esta notícia dos salvos?')) return;
 
-                container.innerHTML = noticias.map(noticia => `
-                    <a href="/${noticia.slug}/" class="news-item">
-                        <div class="news-content">
-                            <div class="news-header">
-                                <span class="tag">${noticia.categoria || 'Notícia'}</span>
-                                <h2 class="news-title">${noticia.titulo}</h2>
-                            </div>
-                            <p class="news-desc">${noticia.resumo || ''}</p>
-                        </div>
-                        <img src="${noticia.imagem || '{% static "images/placeholder.jpg" %}'}" alt="${noticia.titulo}" class="news-image">
-                        <div class="more-options" onclick="removerNoticiaLocal(event, ${noticia.id})">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <circle cx="12" cy="5" r="2"/>
-                                <circle cx="12" cy="12" r="2"/>
-                                <circle cx="12" cy="19" r="2"/>
-                            </svg>
-                        </div>
-                    </a>
-                `).join('');
-            } catch (error) {
-                console.error('Erro ao carregar notícias salvas:', error);
-                container.innerHTML = `
-                    <div style="text-align: center; padding: 40px; color: #666;">
-                        <p>Erro ao carregar notícias salvas.</p>
-                    </div>
-                `;
-            }
+    fetch(`/remover-noticia-salva/${noticiaId}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Content-Type': 'application/json',
         }
-
-        // Função para remover notícia salva (usuário logado)
-        function removerNoticia(event, noticiaId) {
-            event.preventDefault();
-            event.stopPropagation();
-
-            if (!confirm('Deseja remover esta notícia dos salvos?')) return;
-
-            fetch(`/remover-noticia-salva/${noticiaId}/`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': '{{ csrf_token }}',
-                    'Content-Type': 'application/json',
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    mostrarNotificacao('Notícia removida dos salvos!', 'success');
-                    location.reload();
-                } else {
-                    mostrarNotificacao(data.message || 'Erro ao remover notícia.', 'error');
-                }
-            })
-            .catch(error => {
-                console.error('Erro:', error);
-                mostrarNotificacao('Erro ao remover notícia.', 'error');
-            });
-        }
-
-        // Função para remover notícia do localStorage (usuário não logado)
-        function removerNoticiaLocal(event, noticiaId) {
-            event.preventDefault();
-            event.stopPropagation();
-
-            if (!confirm('Deseja remover esta notícia dos salvos?')) return;
-
-            const salvas = JSON.parse(localStorage.getItem('noticiasSalvas') || '[]');
-            const novasSalvas = salvas.filter(id => id !== noticiaId.toString() && id !== noticiaId);
-            localStorage.setItem('noticiasSalvas', JSON.stringify(novasSalvas));
-
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
             mostrarNotificacao('Notícia removida dos salvos!', 'success');
-            carregarNoticiasSalvasLocal();
+            setTimeout(() => location.reload(), 1000);
+        } else {
+            mostrarNotificacao(data.message || 'Erro ao remover notícia.', 'error');
         }
+    })
+    .catch(error => {
+        console.error('Erro:', error);
+        mostrarNotificacao('Erro ao remover notícia.', 'error');
+    });
+}
 
-        // Carregar notícias ao iniciar a página
-        {% if not user.is_authenticated %}
-        document.addEventListener('DOMContentLoaded', carregarNoticiasSalvasLocal);
-        {% endif %}
-    </script>
+// Função para remover notícia do localStorage (usuário não logado)
+function removerNoticiaLocal(event, noticiaId) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (!confirm('Deseja remover esta notícia dos salvos?')) return;
+
+    const salvas = JSON.parse(localStorage.getItem('noticiasSalvas') || '[]');
+    const novasSalvas = salvas.filter(id => id !== noticiaId.toString() && id !== noticiaId);
+    localStorage.setItem('noticiasSalvas', JSON.stringify(novasSalvas));
+
+    mostrarNotificacao('Notícia removida dos salvos!', 'success');
+    setTimeout(() => carregarNoticiasSalvasLocal(), 1000);
+}
+
+// Carregar notícias ao iniciar a página
+{% if not user.is_authenticated %}
+document.addEventListener('DOMContentLoaded', carregarNoticiasSalvasLocal);
+{% endif %}
+</script>
 </body>
 </html>

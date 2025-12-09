@@ -184,12 +184,22 @@
 
     // Função para salvar/remover notícia
     async function toggleSaveNoticia(noticiaId, btn) {
+        console.log('[NEELS] toggleSaveNoticia chamado com ID:', noticiaId);
+
+        if (!noticiaId) {
+            console.error('[NEELS] ID da notícia não encontrado!');
+            showToast('Erro: ID da notícia não encontrado');
+            return;
+        }
+
         const isSaved = btn.classList.contains('saved');
 
         try {
             const url = isSaved
                 ? `/remover-noticia-salva/${noticiaId}/`
                 : `/salvar-noticia/${noticiaId}/`;
+
+            console.log('[NEELS] Fazendo requisição para:', url);
 
             const response = await fetch(url, {
                 method: 'POST',
@@ -199,7 +209,10 @@
                 }
             });
 
+            console.log('[NEELS] Status da resposta:', response.status);
+
             const data = await response.json();
+            console.log('[NEELS] Dados da resposta:', data);
 
             if (data.success) {
                 btn.classList.toggle('saved');
@@ -216,7 +229,7 @@
                 }
             }
         } catch (error) {
-            console.error('Erro:', error);
+            console.error('[NEELS] Erro:', error);
             showToast('Erro ao processar requisição');
         }
     }
@@ -224,21 +237,30 @@
     // Verifica estado inicial das notícias salvas
     async function verificarNoticiasSalvas() {
         const saveButtons = document.querySelectorAll('.reel-action[data-action="save"]');
+        console.log('[NEELS] Verificando notícias salvas. Total de botões:', saveButtons.length);
 
         for (const btn of saveButtons) {
             const noticiaId = btn.dataset.noticiaId;
-            if (!noticiaId) continue;
+            console.log('[NEELS] Verificando notícia ID:', noticiaId);
+
+            if (!noticiaId) {
+                console.warn('[NEELS] Botão sem ID encontrado:', btn);
+                continue;
+            }
 
             try {
                 const response = await fetch(`/verificar-noticia-salva/${noticiaId}/`);
+                console.log('[NEELS] Verificação - Status:', response.status, 'para ID:', noticiaId);
+
                 if (response.ok) {
                     const data = await response.json();
+                    console.log('[NEELS] Verificação - Dados:', data);
                     if (data.salva) {
                         btn.classList.add('saved');
                     }
                 }
             } catch (error) {
-                console.error('Erro ao verificar notícia:', error);
+                console.error('[NEELS] Erro ao verificar notícia:', error);
             }
         }
     }
@@ -260,6 +282,8 @@
 
             const action = btn.dataset.action;
             const noticiaId = btn.dataset.noticiaId;
+
+            console.log('[NEELS] Botão clicado - Action:', action, 'ID:', noticiaId);
 
             if (action === 'like') {
                 btn.classList.toggle('liked');

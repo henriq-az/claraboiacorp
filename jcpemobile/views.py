@@ -517,12 +517,18 @@ def painel_diario(request):
     return render(request, 'painel_diario.html')
 
 
-@login_required
 @require_http_methods(["POST"])
 def salvar_noticia(request, noticia_id):
     """View para salvar uma notícia"""
+    # Verificar autenticação
+    if not request.user.is_authenticated:
+        return JsonResponse({
+            'success': False,
+            'message': 'Faça login para salvar notícias'
+        }, status=401)
+
     noticia = get_object_or_404(Noticia, id=noticia_id)
-    
+
     try:
         # Tenta criar o salvamento
         NoticaSalva.objects.create(usuario=request.user, noticia=noticia)
@@ -540,10 +546,16 @@ def salvar_noticia(request, noticia_id):
         })
 
 
-@login_required
 @require_http_methods(["POST"])
 def remover_noticia_salva(request, noticia_id):
     """View para remover uma notícia salva"""
+    # Verificar autenticação
+    if not request.user.is_authenticated:
+        return JsonResponse({
+            'success': False,
+            'message': 'Faça login para gerenciar notícias salvas'
+        }, status=401)
+
     noticia = get_object_or_404(Noticia, id=noticia_id)
 
     try:
@@ -562,9 +574,14 @@ def remover_noticia_salva(request, noticia_id):
         })
 
 
-@login_required
 def verificar_noticia_salva(request, noticia_id):
     """View para verificar se uma notícia está salva"""
+    # Se não estiver autenticado, retornar que não está salva
+    if not request.user.is_authenticated:
+        return JsonResponse({
+            'salva': False
+        })
+
     noticia = get_object_or_404(Noticia, id=noticia_id)
 
     salva = NoticaSalva.objects.filter(usuario=request.user, noticia=noticia).exists()
