@@ -589,12 +589,11 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
 }
 
 .container {
-      width: 100%;
-      max-width: 400px;
-      margin: 0 auto;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 16px;
 }
 
 /* CARD GERAL */
@@ -805,7 +804,6 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
   font-weight: bold;
   color: #000000;
   margin-bottom: 4px;
-  text-align: left;
   margin-left: 1px;
 }
 
