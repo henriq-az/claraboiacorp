@@ -119,7 +119,7 @@ def index(request):
     return render(request, 'index.html', context)
 
 def lista_por_categoria(request, slug):
-    todas_noticias = Noticia.objects.select_related('categoria', 'autor').order_by('-data_publicacao')
+    todas_noticias = Noticia.objects.select_related('categoria', 'autor').order_by('-data_publicacao') 
 
     print(f"[DEBUG] Total geral: {todas_noticias.count()}")
 
@@ -130,12 +130,45 @@ def lista_por_categoria(request, slug):
     
     noticias_salvas_ids = []
     if request.user.is_authenticated:
-        noticias_salvas_ids = NoticaSalva.objects.filter(usuario=request.user).values_list('noticia_id', flat=True)
+        noticias_salvas_ids = NoticaSalva.objects.filter(usuario=request.user).values_list('noticia_id', flat=True) 
+
+    noticia_principal = noticias_categoria.first()
+
+    # noticias relacionadas com a noticia mais recente da categoria
+    noticias_relacionadas = []
+    if noticia_principal:
+        tags_ids = noticia_principal.tags.values_list('id', flat=True)
+
+        if tags_ids:
+            noticias_relacionadas = Noticia.objects.filter(
+                categoria__slug=slug,
+                tags__id__in=tags_ids
+            ).exclude(
+                id=noticia_principal.id
+            ).distinct().select_related(
+                'categoria', 'autor'
+            ).order_by('-data_publicacao')[:2] # buscar 2 relacionadas
+
+        # Se não encontrou relacionadas por tags, buscar apenas da mesma categoria
+        if len(noticias_relacionadas) < 2:
+            faltam = 2 - len(noticias_relacionadas)
+
+            outras = Noticia.objects.filter(
+                categoria__slug=slug
+            ).exclude(
+                id__in=[noticia_principal.id] + [n.id for n in noticias_relacionadas]
+            ).select_related(
+                'categoria', 'autor'
+            ).order_by('-data_publicacao')[:faltam]
+
+            # juntar resultados sem duplicar
+            noticias_relacionadas = list(noticias_relacionadas) + list(outras)
 
     context = {
         'categoria': Categoria.objects.get(slug=slug),
         'noticias': noticias_categoria,
         'noticias_salvas_ids': noticias_salvas_ids,
+        "noticias_relacionadas": noticias_relacionadas,
     }
 
     return render(request, 'categoria.html', context)
