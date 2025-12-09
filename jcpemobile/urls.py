@@ -8,7 +8,7 @@ from .views import (
     api_preferencias, linha_do_tempo, lista_por_categoria,
     painel_linhas_tempo, criar_linha_tempo, editar_linha_tempo, deletar_linha_tempo,
     adicionar_noticia_linha_tempo, remover_noticia_linha_tempo, api_linhas_tempo_noticia,
-    remover_noticia_linha_tempo_api, buscar, preferencias
+    remover_noticia_linha_tempo_api, buscar, preferencias, perfil_autor
 )
 
 urlpatterns = [
@@ -57,6 +57,9 @@ urlpatterns = [
 
     # Rotas API para criar autor
     path('painel/api/autor/criar/', admin_criar_autor, name='admin_criar_autor'),
+
+    # Perfil do autor/colunista
+    path('autor/<slug:slug>/', perfil_autor, name='perfil_autor'),
 
     path('<slug:slug>/', noticia_detalhe, name='noticia_detalhe'),
 ]

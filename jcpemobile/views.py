@@ -1348,3 +1348,24 @@ def preferencias(request):
     """View para a página de preferências."""
     return render(request, 'preferencias.html')
 
+
+def perfil_autor(request, slug):
+    """View para exibir o perfil do autor/colunista e suas contribuições."""
+    autor = get_object_or_404(Autor, slug=slug)
+    
+    # Buscar todas as notícias do autor, ordenadas por data
+    noticias = Noticia.objects.filter(autor=autor).select_related('categoria').order_by('-data_publicacao')
+    
+    # Paginação (12 notícias por página)
+    paginator = Paginator(noticias, 12)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    context = {
+        'autor': autor,
+        'noticias': page_obj,
+        'total_contribuicoes': noticias.count(),
+    }
+    
+    return render(request, 'perfil_autor.html', context)
+
