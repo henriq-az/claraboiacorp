@@ -2133,7 +2133,7 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
   margin-bottom: 4px;
   color: #000000;
   font-weight: bold;
-  margin-left: 18px;
+  margin-left: 14px;
 }
 
 .pernambuco-underline {
@@ -2141,8 +2141,8 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
   height: 5px;
   background: #DE1B24;
   margin-bottom: 24px;
-  border-radius: 18px;
-  margin-left: 19px;
+  border-radius: 3px;
+  margin-left: 14px;
 }
 
 .pernambuco-header {
@@ -2264,7 +2264,6 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
   background: #DE1B24;
   margin-bottom: 24px;
   border-radius: 4px;
-  margin-left: 2px;
 }
 
 .charge-header {
