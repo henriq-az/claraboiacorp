@@ -735,36 +735,6 @@
     border: none;
 }
 
-.redes-sociais-lista a:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    color: #ffffff;
-}
-
-/* Cores específicas para cada rede social - apenas no hover */
-.redes-sociais-lista a:nth-child(1):hover {
-    background: #1877F2;
-}
-
-.redes-sociais-lista a:nth-child(2):hover {
-    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-}
-
-.redes-sociais-lista a:nth-child(3):hover {
-    background: #1DA1F2;
-}
-
-.redes-sociais-lista a:nth-child(4):hover {
-    background: #0A66C2;
-}
-
-.redes-sociais-lista a:nth-child(5):hover {
-    background: #FF0000;
-}
-
-.redes-sociais-lista a:nth-child(6):hover {
-    background: #000000;
-}
 
 /* Responsividade das redes sociais */
 @media (max-width: 768px) {
@@ -1061,40 +1031,6 @@
     text-decoration: none;
 }
 
-.icone-social:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    color: #ffffff;
-}
-
-.icone-facebook:hover {
-    background: #1877F2;
-}
-
-.icone-instagram:hover {
-    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-}
-
-.icone-twitter:hover {
-    background: #1DA1F2;
-    color: #ffffff;
-}
-
-.icone-twitter:hover svg path {
-    fill: #ffffff;
-}
-
-.icone-linkedin:hover {
-    background: #0A66C2;
-}
-
-.icone-youtube:hover {
-    background: #FF0000;
-}
-
-.icone-tiktok:hover {
-    background: #000000;
-}
 
 .rodape-links {
     display: grid;
