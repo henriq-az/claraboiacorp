@@ -1,0 +1,341 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<!-- Meta Tags Essenciais -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<!-- SEO e Meta Informações -->
+<meta name="description" content="Configure suas preferências de conteúdo - Jornal do Commercio">
+<meta name="robots" content="noindex, nofollow">
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="{% static 'images/jc-favicon.png' %}">
+
+<!-- Título -->
+<title>Preferências - Jornal do Commercio</title>
+
+<!-- Fontes -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- CSS - Ordem Importante -->
+<link rel="stylesheet" href="{% static 'css/reset.css' %}">
+<link rel="stylesheet" href="{% static 'css/variaveis.css' %}">
+<link rel="stylesheet" href="{% static 'css/base.css' %}">
+<link rel="stylesheet" href="{% static 'css/componentes.css' %}">
+<link rel="stylesheet" href="{% static 'css/layout.css' %}">
+<link rel="stylesheet" href="{% static 'css/menu_inferior.css' %}">
+<link rel="stylesheet" href="{% static 'css/preferencias.css' %}">
+
+<!-- Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+/* Estilos inline para a página de preferências */
+.preferencias-page {
+    background-color: #F6F6F6;
+    min-height: 100vh;
+    padding-top: 20px;
+    padding-bottom: 100px;
+}
+
+.preferencias-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.preferencias-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.preferencias-titulo {
+    font-family: 'Inter', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 4px;
+}
+
+.preferencias-underline {
+    width: 100px;
+    height: 5px;
+    border-radius: 20px;
+    background-color: #DE1B24;
+    margin: 0 auto 10px auto;
+}
+
+.preferencias-subtitulo {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #000000;
+    line-height: 1.5;
+}
+
+.categorias-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.categoria-button {
+    background-color: #FFFFFF;
+    border: 1px solid #E0E0E0;
+    border-radius: 30px;
+    padding: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: #000000;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 56px;
+}
+
+.categoria-button:active {
+    transform: scale(0.98);
+}
+
+.categoria-button.selected {
+    background-color: #DE1B24;
+    border-color: #DE1B24;
+    color: #FFFFFF;
+    padding-right: 36px;
+}
+
+.categoria-button .remove-icon {
+    display: none;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.categoria-button.selected .remove-icon {
+    display: flex;
+}
+
+.categoria-button .remove-icon svg {
+    width: 14px;
+    height: 14px;
+    stroke: #FFFFFF;
+    stroke-width: 2.5;
+}
+</style>
+</head>
+<body>
+
+<!-- Barra Superior UOL -->
+<div class="barra-uol">
+  <div class="barra-uol-container">
+    <a href="https://www.uol.com.br" target="_blank" rel="noopener noreferrer">
+    <img src="https://conteudo.imguol.com.br/c/_layout/v3/logoUOL2021/logo_completo_white.svg" width="68" height="24" alt="UOL - O melhor conteúdo" title="UOL - O melhor conteúdo">
+    </a>
+  </div>
+</div>
+
+<div class="top-bar"></div>
+
+{% include 'includes/menu_hamburguer.html' %}
+
+<!-- Conteúdo Principal -->
+<main class="preferencias-page">
+    <div class="preferencias-container">
+        <div class="preferencias-header">
+            <h1 class="preferencias-titulo">Preferências</h1>
+            <div class="preferencias-underline"></div>
+            <p class="preferencias-subtitulo">Selecione os conteúdos de maior interesse</p>
+        </div>
+
+        <div class="categorias-grid" id="categoriasGrid">
+            <button class="categoria-button" data-categoria="pernambuco">
+                Pernambuco
+                <span class="remove-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+
+            <button class="categoria-button" data-categoria="nacional">
+                Nacional
+                <span class="remove-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+
+            <button class="categoria-button" data-categoria="global">
+                Global
+                <span class="remove-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+
+            <button class="categoria-button" data-categoria="esportes">
+                Esportes
+                <span class="remove-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+
+            <button class="categoria-button" data-categoria="mobilidade">
+                Mobilidade
+                <span class="remove-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+
+            <button class="categoria-button" data-categoria="politica">
+                Política
+                <span class="remove-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+
+            <button class="categoria-button" data-categoria="educacao">
+                Educação
+                <span class="remove-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+
+            <button class="categoria-button" data-categoria="culinaria">
+                Culinária
+                <span class="remove-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+
+            <button class="categoria-button" data-categoria="economia">
+                Economia
+                <span class="remove-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+
+            <button class="categoria-button" data-categoria="cultura">
+                Cultura
+                <span class="remove-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+
+            <button class="categoria-button" data-categoria="entretenimento">
+                Entretenimento
+                <span class="remove-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+
+            <button class="categoria-button" data-categoria="tecnologia">
+                Tecnologia
+                <span class="remove-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+
+            <button class="categoria-button" data-categoria="saude">
+                Saúde
+                <span class="remove-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+
+            <button class="categoria-button" data-categoria="meio-ambiente">
+                Meio ambiente
+                <span class="remove-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+        </div>
+    </div>
+</main>
+
+{% include 'includes/menu_inferior.html' %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const categoriasGrid = document.getElementById('categoriasGrid');
+    const categoriaButtons = categoriasGrid.querySelectorAll('.categoria-button');
+
+    // Carregar preferências salvas do localStorage
+    function carregarPreferencias() {
+        const preferencias = JSON.parse(localStorage.getItem('preferencias_categorias') || '[]');
+        categoriaButtons.forEach(button => {
+            const categoria = button.dataset.categoria;
+            if (preferencias.includes(categoria)) {
+                button.classList.add('selected');
+            }
+        });
+    }
+
+    // Salvar preferências no localStorage
+    function salvarPreferencias() {
+        const preferencias = [];
+        categoriaButtons.forEach(button => {
+            if (button.classList.contains('selected')) {
+                preferencias.push(button.dataset.categoria);
+            }
+        });
+        localStorage.setItem('preferencias_categorias', JSON.stringify(preferencias));
+    }
+
+    // Toggle de categoria
+    categoriaButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            this.classList.toggle('selected');
+            salvarPreferencias();
+        });
+    });
+
+    // Carregar preferências ao iniciar
+    carregarPreferencias();
+});
+</script>
+
+<!-- JavaScript do Menu -->
+<script src="{% static 'js/menu.js' %}"></script>
+</body>
+</html>

@@ -1343,3 +1343,8 @@ def remover_noticia_linha_tempo_api(request):
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)}, status=400)
 
+
+def preferencias(request):
+    """View para a página de preferências."""
+    return render(request, 'preferencias.html')
+
