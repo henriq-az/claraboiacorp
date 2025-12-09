@@ -74,18 +74,16 @@
             {% for noticia in noticias %}
                 {% if forloop.first %}
                     <!-- Notícia em destaque -->
-                    <div class="noticia-destaque">
-                        <a href="{% url 'noticia_detalhe' noticia.slug %}" class="card top" style="text-decoration: none; color: inherit;">
+                        <a href="{% url 'noticia_detalhe' noticia.slug %}" class="cardCategoria" style="text-decoration: none; color: inherit;">
                             {% if noticia.imagem %}
                                 <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}">
                             {% endif %}
-                            <div class="content">
-                                <span class="tag">{{ noticia.categoria.nome }}</span>
-                                <h2 class="title">{{ noticia.titulo }}</h2>
-                                <p class="desc">{{ noticia.resumo|truncatewords:100 }}</p>
+                            <div class="contentCategoria">
+                                <span class="tagCategoria">{{ noticia.categoria.nome }}</span>
+                                <h2 class="titleCategoria">{{ noticia.titulo }}</h2>
+                                <p class="descCategoria">{{ noticia.subtitulo|truncatewords:100 }}</p>
                             </div>
                         </a>
-                    </div>
                     {% if forloop.first %}
                         {% if noticias_relacionadas %}
                             <div class="noticias-relacionadas-container">

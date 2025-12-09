@@ -94,7 +94,8 @@ h1 {
     transform: translateY(-2px);
 }
 
-.card.top {
+.cardCategoria {
+    width: 100%;
     background: white;
     border-radius: 12px;
     cursor: pointer;
@@ -107,16 +108,16 @@ h1 {
     text-decoration: none;
     color: inherit;
     overflow: hidden;
-    min-height: 100px;
+    height: 350px; 
 }
 
-.card.top:hover {
+.cardCategoria:hover {
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     transform: translateY(-2px);
 }
 
 /* Imagem do card principal ocupa metade superior do card */
-.card.top img {
+.cardCategoria img {
     width: auto;
     height: 50%;
     object-fit: cover;
@@ -126,12 +127,52 @@ h1 {
 }
 
 /* Conteúdo do card ocupa a metade inferior */
-.card.top .content {
+.cardCategoria .contentCategoria {
     flex: 1 1 50%;
-    padding: 12px 16px;
+    padding: 4px 12px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    font-family: 'Inter', sans-serif;
+    white-space: normal;
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.tagCategoria {
+    font-size: 12px;
+    font-weight: 700;
+    color: #DE1B24;
+    line-height: 1;
+}
+
+/* Título da notícia principal com quebras de linhas e truncamento */
+.cardCategoria .titleCategoria {
+    font-size: 16px;
+    font-weight: 700;
+    font-style: bold;
+    color: #000000;
+    line-height: 1.4;
+    margin: 0 0 8px 0;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+}
+
+/* Resumo da notícia principal preenchendo o container com truncamento */
+.cardCategoria .descCategoria {
+    font-size: 12px;
+    font-weight: 400;
+    font-style: bold;
+    color: #000000;
+    line-height: 1.5;
+    margin: 0;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    
 }
 .news-imageCategoria {
     width: 150px !important;
