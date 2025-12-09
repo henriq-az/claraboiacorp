@@ -77,7 +77,7 @@
             {% if noticia_principal %}
               <a href="{% url 'noticia_detalhe' noticia_principal.slug %}" class="card top" style="text-decoration: none; color: inherit;">
                 {% if noticia_principal.imagem %}
-                  <img src="{{ noticia_principal.imagem.url }}" alt="{{ noticia_principal.titulo }}" style="border-radius: 12px;">
+                  <img src="{{ noticia_principal.imagem.url }}" alt="{{ noticia_principal.titulo }}">
                 {% endif %}
                   <div class="content">
                     <span class="tag">{{ noticia_principal.categoria.nome }}</span>
@@ -91,12 +91,13 @@
           <!-- Seção de titulos de Notícias Relacionadas com barra vertical -->
           {% if noticias_relacionadas %}
               <div class="noticias-relacionadas-container">
-                  <p class="noticias-relacionadas-titulo"></p>
                   <div class="relacionadas-titulos-bar">
                       <div class="relacionadas-bar"></div>
                       <div class="relacionadas-titulos">
                           {% for rel in noticias_relacionadas %}
-                              <a href="{% url 'noticia_detalhe' rel.slug %}" class="relacionadas-titulo-link">{{ rel.titulo }}</a>
+                              <a href="{% url 'noticia_detalhe' rel.slug %}" class="relacionadas-titulo-link">
+                                {{ rel.titulo }}
+                              </a>   
                           {% endfor %}
                       </div>
                   </div>
