@@ -1030,56 +1030,6 @@ Salvar Preferências
 {% include 'login_modal.html' %}
 
 <!-- JavaScript -->
-<script>
-// Função para favoritar/desfavoritar
-function toggleFavorite(button) {
-  button.classList.toggle('favorited');
-  const isFavorited = button.classList.contains('favorited');
-  
-  // Feedback visual
-  if (isFavorited) {
-    // Animação de pulsar
-    button.style.animation = 'pulse 0.3s ease';
-    setTimeout(() => button.style.animation = '', 300);
-  }
-  
-  // Aqui você pode adicionar lógica para salvar no backend
-  console.log(isFavorited ? 'Notícia favoritada' : 'Notícia desfavoritada');
-}
-
-// Função para compartilhar
-async function shareArticle() {
-  const shareData = {
-    title: '9 pontos sobre os casos de intoxicação por metanol',
-    text: 'Confira esta notícia importante',
-    url: window.location.href
-  };
-
-  try {
-    if (navigator.share) {
-      await navigator.share(shareData);
-      console.log('Compartilhado com sucesso');
-    } else {
-      // Fallback: copiar link
-      await navigator.clipboard.writeText(window.location.href);
-      alert('Link copiado para a área de transferência!');
-    }
-  } catch (err) {
-    console.log('Erro ao compartilhar:', err);
-  }
-}
-
-// Animação de pulsar
-const animacaoStyle = document.createElement('style');
-animacaoStyle.textContent = `
-  @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.15); }
-    100% { transform: scale(1); }
-  }
-`;
-document.head.appendChild(animacaoStyle);
-</script>
 <script src="{% static 'js/app.js' %}"></script>
 <script src="{% static 'js/header-animation.js' %}"></script>
 <script src="{% static 'js/navegacao.js' %}"></script>
@@ -1090,6 +1040,7 @@ document.head.appendChild(animacaoStyle);
 <script src="{% static 'js/feedback.js' %}"></script>
 <script src="{% static 'js/preferencias.js' %}"></script>
 <script src="{% static 'js/radio-player.js' %}"></script>
+<script src="{% static 'js/ranking-actions.js' %}"></script>
 
 <!-- Script para esconder/mostrar cabeçalho e barra UOL ao rolar -->
 <script>

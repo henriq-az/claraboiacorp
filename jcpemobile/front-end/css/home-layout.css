@@ -1340,6 +1340,8 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
 
 .ranking-content {
   padding: 24px 20px;
+  padding-bottom: 55px; /* espaço para os botões de ação na parte inferior */
+  padding-right: 90px; /* espaço para os botões não sobreporem o texto */
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -1367,6 +1369,12 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
   line-height: 1.2;
   margin-top: 0px;
   margin-left: -8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
 }
 
 .ranking-image {
@@ -1400,9 +1408,39 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
   cursor: pointer;
 }
 .ranking-actions .ranking-fav svg { width: 29px; height: 29px; display: block; }
-.ranking-actions .ranking-fav:hover svg path { stroke: black; }/*cor do botão de salvar quando passa o mouse por cima*/
+/* Estado padrão dos ícones - preto com alta especificidade */
+.ranking-item .ranking-actions .ranking-fav svg path,
+.ranking-actions .ranking-fav svg path {
+  stroke: #000 !important;
+  fill: none !important;
+  transition: all 0.3s ease;
+}
+.ranking-actions .ranking-action svg path {
+  fill: #000;
+  transition: all 0.3s ease;
+}
+/* Hover - vermelho (apenas quando NÃO está salvo) */
+.ranking-item .ranking-actions .ranking-fav:not(.favorited):hover svg path,
+.ranking-actions .ranking-fav:not(.favorited):hover svg path {
+  stroke: #c9302c !important;
+  fill: none !important;
+}
+.ranking-actions .ranking-action:hover svg path {
+  fill: #c9302c !important;
+}
+/* Salvo (favorited) - PRETO preenchido */
+.ranking-item .ranking-actions .ranking-fav.favorited svg path,
+.ranking-actions .ranking-fav.favorited svg path {
+  fill: #000 !important;
+  stroke: #000 !important;
+}
+/* Hover quando está salvo - mantém preto */
+.ranking-item .ranking-actions .ranking-fav.favorited:hover svg path,
+.ranking-actions .ranking-fav.favorited:hover svg path {
+  fill: #000 !important;
+  stroke: #000 !important;
+}
 .ranking-actions .ranking-action svg { width: 24px; height: 24px; display: block; }
-.ranking-actions .ranking-action:hover svg path { fill: #E31B23 !important;  }/*cor do botão de compartilhar quando passa o mouse por cima*/
 
 @media (max-width: 480px) {
   .ranking-section {
@@ -1427,6 +1465,8 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
 
   .ranking-content {
     padding: 20px 16px;
+    padding-bottom: 50px; /* espaço para os botões em mobile */
+    padding-right: 85px; /* espaço para os botões não sobreporem o texto em mobile */
   }
 
   .ranking-image {
