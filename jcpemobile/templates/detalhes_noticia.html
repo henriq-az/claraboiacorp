@@ -1067,50 +1067,64 @@ rows="4"
 
 .relacionadas-item {
   display: flex;
-  gap: 16px;
-  padding: 16px;
+  align-items: stretch;
+  justify-content: space-between;
+  padding: 0;
   background: #ffffff;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
+  border: none;
+  border-radius: 18px;
   text-decoration: none;
   transition: box-shadow 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  position: relative;
 }
 
 .relacionadas-item:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
 }
 
 .relacionadas-texto {
   flex: 1;
+  margin: 0;
+  padding: 12px;
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  align-items: flex-start;
+  justify-content: center;
 }
 
 .relacionadas-categoria {
-  font-size: 0.75rem;
-  font-weight: 700;
+  position: static;
+  top: auto;
+  left: auto;
+  font-size: 13px;
+  font-weight: bold;
   color: #DE1B24;
   text-transform: capitalize;
+  margin-left: -6px;
+  display: inline-block;
+  margin-top: -15px;
 }
 
 .relacionadas-item-titulo {
-  font-size: 1rem;
+  font-size: 12.5px;
   font-weight: 700;
-  color: #000000;
-  margin: 0;
+  color: #111111;
+  margin: 0 0 1px 0;
   line-height: 1.3;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
 .relacionadas-resumo {
-  font-size: 0.875rem;
-  color: #666666;
-  margin: 0;
-  line-height: 1.4;
+  font-size: 12px;
+  color: #000000;
+  margin: 4px 0 0 0;
+  line-height: 1.1;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -1119,17 +1133,24 @@ rows="4"
 
 .relacionadas-imagem {
   flex-shrink: 0;
-  width: 120px;
-  height: 90px;
-  border-radius: 8px;
+  width: 45%;
+  min-width: 140px;
   overflow: hidden;
   background: #f0f0f0;
+  position: relative;
+  align-self: stretch;
+  border-radius: 0 12px 12px 0;
 }
 
 .relacionadas-imagem img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center center;
+  display: block;
 }
 
 .relacionadas-img-placeholder {
@@ -1144,12 +1165,16 @@ rows="4"
   }
   
   .relacionadas-imagem {
-    width: 100px;
-    height: 75px;
+    width: 45%;
+    min-width: 120px;
   }
   
-  .relacionadas-item {
-    padding: 12px;
+  .relacionadas-item-titulo {
+    font-size: 12px;
+  }
+  
+  .relacionadas-resumo {
+    font-size: 11px;
   }
 }
 
