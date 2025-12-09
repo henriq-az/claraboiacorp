@@ -120,6 +120,7 @@ def index(request):
 
 def lista_por_categoria(request, slug):
     todas_noticias = Noticia.objects.select_related('categoria', 'autor').order_by('-data_publicacao') 
+    hoje = timezone.now().date()
 
     print(f"[DEBUG] Total geral: {todas_noticias.count()}")
 
@@ -133,6 +134,19 @@ def lista_por_categoria(request, slug):
         noticias_salvas_ids = NoticaSalva.objects.filter(usuario=request.user).values_list('noticia_id', flat=True) 
 
     noticia_principal = noticias_categoria.first()
+
+    destaque_categoria = (
+    noticias_categoria
+    .annotate(
+        num_visualizacoes=Count(
+            'visualizacoes',
+            filter=Q(visualizacoes__data=hoje)
+        )
+    )
+    .filter(num_visualizacoes__gt=0)
+    .order_by('-num_visualizacoes')[:15]
+)
+
 
     # noticias relacionadas com a noticia mais recente da categoria
     noticias_relacionadas = []
@@ -169,6 +183,7 @@ def lista_por_categoria(request, slug):
         'noticias': noticias_categoria,
         'noticias_salvas_ids': noticias_salvas_ids,
         "noticias_relacionadas": noticias_relacionadas,
+        "destaque_categoria": destaque_categoria,
     }
 
     return render(request, 'categoria.html', context)
