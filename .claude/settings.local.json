@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(dir \"C:\\Users\\calad\\OneDrive\\Desktop\\JC-Claraboia\" /b)"
-    ],
-    "deny": [],
-    "ask": []
-  }
-}

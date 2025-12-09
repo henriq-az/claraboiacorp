@@ -33,7 +33,84 @@ function inicializarRadioPlayer() {
     configurarVolumeSlider();
     configurarOverlay();
 
+    // NOVO: Recuperar estado salvo
+    recuperarEstadoPlayer();
+
     console.log('Radio Player inicializado com sucesso');
+}
+
+// ===================================================
+// PERSISTÊNCIA DE ESTADO (sessionStorage)
+// ===================================================
+
+/**
+ * Salva o estado atual do player no sessionStorage
+ */
+function salvarEstadoPlayer() {
+    try {
+        const estado = window.JC.radioPlayer;
+        sessionStorage.setItem('jc_radioPlayerOpen', estado.isOpen.toString());
+        sessionStorage.setItem('jc_radioPlayerPlaying', estado.isPlaying.toString());
+        sessionStorage.setItem('jc_radioPlayerVolume', estado.volume.toString());
+        sessionStorage.setItem('jc_radioPlayerTime', estado.currentTime.toString());
+    } catch (e) {
+        console.error('Erro ao salvar estado do player:', e);
+    }
+}
+
+/**
+ * Recupera e aplica o estado salvo do player
+ */
+function recuperarEstadoPlayer() {
+    try {
+        const wasOpen = sessionStorage.getItem('jc_radioPlayerOpen') === 'true';
+        const wasPlaying = sessionStorage.getItem('jc_radioPlayerPlaying') === 'true';
+        const savedVolume = sessionStorage.getItem('jc_radioPlayerVolume');
+        const savedTime = sessionStorage.getItem('jc_radioPlayerTime');
+
+        // Restaurar volume
+        if (savedVolume !== null) {
+            const volume = parseInt(savedVolume);
+            if (!isNaN(volume) && volume >= 0 && volume <= 100) {
+                window.JC.radioPlayer.volume = volume;
+                const volumeSlider = document.getElementById('radioVolumeSlider');
+                if (volumeSlider) {
+                    volumeSlider.value = volume;
+                    atualizarVolumeVisual(volume);
+                }
+            }
+        }
+
+        // Restaurar tempo
+        if (savedTime !== null) {
+            const time = parseInt(savedTime);
+            if (!isNaN(time) && time >= 0) {
+                window.JC.radioPlayer.currentTime = time;
+                atualizarDisplayTimer();
+            }
+        }
+
+        // Restaurar estado aberto/fechado
+        if (wasOpen) {
+            // Abre sem animação (restaurando estado)
+            abrirRadioPlayerSemAnimacao();
+
+            // Se estava tocando, tentar reproduzir
+            if (wasPlaying) {
+                setTimeout(() => {
+                    try {
+                        tocarRadio();
+                    } catch (e) {
+                        console.warn('Autoplay bloqueado:', e);
+                        pausarRadio();
+                        sessionStorage.setItem('jc_radioPlayerPlaying', 'false');
+                    }
+                }, 100);
+            }
+        }
+    } catch (e) {
+        console.error('Erro ao recuperar estado do player:', e);
+    }
 }
 
 // ===================================================
@@ -96,17 +173,54 @@ function abrirRadioPlayer() {
 
     window.JC.radioPlayer.isOpen = true;
 
+    // NOVO: Salvar estado
+    salvarEstadoPlayer();
+
     console.log('Radio Player aberto');
+}
+
+function abrirRadioPlayerSemAnimacao() {
+    const radioPlayer = document.getElementById('radioPlayer');
+    const overlay = document.getElementById('radioPlayerOverlay');
+
+    // Desabilita transição temporariamente
+    radioPlayer.style.transition = 'none';
+
+    radioPlayer.classList.add('ativo');
+    overlay.classList.add('ativo');
+
+    window.JC.radioPlayer.isOpen = true;
+
+    // Força reflow para aplicar a mudança
+    radioPlayer.offsetHeight;
+
+    // Reabilita transição após um frame
+    setTimeout(() => {
+        radioPlayer.style.transition = '';
+    }, 10);
+
+    // NOVO: Salvar estado
+    salvarEstadoPlayer();
+
+    console.log('Radio Player aberto (sem animação)');
 }
 
 function fecharRadioPlayer() {
     const radioPlayer = document.getElementById('radioPlayer');
     const overlay = document.getElementById('radioPlayerOverlay');
 
+    // NOVO: Parar de tocar ANTES de fechar
+    if (window.JC.radioPlayer.isPlaying) {
+        pausarRadio();
+    }
+
     radioPlayer.classList.remove('ativo');
     overlay.classList.remove('ativo');
 
     window.JC.radioPlayer.isOpen = false;
+
+    // NOVO: Salvar estado
+    salvarEstadoPlayer();
 
     console.log('Radio Player fechado');
 }
@@ -155,6 +269,9 @@ function tocarRadio() {
     // Inicia o timer
     iniciarTimer();
 
+    // NOVO: Salvar estado
+    salvarEstadoPlayer();
+
     // TODO: Integrar áudio real aqui
     console.log('Rádio tocando...');
 }
@@ -168,6 +285,9 @@ function pausarRadio() {
 
     // Para o timer
     pararTimer();
+
+    // NOVO: Salvar estado
+    salvarEstadoPlayer();
 
     console.log('Rádio pausado');
 }
@@ -235,6 +355,9 @@ function configurarVolumeSlider() {
         const volume = parseInt(e.target.value);
         window.JC.radioPlayer.volume = volume;
         atualizarVolumeVisual(volume);
+
+        // NOVO: Salvar estado
+        salvarEstadoPlayer();
 
         // TODO: Aplicar volume ao elemento de áudio real
     });

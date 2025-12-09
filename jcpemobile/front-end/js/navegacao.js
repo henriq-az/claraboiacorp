@@ -22,6 +22,9 @@ function inicializarNavegacao() {
         };
     }
 
+    // NOVO: Controlar animação do menu ANTES de tudo
+    controlarAnimacaoMenu();
+
     // Menu hamburguer
     configurarMenuHamburguer();
 
@@ -45,6 +48,42 @@ function inicializarNavegacao() {
 
     // Log para debug
     console.log('Navegação inicializada com sucesso');
+}
+
+// ===================================================
+// CONTROLE DE ANIMAÇÃO DO MENU INFERIOR
+// ===================================================
+
+/**
+ * Verifica se está na página inicial
+ */
+function isIndexPage() {
+    const path = window.location.pathname.replace(/\/+$/, '');
+    return path === '' || path === '/' || path.endsWith('/index.html');
+}
+
+/**
+ * Controla se o menu inferior deve ter animação de entrada
+ */
+function controlarAnimacaoMenu() {
+    try {
+        const menuInferior = document.querySelector('.navegacao-inferior');
+        if (!menuInferior) return;
+
+        const jaAnimou = sessionStorage.getItem('jc_menuAnimated') === 'true';
+
+        if (isIndexPage() && !jaAnimou) {
+            // Animação já está no CSS
+            setTimeout(() => {
+                sessionStorage.setItem('jc_menuAnimated', 'true');
+            }, 500); // 400ms animação + 100ms margem
+        } else {
+            // Remove a animação
+            menuInferior.style.animation = 'none';
+        }
+    } catch (e) {
+        console.error('Erro ao controlar animação do menu:', e);
+    }
 }
 
 // ===================================================
