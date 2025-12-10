@@ -150,15 +150,8 @@
                     <div class="form-group">
                         <label for="id_titulo_enquete">Título da Enquete</label>
                         <input type="text" name="titulo_enquete" id="id_titulo_enquete"
-                               placeholder="Ex: O que você achou desta notícia?"
+                               placeholder="Ex: o filme é bom"
                                value="{% if noticia and noticia.enquete %}{{ noticia.enquete.titulo }}{% endif %}">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="id_pergunta_enquete">Pergunta da Enquete</label>
-                        <input type="text" name="pergunta_enquete" id="id_pergunta_enquete"
-                               placeholder="Ex: Qual é a sua opinião?"
-                               value="{% if noticia and noticia.enquete %}{{ noticia.enquete.pergunta }}{% endif %}">
                     </div>
 
                     <div class="form-group">

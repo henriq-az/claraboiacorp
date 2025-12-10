@@ -696,13 +696,12 @@ def admin_criar_noticia(request):
             tem_enquete = request.POST.get('tem_enquete') == 'on'
             if tem_enquete:
                 titulo_enquete = request.POST.get('titulo_enquete', '').strip()
-                pergunta_enquete = request.POST.get('pergunta_enquete', '').strip()
 
-                if titulo_enquete and pergunta_enquete:
+                if titulo_enquete:
                     # Criar enquete
                     enquete = Enquete.objects.create(
                         titulo=titulo_enquete,
-                        pergunta=pergunta_enquete,
+                        pergunta='',
                         noticia=noticia
                     )
 
@@ -749,15 +748,14 @@ def admin_editar_noticia(request, noticia_id):
 
             if tem_enquete:
                 titulo_enquete = request.POST.get('titulo_enquete', '').strip()
-                pergunta_enquete = request.POST.get('pergunta_enquete', '').strip()
 
-                if titulo_enquete and pergunta_enquete:
+                if titulo_enquete:
                     # Atualizar ou criar enquete
                     try:
                         enquete = noticia.enquete
                         # Enquete já existe, atualizar
                         enquete.titulo = titulo_enquete
-                        enquete.pergunta = pergunta_enquete
+                        enquete.pergunta = ''
                         enquete.save()
                         # Deletar opções antigas
                         enquete.opcoes.all().delete()
@@ -765,7 +763,7 @@ def admin_editar_noticia(request, noticia_id):
                         # Enquete não existe, criar nova
                         enquete = Enquete.objects.create(
                             titulo=titulo_enquete,
-                            pergunta=pergunta_enquete,
+                            pergunta='',
                             noticia=noticia
                         )
 
