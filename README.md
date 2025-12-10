@@ -93,10 +93,12 @@ Pip
 Virtualenv (opcional, mas recomendado)
 
 - **Clonar o repositório**
+
 git clone https://github.com/henriq-az/claraboiacorp
 cd claraboiacorp
 
 - **Criar e ativar o ambiente virtual**
+
 macOS / Linux:
 python3 -m venv venv
 source venv/bin/activate
@@ -106,12 +108,15 @@ python -m venv venv
 venv\Scripts\activate
 
 - **Instalar dependências**
+
 pip install -r requirements.txt
 
 - **Aplicar migrações**
+
 python manage.py migrate
 
 - **Rodar o servidor**
+  
 python manage.py runserver
 
 ## 📍 Conclusão
