@@ -108,6 +108,9 @@ venv\Scripts\activate
 **Instalar dependências**
 pip install -r requirements.txt
 
+**Aplicar migrações**
+python manage.py migrate
+
 
 
 ## 📍 Conclusão
