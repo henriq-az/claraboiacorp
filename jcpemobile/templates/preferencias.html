@@ -385,10 +385,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 preferencias.push(button.dataset.categoria);
             }
         });
-        
+
         // Salvar no localStorage
         localStorage.setItem('preferencias_categorias', JSON.stringify(preferencias));
-        
+
         // Salvar no backend se o usuário estiver autenticado
         {% if user.is_authenticated %}
         try {
@@ -400,16 +400,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 body: JSON.stringify({ categorias: preferencias })
             });
-            
+
             if (response.ok) {
                 mensagemSucesso.style.display = 'block';
                 setTimeout(() => {
-                    mensagemSucesso.style.display = 'none';
-                }, 3000);
+                    // Redirecionar para a página inicial com preferências aplicadas
+                    window.location.href = '/';
+                }, 500);
             }
         } catch (error) {
             console.error('Erro ao salvar preferências:', error);
         }
+        {% else %}
+        // Para usuários não autenticados, redirecionar após salvar no localStorage
+        setTimeout(() => {
+            window.location.href = '/';
+        }, 500);
         {% endif %}
     }
 

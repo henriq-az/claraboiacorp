@@ -247,9 +247,9 @@ function salvarPreferencias() {
     // Fechar modal
     fecharModalPreferencias();
 
-    // Recarregar a página para aplicar o filtro
+    // Redirecionar para a página inicial com preferências aplicadas
     setTimeout(() => {
-        window.location.reload();
+        window.location.href = '/';
     }, 300);
 }
 

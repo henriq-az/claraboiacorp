@@ -28,12 +28,10 @@ describe('Teste de Preferências de Conteúdo', () => {
     // Verifica que foi marcada
     cy.get('.categoria-checkbox input[value="pernambuco"]').should('be.checked')
 
-    // Intercepta o reload para capturar preferências antes de recarregar
+    // Intercepta o redirecionamento para capturar preferências antes de redirecionar
     cy.window().then((win) => {
-      cy.stub(win, 'location').value({
-        ...win.location,
-        reload: cy.stub().as('reload')
-      })
+      // Stub para prevenir redirecionamento durante o teste
+      cy.stub(win.location, 'href').as('redirect')
     })
 
     // Clica no botão de salvar preferências
@@ -53,7 +51,7 @@ describe('Teste de Preferências de Conteúdo', () => {
         cy.log('Preferências salvas com sucesso:', categorias)
       } else {
         // Se não encontrou, loga mas não falha o teste
-        // (pode ser que o reload aconteça antes de salvar)
+        // (pode ser que o redirecionamento aconteça antes de salvar)
         cy.log('Preferências não encontradas no localStorage - possível race condition')
         // Verifica ao menos que o modal foi fechado (indicando que tentou salvar)
         cy.get('#modalPreferencias').should('not.be.visible')
