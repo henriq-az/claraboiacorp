@@ -8,7 +8,7 @@ from .views import (
     api_preferencias, linha_do_tempo, lista_por_categoria,
     painel_linhas_tempo, criar_linha_tempo, editar_linha_tempo, deletar_linha_tempo,
     adicionar_noticia_linha_tempo, remover_noticia_linha_tempo, api_linhas_tempo_noticia,
-    remover_noticia_linha_tempo_api, buscar, preferencias, perfil_autor
+    remover_noticia_linha_tempo_api, buscar, preferencias, perfil_autor, salvar_preferencias
 )
 
 urlpatterns = [
@@ -20,6 +20,7 @@ urlpatterns = [
     path('mais-lidas/', mais_lidas, name='mais_lidas'),
     path('neels/', neels, name='neels'),
     path('preferencias/', preferencias, name='preferencias'),
+    path('preferencias/salvar/', salvar_preferencias, name='salvar_preferencias'),
     path('linha-do-tempo/', linha_do_tempo, name='linha_do_tempo'),
     path('salvar-noticia/<int:noticia_id>/', salvar_noticia, name='salvar_noticia'),
     path('remover-noticia-salva/<int:noticia_id>/', remover_noticia_salva, name='remover_noticia_salva'),

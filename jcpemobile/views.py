@@ -1364,6 +1364,29 @@ def preferencias(request):
     return render(request, 'preferencias.html')
 
 
+@require_http_methods(["POST"])
+@login_required
+def salvar_preferencias(request):
+    """View para salvar preferências de categorias do usuário."""
+    try:
+        import json
+        data = json.loads(request.body)
+        categorias = data.get('categorias', [])
+        
+        # Buscar ou criar perfil do usuário
+        perfil, created = PerfilUsuario.objects.get_or_create(usuario=request.user)
+        
+        # Buscar categorias selecionadas
+        categorias_obj = Categoria.objects.filter(slug__in=categorias)
+        
+        # Atualizar categorias preferidas
+        perfil.categorias_preferidas.set(categorias_obj)
+        
+        return JsonResponse({'success': True, 'message': 'Preferências salvas com sucesso!'})
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=400)
+
+
 def perfil_autor(request, slug):
     """View para exibir o perfil do autor/colunista (dados mockados)."""
 

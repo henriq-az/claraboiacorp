@@ -290,18 +290,84 @@
                 </span>
             </button>
         </div>
+
+        <button id="btnSalvarPreferencias" class="btn-salvar-preferencias">
+            Salvar Preferências
+        </button>
+
+        <div id="mensagemSucesso" class="mensagem-sucesso" style="display: none;">
+            Preferências salvas com sucesso!
+        </div>
     </div>
 </main>
 
 {% include 'includes/menu_inferior.html' %}
 
+<style>
+.btn-salvar-preferencias {
+    width: 100%;
+    background-color: #DE1B24;
+    color: #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 16px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 20px;
+}
+
+.btn-salvar-preferencias:hover {
+    background-color: #B0141E;
+}
+
+.btn-salvar-preferencias:active {
+    transform: scale(0.98);
+}
+
+.mensagem-sucesso {
+    text-align: center;
+    color: #28a745;
+    font-weight: 600;
+    margin-top: 15px;
+    padding: 12px;
+    background-color: #d4edda;
+    border-radius: 8px;
+}
+</style>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const categoriasGrid = document.getElementById('categoriasGrid');
     const categoriaButtons = categoriasGrid.querySelectorAll('.categoria-button');
+    const btnSalvar = document.getElementById('btnSalvarPreferencias');
+    const mensagemSucesso = document.getElementById('mensagemSucesso');
 
-    // Carregar preferências salvas do localStorage
-    function carregarPreferencias() {
+    // Carregar preferências salvas do localStorage ou backend
+    async function carregarPreferencias() {
+        {% if user.is_authenticated %}
+        // Tentar carregar do backend primeiro
+        try {
+            const response = await fetch('{% url "api_preferencias" %}');
+            if (response.ok) {
+                const data = await response.json();
+                const preferencias = data.categorias || [];
+                categoriaButtons.forEach(button => {
+                    const categoria = button.dataset.categoria;
+                    if (preferencias.includes(categoria)) {
+                        button.classList.add('selected');
+                    }
+                });
+                return;
+            }
+        } catch (error) {
+            console.error('Erro ao carregar preferências do backend:', error);
+        }
+        {% endif %}
+        
+        // Fallback para localStorage
         const preferencias = JSON.parse(localStorage.getItem('preferencias_categorias') || '[]');
         categoriaButtons.forEach(button => {
             const categoria = button.dataset.categoria;
@@ -311,23 +377,52 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Salvar preferências no localStorage
-    function salvarPreferencias() {
+    // Salvar preferências no localStorage e backend
+    async function salvarPreferencias() {
         const preferencias = [];
         categoriaButtons.forEach(button => {
             if (button.classList.contains('selected')) {
                 preferencias.push(button.dataset.categoria);
             }
         });
+        
+        // Salvar no localStorage
         localStorage.setItem('preferencias_categorias', JSON.stringify(preferencias));
+        
+        // Salvar no backend se o usuário estiver autenticado
+        {% if user.is_authenticated %}
+        try {
+            const response = await fetch('{% url "salvar_preferencias" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ categorias: preferencias })
+            });
+            
+            if (response.ok) {
+                mensagemSucesso.style.display = 'block';
+                setTimeout(() => {
+                    mensagemSucesso.style.display = 'none';
+                }, 3000);
+            }
+        } catch (error) {
+            console.error('Erro ao salvar preferências:', error);
+        }
+        {% endif %}
     }
 
     // Toggle de categoria
     categoriaButtons.forEach(button => {
         button.addEventListener('click', function() {
             this.classList.toggle('selected');
-            salvarPreferencias();
         });
+    });
+
+    // Botão salvar
+    btnSalvar.addEventListener('click', function() {
+        salvarPreferencias();
     });
 
     // Carregar preferências ao iniciar
