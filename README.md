@@ -111,7 +111,8 @@ pip install -r requirements.txt
 **Aplicar migrações**
 python manage.py migrate
 
-
+**Rodar o servidor**
+python manage.py runserver
 
 ## 📍 Conclusão
 O roadmap estrutura o desenvolvimento em três grandes fases, garantindo **entregas incrementais de valor**.
