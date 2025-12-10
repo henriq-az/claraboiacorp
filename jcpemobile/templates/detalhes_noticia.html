@@ -872,10 +872,10 @@ rows="4"
 }
 
 .enquete-titulo {
-  font-size: 0.875rem;
-  font-weight: 700;
+  font-size: 17px;
+  font-weight: bold;
   color: #000000;
-  margin-bottom: 12px;
+  margin-bottom: 40px;
   text-transform: none;
   letter-spacing: normal;
 }
@@ -1025,7 +1025,7 @@ rows="4"
   }
 
   .enquete-titulo {
-    font-size: 0.875rem;
+    font-size: 17px;
   }
 
   .enquete-pergunta {
@@ -1316,7 +1316,6 @@ rows="4"
   {% if enquete %}
   <div class="enquete-container">
     <h3 class="enquete-titulo">{{ enquete.titulo }}</h3>
-    <p class="enquete-pergunta">{{ enquete.pergunta }}</p>
 
     {% if ja_votou_enquete %}
       <!-- Mostrar resultados -->
