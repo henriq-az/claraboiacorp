@@ -82,7 +82,7 @@ O objetivo é assegurar **clareza na comunicação sobre progresso, prioridades 
     **Valor entregue:** maior clareza na leitura, flexibilidade de consumo e evolução contínua da plataforma.
 
 ## 🚀 Como rodar este projeto
-**Pré-requisitos
+**Pré-requisitos**
 
 Python 3.10+
 
@@ -92,11 +92,11 @@ Pip
 
 Virtualenv (opcional, mas recomendado)
 
-**Clonar o repositório
+**Clonar o repositório**
 git clone https://github.com/henriq-az/claraboiacorp
 cd claraboiacorp
 
-**Criar e ativar o ambiente virtual
+**Criar e ativar o ambiente virtual**
 macOS / Linux:
 python3 -m venv venv
 source venv/bin/activate
@@ -104,6 +104,11 @@ source venv/bin/activate
 Windows:
 python -m venv venv
 venv\Scripts\activate
+
+**Instalar dependências**
+pip install -r requirements.txt
+
+
 
 ## 📍 Conclusão
 O roadmap estrutura o desenvolvimento em três grandes fases, garantindo **entregas incrementais de valor**.
