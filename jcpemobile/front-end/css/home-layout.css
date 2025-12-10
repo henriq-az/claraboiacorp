@@ -2445,13 +2445,15 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
   background-color: #fff;
   border-radius: 18px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-  padding: 16px;
+  padding: 0;
   display: flex;
-  align-items: center;
-  gap: 16px;
+  align-items: stretch;
+  gap: 0;
   text-decoration: none;
   color: inherit;
   transition: all 0.3s ease;
+  height: 140px;
+  overflow: hidden;
 }
 
 .colunista-card:hover {
@@ -2464,6 +2466,8 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
   display: flex;
   flex-direction: column;
   gap: 6px;
+  padding: 16px;
+  justify-content: flex-start;
 }
 
 .colunista-tag {
@@ -2490,9 +2494,9 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
 
 .colunista-foto {
   flex-shrink: 0;
-  width: 200px;
-  height: 110px;
-  border-radius: 12px;
+  width: 150px;
+  height: 100%;
+  border-radius: 0 18px 18px 0;
   overflow: hidden;
 }
 
@@ -2500,32 +2504,20 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
 }
 
 /* Garantir que todos os cartões tenham a mesma altura visual
    evitando que o primeiro cartão fique maior que os demais */
-.colunista-card {
-  /* altura mínima baseada na altura da imagem + padding */
-  min-height: 142px;
-}
+/* Altura fixa agora definida no .colunista-card principal */
 
 @media (max-width: 480px) {
   .colunista-card {
-    min-height: 112px;
+    height: 115px;
   }
 }
 
-@media (min-width: 768px) {
-  .colunista-card {
-    min-height: 150px;
-  }
-}
 
-@media (min-width: 1024px) {
-  .colunista-card {
-    min-height: 160px;
-  }
-}
 /* Mantém a imagem dentro do limite do cartão e preserva a altura do cartão.
    Em vez de aumentar o container (.colunista-foto) (o que fazia o cartão crescer),
    deixamos o container nas dimensões originais e ampliamos apenas a imagem
@@ -2543,13 +2535,13 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
     margin-left: -12px;
   }
 
-  .colunista-card {
+  .colunista-content {
     padding: 12px;
   }
 
   .colunista-foto {
-    width: 90px;
-    height: 90px;
+    width: 120px;
+    height: 100%;
   }
 
   .colunista-titulo {
@@ -2563,14 +2555,17 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
     max-width: 1200px;
   }
 
+  .colunista-card {
+    height: 150px;
+  }
+
   .colunista-titulo {
     font-size: 15px;
   }
 
-  /* manter altura do cartão, aumentar largura da foto para ficar mais visível */
   .colunista-foto {
-    width: 340px;
-    height: 120px; /* altura preservada */
+    width: 180px;
+    height: 100%;
   }
 }
 
@@ -2580,14 +2575,17 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
     max-width: 1400px;
   }
 
+  .colunista-card {
+    height: 160px;
+  }
+
   .colunista-titulo {
     font-size: 16px;
   }
 
-  /* foto maior horizontalmente, altura do cartão preservada */
   .colunista-foto {
-    width: 420px;
-    height: 130px; /* mantém altura para evitar aumentar a altura do cartão */
+    width: 200px;
+    height: 100%;
   }
 }
  
