@@ -11,10 +11,11 @@
 }
 
 h1 {
-    font-size: 28px;
-    margin-top: 8px;
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 28px;
     margin-bottom: 4px;
-    color: #1a1a1a;
+    color: #000000;
     text-align: center;
 }
 
@@ -32,13 +33,12 @@ h2 {
 }
 .underline {
     width: 60px;
-    height: 4px;
+    height: 5px;
     background:#DE1B24;
-    margin-bottom: 30px;
-    margin-top: 0;
+    margin-bottom: 40px;
     margin-left: auto;
     margin-right: auto;
-    border-radius: 2px;
+    border-radius: 3px;
 }
 
 .underlineDescentralizado {
@@ -168,8 +168,8 @@ h2 {
 }
 .tagCategoria {
     padding: 4px 2px;
-    font-size: 12px;
-    font-weight: 700;
+    font-size: 13px;
+    font-weight: bold;
     color: #DE1B24;
     line-height: 1;
 }
@@ -178,13 +178,11 @@ h2 {
 .cardCategoria .titleCategoria {
     padding: 0px 2px;
     font-size: 16px;
-    font-weight: 700;
-    font-style: bold;
+    font-weight: bold;
+    font-style: normal;
     color: #000000;
-    line-height: 1.4;
+    line-height: 1.2;
     margin: 0 0 8px 0;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
 }
 
 /* Resumo da notícia principal preenchendo o container com truncamento */
@@ -413,7 +411,7 @@ h2 {
     }
 
     .cardCategoria .titleCategoria {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .cardCategoria .descCategoria {
@@ -450,7 +448,7 @@ h2 {
     }
 
     .cardCategoria .titleCategoria {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .cardCategoria .descCategoria {
