@@ -48,6 +48,48 @@
 
 <!-- Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+/* CENTRALIZAR PÁGINA INICIAL */
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+.barra-uol,
+.top-bar,
+.cabecalho,
+.container,
+.home-layout,
+.grade-layout,
+.video-destaque-section,
+.secao-ultimas-noticias,
+.painel-diario-section,
+.nossos-produtos-section,
+.navegacao-inferior {
+    max-width: 500px !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+@media (max-width: 500px) {
+    body {
+        align-items: stretch;
+    }
+    
+    .barra-uol,
+    .top-bar,
+    .cabecalho,
+    .container,
+    .home-layout {
+        max-width: 100% !important;
+    }
+}
+</style>
 </head>
 <body data-user-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}">
 <!-- Barra Superior UOL -->
