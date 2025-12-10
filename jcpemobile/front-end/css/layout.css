@@ -372,17 +372,20 @@
 
 .menu-lateral {
     position: fixed;
-    top: 44px;
+    top: 37px;
     left: 0;
     width: 240px !important;   /* reduzido para ocupar menos espaço lateral */
     max-width: 240px !important;
-    height: calc(100vh - 44px);
+    bottom: 0;
+    height: auto;
     background: var(--cor-fundo);
     transform: translateX(-100%);
     transition: transform var(--transicao-normal);
     z-index: var(--z-modal);
-    overflow-y: auto;
     box-shadow: var(--sombra-menu);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 .menu-lateral.ativo {
@@ -395,6 +398,13 @@
     justify-content: space-between;
     padding: var(--espaco-3); /* reduzido para igualar a sessão de perfil */
     border-bottom: var(--borda-largura) solid var(--cor-borda-clara);
+}
+
+.menu-lateral-conteudo {
+    flex: 1; 
+    overflow-y: auto; 
+    display: flex;
+    flex-direction: column;
 }
 
 /* Ícone de Menu no Header do Menu Lateral */
