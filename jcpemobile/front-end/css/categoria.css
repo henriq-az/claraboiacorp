@@ -17,6 +17,13 @@ h1 {
     color: #1a1a1a;
     text-align: center;
 }
+
+h2 {
+    font-size: 28px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    color: #1a1a1a;
+}
 .underline {
     width: 60px;
     height: 4px;
@@ -25,6 +32,15 @@ h1 {
     margin-top: -28px;
     margin-left: auto;
     margin-right: auto;
+    border-radius: 2px;
+}
+
+.underlineDescentralizado {
+    width: 60px;
+    height: 4px;
+    background:#DE1B24;
+    margin-bottom: 0px;
+    margin-top: -28px;
     border-radius: 2px;
 }
 
@@ -145,6 +161,7 @@ h1 {
     text-overflow: ellipsis;
 }
 .tagCategoria {
+    padding: 4px 2px;
     font-size: 12px;
     font-weight: 700;
     color: #DE1B24;
@@ -153,6 +170,7 @@ h1 {
 
 /* Título da notícia principal com quebras de linhas e truncamento */
 .cardCategoria .titleCategoria {
+    padding: 0px 2px;
     font-size: 16px;
     font-weight: 700;
     font-style: bold;
@@ -165,6 +183,7 @@ h1 {
 
 /* Resumo da notícia principal preenchendo o container com truncamento */
 .cardCategoria .descCategoria {
+    padding: 0px 2px;
     font-size: 12px;
     font-weight: 400;
     font-style: bold;
@@ -238,7 +257,7 @@ h1 {
     align-items: center;
     z-index: 5;
 }
-.ranking-actions .ranking-fav,
+.ranking-actions .ranking-favCat,
 .ranking-actions .ranking-action {
     width: 40px;
     height: 40px;
@@ -252,11 +271,8 @@ h1 {
     padding: 6px;
     transition: all 0.18s ease;
 }
-.ranking-actions .ranking-fav:hover,
-.ranking-actions .ranking-action:hover {
-    transform: translateY(-1px);
-}
-.ranking-actions .ranking-fav svg { 
+
+.ranking-actions .ranking-favCat svg { 
     width: 24px; 
     height: 24px; 
     display: block; 
@@ -273,14 +289,18 @@ h1 {
     stroke-linejoin: round;
 }
 /* contorno do botão de salvar fiva preto */
-.ranking-actions .ranking-fav[aria-pressed="true"]:hover svg path { 
+.ranking-actions .ranking-favCat[aria-pressed="true"]:hover svg path { 
     /*stroke: #E31B23 !important;*/ 
     stroke: black !important; 
 }
 /* Quando estiver salvo (aria-pressed="true"), o botão fica preto */
-.ranking-fav[aria-pressed="true"] svg path{
+.ranking-favCat[aria-pressed="true"] svg path{
     fill: black !important;
     stroke: black !important;
+}
+.ranking-actions .ranking-favCat:hover,
+.ranking-actions .ranking-action:hover {
+    transform: translateY(-1px);
 }
 
 .bookmark-icon {
@@ -308,18 +328,17 @@ h1 {
     padding: 10px;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
-    white-space: nowrap;
 }
 
 .carrossel {
     display: flex;
     gap: 20px; 
+    flex-wrap: nowrap;
 }
 
 .carrossel-item {
-    display: inline-block;
-    width: 200px;
-    height: 320px;
+    width: 165px;
+    height: 270px;
     flex: 0 0 auto;
     border-radius: 20px;
     overflow: hidden;
@@ -333,17 +352,38 @@ h1 {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;     
 }
+.carrossel-item:hover img {transform: scale(1.05);}
 
 .carrossel-item .texto {
     position: absolute;
-    bottom: 10px;
-    left: 10px;
-    right: 10px;
-    font-weight: 600;
-    text-shadow: 0px 0px 4px rgba(0,0,0,0.7);
-}
+    inset: 0; 
+    display: flex;
 
+    align-items: flex-end; 
+    justify-content: flex-start; 
+    padding: 15px;
+    font-size: 1rem;
+    font-weight: 700;
+    text-align: left;
+    line-height: 1.3;
+
+    white-space: normal; 
+    word-wrap: break-word;
+    
+    box-sizing: border-box;
+    word-break: break-word;
+    /* Slight gradient for better contrast but covering most of image */
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.65),
+        rgba(0, 0, 0, 0.35),
+        rgba(0, 0, 0, 0.15)
+    );
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
 
 .sem-noticias {
     text-align: center;

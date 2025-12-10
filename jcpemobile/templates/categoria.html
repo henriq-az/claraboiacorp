@@ -72,6 +72,7 @@
 
         {% if noticias %}
             {% for noticia in noticias %}
+
                 {% if forloop.first %}
                     <!-- Notícia em destaque -->
                         <a href="{% url 'noticia_detalhe' noticia.slug %}" class="cardCategoria" style="text-decoration: none; color: inherit;">
@@ -85,6 +86,7 @@
                             </div>
                         </a>
                     {% if forloop.first %}
+
                         {% if noticias_relacionadas %}
                             <div class="noticias-relacionadas-container">
                                 <div class="relacionadas-titulos-bar">
@@ -99,17 +101,33 @@
                                 </div>
                             </div>
                         {% endif %}
-                        <div class="carrossel-container">
-                            <div class="carrossel">
-                                {% for noticia in destaque_categoria %}
-                                    <a href="{% url 'noticia_detalhe' noticia.slug %}" class="carrossel-item">
-                                        <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}">
-                                        <div class="texto">{{ noticia.titulo }}</div>
-                                    </a>
-                                {% endfor %}
+
+                        {% if destaque_categoria %}
+                            <h2>Destaques</h2>
+                            <div class="underlineDescentralizado"></div>
+
+                            <div class="carrossel-container">
+                                <div class="carrossel">
+                                    {% for noticia in destaque_categoria %}
+                                        <a href="{% url 'noticia_detalhe' noticia.slug %}" class="carrossel-item">
+                                            {% if noticia.imagem_vertical %}
+                                                <img src="{{ noticia.imagem_vertical.url }}" alt="{{ noticia.titulo }}">
+                                            {% elif noticia.imagem %}
+                                                <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}">
+                                            {% endif %}
+                                            <div class="texto">{{ noticia.titulo }}</div>
+                                        </a>
+                                    {% endfor %}
+                                </div>
                             </div>
-                        </div>
+                            
+                            <h2>Mais de cultura</h2>
+                            <div class="underlineDescentralizado"></div>
+
+                        {% endif %}
+
                     {% endif%}
+
                 {% else %}
                     <a href="{% url 'noticia_detalhe' noticia.slug %}" class="news-item">
                         {% if noticia.imagem %}
@@ -121,7 +139,7 @@
                             </div>
 
                             <div class="ranking-actions" role="group" aria-label="Ações da notícia">
-                                <button class="ranking-fav" onclick="toggleSalvarNoticia(event)" aria-label="Salvar" aria-pressed="{% if noticia.id in noticias_salvas_ids %}true{% else %}false{% endif %}" data-noticia-id="{{ noticia.id }}">
+                                <button class="ranking-favCat" onclick="toggleSalvarNoticia(event)" aria-label="Salvar" aria-pressed="{% if noticia.id in noticias_salvas_ids %}true{% else %}false{% endif %}" data-noticia-id="{{ noticia.id }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="29" height="29" viewBox="0 0 29 29" fill="none" aria-hidden="true">
                                     <path d="M6 11.8733C6 9.1046 6 7.72025 6.87868 6.86012C7.75736 6 9.17157 6 12 6H16C18.8284 6 20.2426 6 21.1213 6.86012C22 7.72025 22 9.1046 22 11.8733V18.5567C22 21.1833 22 22.4966 21.1557 22.8983C20.3114 23.3 19.2565 22.4886 17.1465 20.8659L16.4713 20.3465C15.2849 19.434 14.6917 18.9778 14 18.9778C13.3083 18.9778 12.7151 19.434 11.5287 20.3465L10.8535 20.8659C8.74355 22.4886 7.68859 23.3 6.84429 22.8983C6 22.4966 6 21.1833 6 18.5567V11.8733Z" stroke="black" stroke-width="2"/>
                                 </svg>
