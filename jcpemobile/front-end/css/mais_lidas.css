@@ -171,33 +171,38 @@ h1 {
 .news-item .ranking-actions .ranking-fav:not(.favorited) svg path,
 .ranking-item .ranking-actions .ranking-fav:not(.favorited) svg path,
 .ranking-actions .ranking-fav:not(.favorited) svg path {
-    stroke: #000 !important;
-    fill: none !important;
+    stroke: #c9302c !important;
+    fill: #c9302c !important;
 }
 /* Botão de salvar quando passa o mouse por cima (apenas quando NÃO está salvo) - mantém preto */
 .news-item .ranking-actions .ranking-fav:not(.favorited):hover svg path,
 .ranking-item .ranking-actions .ranking-fav:not(.favorited):hover svg path,
 .ranking-actions .ranking-fav:not(.favorited):hover svg path {
-    stroke: #000 !important;
-    fill: none !important;
+    stroke: #c9302c !important;
+    fill: #c9302c !important;
 }
 /* Quando estiver salvo (favorited), o botão fica PRETO preenchido */
 .news-item .ranking-fav.favorited svg path,
 .ranking-item .ranking-fav.favorited svg path,
 .ranking-fav.favorited svg path {
-    fill: #000 !important;
-    stroke: #000 !important;
+    fill: #c9302c !important;
+    stroke: #c9302c !important;
 }
 /* Hover quando está salvo - mantém preto */
 .news-item .ranking-fav.favorited:hover svg path,
 .ranking-item .ranking-fav.favorited:hover svg path,
 .ranking-fav.favorited:hover svg path {
-    fill: #000 !important;
-    stroke: #000 !important;
+    fill: #c9302c !important;
+    stroke: #c9302c !important;
 }
 /* Botão de compartilhar quando passa o mouse por cima */
 .ranking-actions .ranking-action:hover svg path {
     fill: #c9302c !important;
+}
+
+.ranking-actions .ranking-fav.salvar-btn:hover svg path {
+    fill: #c9302c !important;
+    stroke: #c9302c !important;
 }
 
 .bookmark-icon {
@@ -403,11 +408,16 @@ h1 {
 .news-item .ranking-actions .ranking-fav:not(.favorited):hover svg path,
 .ranking-item .ranking-actions .ranking-fav:not(.favorited):hover svg path,
 .ranking-actions .ranking-fav:not(.favorited):hover svg path {
-    stroke: #000 !important;
+    stroke: #c9302c !important;
     fill: none !important;
 }
 
 .ranking-actions .ranking-action svg path {
     fill: #000;
     transition: all 0.3s ease;
+}
+
+.ranking-actions .ranking-fav:hover svg path {
+    stroke: #c9302c !important;
+    fill: #c9302c !important;
 }
