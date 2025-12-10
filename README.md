@@ -93,8 +93,17 @@ Pip
 Virtualenv (opcional, mas recomendado)
 
 **Clonar o repositório
-git clone https://github.com/henriq-az/seu-projeto.git
-cd seu-projeto
+git clone https://github.com/henriq-az/claraboiacorp
+cd claraboiacorp
+
+**Criar e ativar o ambiente virtual
+macOS / Linux:
+python3 -m venv venv
+source venv/bin/activate
+
+Windows:
+python -m venv venv
+venv\Scripts\activate
 
 ## 📍 Conclusão
 O roadmap estrutura o desenvolvimento em três grandes fases, garantindo **entregas incrementais de valor**.
