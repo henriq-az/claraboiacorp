@@ -13,15 +13,21 @@
 h1 {
     font-size: 28px;
     margin-top: 8px;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
     color: #1a1a1a;
     text-align: center;
 }
 
 h2 {
-    font-size: 28px;
-    margin-top: 8px;
-    margin-bottom: 8px;
+    font-family: Inter;
+    font-weight: 700;
+    font-style: Bold;
+    font-size: 20px;
+    line-height: 100%;
+    letter-spacing: 0%;
+
+    margin-top: 16px;
+    margin-bottom: 4px;
     color: #1a1a1a;
 }
 .underline {
@@ -29,18 +35,18 @@ h2 {
     height: 4px;
     background:#DE1B24;
     margin-bottom: 30px;
-    margin-top: -28px;
+    margin-top: 0;
     margin-left: auto;
     margin-right: auto;
     border-radius: 2px;
 }
 
 .underlineDescentralizado {
-    width: 60px;
+    width: 80px;
     height: 4px;
     background:#DE1B24;
-    margin-bottom: 0px;
-    margin-top: -28px;
+    margin-bottom: 12px;
+    margin-top: 0;
     border-radius: 2px;
 }
 
@@ -332,8 +338,9 @@ h2 {
 
 .carrossel {
     display: flex;
-    gap: 20px; 
+    gap: 16px; 
     flex-wrap: nowrap;
+    padding-bottom: 20px;
 }
 
 .carrossel-item {
@@ -414,7 +421,8 @@ h2 {
     }
 
     .news-item {
-        height: 115px;
+        margin-top: 8px;
+        height: 125px;
     }
     .news-imageCategoria {
         width: 120px;
