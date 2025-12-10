@@ -49,6 +49,10 @@
 <div class="popup-busca" id="popupBusca">
     <div class="popup-busca-conteudo">
         <form action="{% url 'buscar' %}" method="get" class="popup-busca-form">
+            <svg class="popup-icone-busca" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 40 40" fill="none">
+                <circle cx="18.3333" cy="18.3334" r="10" stroke="currentColor" stroke-width="3"/>
+                <path d="M33.3333 33.3334L28.3333 28.3334" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            </svg>
             <input class="popup-campo-busca" type="search" name="q" value="{{ request.GET.q|default:'' }}" placeholder="Faça sua pesquisa" aria-label="Pesquisar notícias">
             <button class="popup-botao-pesquisar" type="submit">Pesquisar</button>
         </form>

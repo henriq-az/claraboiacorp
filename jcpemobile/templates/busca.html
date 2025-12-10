@@ -53,7 +53,7 @@
 {% include 'includes/menu_hamburguer.html' %}
 
 <!-- Conteúdo Principal -->
-<main class="conteudo-principal busca-page">
+<main class="conteudo-principal">
   <div class="container">
 
     <!-- Seção de Busca -->
@@ -73,10 +73,6 @@
       <!-- Formulário de busca -->
       <form action="{% url 'buscar' %}" method="get" class="busca-form-page">
         <div class="busca-input-wrapper">
-          <svg class="busca-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 40 40" fill="none">
-            <circle cx="18.3333" cy="18.3334" r="10" stroke="#999" stroke-width="3"/>
-            <path d="M33.3333 33.3334L28.3333 28.3334" stroke="#999" stroke-width="3" stroke-linecap="round"/>
-          </svg>
           <input
             type="search"
             name="q"
@@ -93,21 +89,20 @@
     <!-- Resultados -->
     {% if page_obj.object_list %}
       <section class="resultados-section">
-        <div class="resultados-grid">
+        <div class="container">
           {% for noticia in page_obj.object_list %}
-            <a href="{% url 'noticia_detalhe' noticia.slug %}" class="resultado-card">
+            <a href="{% url 'noticia_detalhe' noticia.slug %}" class="card top" style="text-decoration: none; color: inherit;">
               {% if noticia.imagem %}
-                <div class="resultado-imagem">
-                  <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" loading="lazy">
-                </div>
+                <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" loading="lazy">
+              {% else %}
+                <img src="{% static 'images/placeholder.jpg' %}" alt="Imagem padrão">
               {% endif %}
-              <div class="resultado-conteudo">
-                <span class="resultado-tag">{{ noticia.categoria.nome }}</span>
-                <h2 class="resultado-titulo">{{ noticia.titulo }}</h2>
+              <div class="content">
+                <span class="tag">{{ noticia.categoria.nome }}</span>
+                <h2 class="title">{{ noticia.titulo }}</h2>
                 {% if noticia.resumo %}
-                  <p class="resultado-resumo">{{ noticia.resumo|truncatewords:20 }}</p>
+                  <p class="desc">{{ noticia.resumo|truncatewords:15 }}</p>
                 {% endif %}
-                <time class="resultado-data">{{ noticia.data_publicacao|date:"d/m/Y - H:i" }}</time>
               </div>
             </a>
           {% endfor %}
