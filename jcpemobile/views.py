@@ -120,6 +120,7 @@ def index(request):
 
 def lista_por_categoria(request, slug):
     todas_noticias = Noticia.objects.select_related('categoria', 'autor').order_by('-data_publicacao') 
+    hoje = timezone.now().date()
 
     print(f"[DEBUG] Total geral: {todas_noticias.count()}")
 
@@ -133,6 +134,19 @@ def lista_por_categoria(request, slug):
         noticias_salvas_ids = NoticaSalva.objects.filter(usuario=request.user).values_list('noticia_id', flat=True) 
 
     noticia_principal = noticias_categoria.first()
+
+    destaque_categoria = (
+    noticias_categoria
+    .annotate(
+        num_visualizacoes=Count(
+            'visualizacoes',
+            filter=Q(visualizacoes__data=hoje)
+        )
+    )
+    .filter(num_visualizacoes__gt=0)
+    .order_by('-num_visualizacoes')[:15]
+)
+
 
     # noticias relacionadas com a noticia mais recente da categoria
     noticias_relacionadas = []
@@ -169,6 +183,7 @@ def lista_por_categoria(request, slug):
         'noticias': noticias_categoria,
         'noticias_salvas_ids': noticias_salvas_ids,
         "noticias_relacionadas": noticias_relacionadas,
+        "destaque_categoria": destaque_categoria,
     }
 
     return render(request, 'categoria.html', context)
@@ -1350,22 +1365,210 @@ def preferencias(request):
 
 
 def perfil_autor(request, slug):
-    """View para exibir o perfil do autor/colunista e suas contribuições."""
-    autor = get_object_or_404(Autor, slug=slug)
-    
-    # Buscar todas as notícias do autor, ordenadas por data
-    noticias = Noticia.objects.filter(autor=autor).select_related('categoria').order_by('-data_publicacao')
-    
-    # Paginação (12 notícias por página)
-    paginator = Paginator(noticias, 12)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    
+    """View para exibir o perfil do autor/colunista (dados mockados)."""
+
+    # Classe auxiliar para simular objeto com propriedade url
+    class MockImage:
+        def __init__(self, url):
+            self.url = url
+
+    class MockCategoria:
+        def __init__(self, nome):
+            self.nome = nome
+
+    # Dados mockados dos colunistas com imagens corretas
+    colunistas_mock = {
+        'mirella-araujo-e-equipe': {
+            'nome': 'Mirella Araújo e equipe',
+            'bio': 'Especialista em Enem e Educação',
+            'foto': MockImage('https://imagens.ne10.uol.com.br/veiculos/_midias/png/2025/03/26/105x105/1_enem_2__2_-34210893.png'),
+        },
+        'terezinha-nunes': {
+            'nome': 'Terezinha Nunes',
+            'bio': 'Do Blog Dellas',
+            'foto': MockImage('https://imagens.ne10.uol.com.br/veiculos/_midias/png/2025/04/29/105x105/1_terezinhanunes_1-34365315.png'),
+        },
+        'cinthya-leite-e-equipe': {
+            'nome': 'Cinthya Leite e equipe',
+            'bio': 'Especialista em Saúde e Bem-estar',
+            'foto': MockImage('https://imagens.ne10.uol.com.br/veiculos/_midias/png/2025/03/26/105x105/1_cinthya_leite_1-34210966.png'),
+        },
+        'igor-maciel': {
+            'nome': 'Igor Maciel',
+            'bio': 'Colunista de Política',
+            'foto': MockImage('https://imagens.ne10.uol.com.br/veiculos/_midias/png/2025/03/26/105x105/1_igor_maciel_1-34210948.png'),
+        },
+    }
+
+    # Notícias mockadas personalizadas por colunista
+    noticias_por_colunista = {
+        'mirella-araujo-e-equipe': [
+            {
+                'slug': 'enem-2025-dicas-redacao',
+                'titulo': 'Enem 2025: Principais temas que podem cair na redação',
+                'resumo': 'Professora Mirella analisa os assuntos mais relevantes do ano e dá dicas valiosas para quem vai fazer a prova.',
+                'categoria': MockCategoria('Educação'),
+                'imagem': MockImage('https://picsum.photos/206/116?random=1'),
+            },
+            {
+                'slug': 'vestibular-estrategias-estudo',
+                'titulo': 'Como organizar a rotina de estudos para o vestibular',
+                'resumo': 'Dicas práticas para otimizar o tempo e melhorar o desempenho nas provas mais concorridas do país.',
+                'categoria': MockCategoria('Educação'),
+                'imagem': MockImage('https://picsum.photos/206/116?random=2'),
+            },
+            {
+                'slug': 'sisu-2025-inscricoes',
+                'titulo': 'Sisu 2025: Tudo que você precisa saber sobre as inscrições',
+                'resumo': 'Confira o calendário completo, documentos necessários e estratégias para conseguir a vaga dos sonhos.',
+                'categoria': MockCategoria('Educação'),
+                'imagem': MockImage('https://picsum.photos/206/116?random=3'),
+            },
+            {
+                'slug': 'nova-reforma-ensino-medio',
+                'titulo': 'Nova reforma do Ensino Médio: o que muda para os estudantes',
+                'resumo': 'Entenda as mudanças no currículo e como isso impacta a preparação para o Enem e vestibulares.',
+                'categoria': MockCategoria('Educação'),
+                'imagem': MockImage('https://picsum.photos/206/116?random=4'),
+            },
+        ],
+        'terezinha-nunes': [
+            {
+                'slug': 'tendencias-moda-verao-2025',
+                'titulo': 'Tendências de moda para o verão 2025: conforto e estilo',
+                'resumo': 'Descubra as peças-chave, cores e estampas que vão dominar a estação mais quente do ano.',
+                'categoria': MockCategoria('Moda'),
+                'imagem': MockImage('https://picsum.photos/206/116?random=5'),
+            },
+            {
+                'slug': 'skincare-rotina-pele-perfeita',
+                'titulo': 'Skincare: 5 passos para uma pele radiante no dia a dia',
+                'resumo': 'Aprenda a montar uma rotina de cuidados eficaz e acessível para todos os tipos de pele.',
+                'categoria': MockCategoria('Beleza'),
+                'imagem': MockImage('https://picsum.photos/206/116?random=6'),
+            },
+            {
+                'slug': 'empoderamento-feminino-mercado-trabalho',
+                'titulo': 'Empoderamento feminino: conquistando espaço no mercado de trabalho',
+                'resumo': 'Histórias inspiradoras de mulheres que transformaram desafios em oportunidades profissionais.',
+                'categoria': MockCategoria('Comportamento'),
+                'imagem': MockImage('https://picsum.photos/206/116?random=7'),
+            },
+            {
+                'slug': 'receitas-rapidas-saudaveis',
+                'titulo': 'Receitas rápidas e saudáveis para a rotina corrida',
+                'resumo': 'Opções deliciosas que cabem no seu dia a dia sem abrir mão da saúde e do sabor.',
+                'categoria': MockCategoria('Gastronomia'),
+                'imagem': MockImage('https://picsum.photos/206/116?random=8'),
+            },
+        ],
+        'cinthya-leite-e-equipe': [
+            {
+                'slug': 'prevencao-cancer-mama',
+                'titulo': 'Outubro Rosa: A importância do diagnóstico precoce do câncer de mama',
+                'resumo': 'Especialista explica como o autoexame e a mamografia podem salvar vidas.',
+                'categoria': MockCategoria('Saúde'),
+                'imagem': MockImage('https://picsum.photos/206/116?random=9'),
+            },
+            {
+                'slug': 'saude-mental-ansiedade',
+                'titulo': 'Saúde mental: Como lidar com a ansiedade no dia a dia',
+                'resumo': 'Psicóloga dá dicas práticas para controlar crises de ansiedade e melhorar a qualidade de vida.',
+                'categoria': MockCategoria('Bem-estar'),
+                'imagem': MockImage('https://picsum.photos/206/116?random=10'),
+            },
+            {
+                'slug': 'alimentacao-saudavel-criancas',
+                'titulo': 'Nutrição infantil: Como criar hábitos alimentares saudáveis',
+                'resumo': 'Nutricionista ensina estratégias para fazer as crianças comerem melhor sem drama.',
+                'categoria': MockCategoria('Saúde'),
+                'imagem': MockImage('https://picsum.photos/206/116?random=11'),
+            },
+            {
+                'slug': 'exercicios-fisicos-terceira-idade',
+                'titulo': 'Exercícios físicos na terceira idade: benefícios e cuidados',
+                'resumo': 'Médico geriatra explica quais atividades são mais indicadas para manter a saúde após os 60 anos.',
+                'categoria': MockCategoria('Bem-estar'),
+                'imagem': MockImage('https://picsum.photos/206/116?random=12'),
+            },
+        ],
+        'igor-maciel': [
+            {
+                'slug': 'reforma-tributaria-aprovacao',
+                'titulo': 'Reforma Tributária: Entenda as mudanças aprovadas pelo Congresso',
+                'resumo': 'Análise detalhada sobre o que muda na tributação brasileira e os impactos para a economia.',
+                'categoria': MockCategoria('Política'),
+                'imagem': MockImage('https://picsum.photos/206/116?random=13'),
+            },
+            {
+                'slug': 'eleicoes-2026-cenario',
+                'titulo': 'Eleições 2026: Bastidores da corrida presidencial já começam',
+                'resumo': 'Movimentações políticas indicam quem são os possíveis candidatos ao Planalto na próxima disputa.',
+                'categoria': MockCategoria('Política'),
+                'imagem': MockImage('https://picsum.photos/206/116?random=14'),
+            },
+            {
+                'slug': 'pec-reducao-jornada-trabalho',
+                'titulo': 'PEC da redução da jornada de trabalho divide opiniões no Congresso',
+                'resumo': 'Proposta de semana de 4 dias ganha força, mas enfrenta resistência do empresariado.',
+                'categoria': MockCategoria('Política'),
+                'imagem': MockImage('https://picsum.photos/206/116?random=15'),
+            },
+            {
+                'slug': 'cpi-fake-news-conclusoes',
+                'titulo': 'CPI das Fake News apresenta relatório final com propostas de regulamentação',
+                'resumo': 'Documento sugere mudanças nas redes sociais e penalidades mais rígidas para desinformação.',
+                'categoria': MockCategoria('Política'),
+                'imagem': MockImage('https://picsum.photos/206/116?random=16'),
+            },
+        ],
+    }
+
+    # Buscar notícias específicas do colunista
+    noticias_mock = noticias_por_colunista.get(slug, [])
+
+    # Verificar se o colunista existe
+    if slug not in colunistas_mock:
+        from django.http import Http404
+        raise Http404("Colunista não encontrado")
+
+    # Criar objeto autor mockado
+    class MockAutor:
+        def __init__(self, data):
+            self.nome = data['nome']
+            self.bio = data['bio']
+            self.foto = data['foto']
+
+    autor = MockAutor(colunistas_mock[slug])
+
+    # Criar classe para transformar dicionários de notícias em objetos
+    class MockNoticia:
+        def __init__(self, data):
+            self.slug = data['slug']
+            self.titulo = data['titulo']
+            self.resumo = data['resumo']
+            self.categoria = data['categoria']
+            self.imagem = data['imagem']
+
+    # Converter dicionários em objetos MockNoticia
+    noticias_objetos = [MockNoticia(n) for n in noticias_mock]
+
+    # Criar objeto paginator mockado
+    class MockPage:
+        def __init__(self, items):
+            self.object_list = items
+            self.has_other_pages = False
+
+        def __iter__(self):
+            return iter(self.object_list)
+
+    noticias = MockPage(noticias_objetos)
+
     context = {
         'autor': autor,
-        'noticias': page_obj,
-        'total_contribuicoes': noticias.count(),
+        'noticias': noticias,
+        'total_contribuicoes': len(noticias_objetos),
     }
-    
+
     return render(request, 'perfil_autor.html', context)
 

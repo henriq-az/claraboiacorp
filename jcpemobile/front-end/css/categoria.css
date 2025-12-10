@@ -76,8 +76,8 @@ h1 {
     align-items: stretch;
     gap: 0;
     padding: 0;
-    margin-bottom: 16px;
-    margin-top: 30px;
+    margin-bottom: 0px;
+    margin-top: 0px;
     background: white;
     border-radius: 12px;
     cursor: pointer;
@@ -94,7 +94,8 @@ h1 {
     transform: translateY(-2px);
 }
 
-.card.top {
+.cardCategoria {
+    width: 100%;
     background: white;
     border-radius: 12px;
     cursor: pointer;
@@ -107,31 +108,72 @@ h1 {
     text-decoration: none;
     color: inherit;
     overflow: hidden;
-    min-height: 100px;
+    aspect-ratio: 16 / 9;
+    min-height: 250px;
+    max-height: 400px;
 }
 
-.card.top:hover {
+.cardCategoria:hover {
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     transform: translateY(-2px);
 }
 
 /* Imagem do card principal ocupa metade superior do card */
-.card.top img {
-    width: auto;
+.cardCategoria img {
+    width: 100%;
     height: 50%;
     object-fit: cover;
     display: block;
     margin: 0;
     border-radius: 12px 12px 0 0;
+    flex: 0 0 50%;
 }
 
 /* Conteúdo do card ocupa a metade inferior */
-.card.top .content {
-    flex: 1 1 50%;
-    padding: 12px 16px;
+.cardCategoria .contentCategoria {
+    flex: 0 0 50%;
+    padding: 4px 12px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    font-family: 'Inter', sans-serif;
+    white-space: normal;
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.tagCategoria {
+    font-size: 12px;
+    font-weight: 700;
+    color: #DE1B24;
+    line-height: 1;
+}
+
+/* Título da notícia principal com quebras de linhas e truncamento */
+.cardCategoria .titleCategoria {
+    font-size: 16px;
+    font-weight: 700;
+    font-style: bold;
+    color: #000000;
+    line-height: 1.4;
+    margin: 0 0 8px 0;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+}
+
+/* Resumo da notícia principal preenchendo o container com truncamento */
+.cardCategoria .descCategoria {
+    font-size: 12px;
+    font-weight: 400;
+    font-style: bold;
+    color: #000000;
+    line-height: 1.5;
+    margin: 0;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    
 }
 .news-imageCategoria {
     width: 150px !important;
@@ -260,6 +302,48 @@ h1 {
     height: 100%;
 }
 
+.carrossel-container {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 10px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+}
+
+.carrossel {
+    display: flex;
+    gap: 20px; 
+}
+
+.carrossel-item {
+    display: inline-block;
+    width: 200px;
+    height: 320px;
+    flex: 0 0 auto;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    scroll-snap-align: start;
+    text-decoration: none;
+    color: white;
+}
+
+.carrossel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.carrossel-item .texto {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    font-weight: 600;
+    text-shadow: 0px 0px 4px rgba(0,0,0,0.7);
+}
+
 
 .sem-noticias {
     text-align: center;
@@ -273,6 +357,20 @@ h1 {
     .conteudo-principal {
         padding: 16px;
         padding-top: 100px;
+    }
+
+    .cardCategoria {
+        aspect-ratio: 4 / 5;
+        min-height: 200px;
+        max-height: 320px;
+    }
+
+    .cardCategoria .titleCategoria {
+        font-size: 14px;
+    }
+
+    .cardCategoria .descCategoria {
+        font-size: 11px;
     }
 
     .news-item {
@@ -295,6 +393,20 @@ h1 {
     .conteudo-principal {
         padding: 24px;
         padding-top: 140px;
+    }
+
+    .cardCategoria {
+        aspect-ratio: 16 / 9;
+        min-height: 300px;
+        max-height: 450px;
+    }
+
+    .cardCategoria .titleCategoria {
+        font-size: 18px;
+    }
+
+    .cardCategoria .descCategoria {
+        font-size: 14px;
     }
 }
 

@@ -328,8 +328,8 @@
                     // Mostra toast de sucesso
                     if (!isSalva) {
                         mostrarToast('Notícia salva!', 'sucesso');
-                        btn.querySelector('svg').setAttribute('fill', '#DE1B24');
-                        btn.querySelector('svg').setAttribute('stroke', '#DE1B24');
+                        btn.querySelector('svg').setAttribute('fill', '#000');
+                        btn.querySelector('svg').setAttribute('stroke', '#000');
                     } else {
                         mostrarToast('Notícia removida dos salvos', 'info');
                         btn.querySelector('svg').setAttribute('fill', 'none');
@@ -361,8 +361,8 @@
                 salvarNoticiaLocal(noticiaId);
                 btn.setAttribute('aria-pressed', 'true');
                 mostrarToast('Notícia salva!', 'sucesso');
-                btn.querySelector('svg').setAttribute('fill', '#DE1B24');
-                btn.querySelector('svg').setAttribute('stroke', '#DE1B24');
+                btn.querySelector('svg').setAttribute('fill', '#000');
+                btn.querySelector('svg').setAttribute('stroke', '#000');
 
                 // Feedback visual
                 btn.style.transform = 'scale(1.2)';
