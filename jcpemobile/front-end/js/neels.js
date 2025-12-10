@@ -161,7 +161,7 @@
         const verMenos = document.createElement('span');
         verMenos.className = 'ver-menos';
         verMenos.textContent = ' Ver menos';
-        verMenos.style.cssText = 'display: none; color: rgba(255,255,255,0.7); font-weight: 500; font-size: 14px; cursor: pointer; margin-left: 5px;';
+        verMenos.style.cssText = 'display: none; color: #FFFFFF; font-weight: bold; font-size: 14px; cursor: pointer; margin-left: 5px;';
         description.appendChild(verMenos);
 
         description.addEventListener('click', (e) => {

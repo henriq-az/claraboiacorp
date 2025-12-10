@@ -129,17 +129,15 @@ body {
 
 /* Indicador de que pode expandir */
 .reel-description::after {
-    content: ' ver mais';
+    content: ' Ver mais';
     position: absolute;
     bottom: 0;
     right: 0;
-    padding-left: 30px;
-    background: linear-gradient(to right, transparent, rgba(0,0,0,0.95) 20%);
+    padding-left: 8px;
     font-size: 14px;
-    font-weight: 500;
-    color: rgba(255,255,255,0.8);
+    font-weight: bold;
+    color: #FFFFFF;
     pointer-events: none;
-    font-style: italic;
 }
 
 /* Estado expandido */
