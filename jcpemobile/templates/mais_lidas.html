@@ -71,24 +71,6 @@
         <h1>Mais lidas</h1>
         <div class="underline"></div>
 
-        <!-- Botões de Filtro -->
-        <div class="ranking-filtro-toggle">
-            <div>
-                <button class="toggle-btn-filtro ativo" id="btnDia" onclick="filtrarRanking('dia')">
-                    Hoje
-                </button>
-                <button class="toggle-btn-filtro" id="btnSemana" onclick="filtrarRanking('semana')">
-                    Semana
-                </button>
-                <button class="toggle-btn-filtro" id="btnMes" onclick="filtrarRanking('mes')">
-                    Mês
-                </button>
-                <button class="toggle-btn-filtro" id="btnTodos" onclick="filtrarRanking('todos')">
-                    Todos os tempos
-                </button>
-            </div>
-        </div>
-
         <div class="news-list" id="newsList">
             <!-- Noticias serão carregadas dinamicamente pelo JavaScript -->
         </div>
@@ -589,9 +571,7 @@
 
     // Inicializar com o filtro padrão ao carregar a página
     document.addEventListener('DOMContentLoaded', () => {
-        // Inicializar com 'Hoje' selecionado
-        document.querySelectorAll('.toggle-btn-filtro').forEach(btn => btn.classList.remove('ativo'));
-        document.getElementById('btnDia').classList.add('ativo');
+        // Renderizar notícias do dia automaticamente
         renderizarNoticias('dia');
     });
 </script>
