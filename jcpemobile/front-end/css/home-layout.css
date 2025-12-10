@@ -600,7 +600,7 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
 .card {
       background-color: #fff;
       border-radius: 18px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
   overflow: hidden;
   width: 100%;
 }
@@ -852,7 +852,7 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
   background: #fff;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
   scroll-snap-align: start;
   transition: transform 0.2s, box-shadow 0.2s;
   height: 280px;
@@ -860,7 +860,7 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
 
 .video-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .video-thumbnail-wrapper {
@@ -1035,7 +1035,7 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
   background: #fff;
   border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
   max-width: 400px;
   margin: 0 auto;
 }
@@ -1306,14 +1306,14 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
   overflow: visible;
   text-decoration: none;
   color: inherit;
 }
 
 .ranking-item:hover {
-  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   transform: translateY(-4px);
 }
 
@@ -1544,7 +1544,7 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
   overflow: hidden;
   scroll-snap-align: start;
   flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
 }
 
 .news-card-carousel .card-background {
@@ -1671,7 +1671,7 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
   position: relative;
   border-radius: 18px;
   background-color: #fff;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
   overflow: hidden;
   width: 100%;
   text-decoration: none;
@@ -1905,7 +1905,7 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
   background: white;
   border-radius: 16px;
   padding: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
   transition: all 0.3s ease;
   width: 200px;
   height: 112px;
@@ -1936,7 +1936,7 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
 }
 
 .painel-card:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   transform: translateY(-2px);
 }
 
@@ -2349,7 +2349,7 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
   flex: 0 0 calc(90% - 8px);
   background-color: #fff;
   border-radius: 18px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
   overflow: hidden;
   scroll-snap-align: start;
   transition: transform 0.2s, box-shadow 0.2s;
@@ -2357,7 +2357,7 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
 
 .charge-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .charge-image {
@@ -2478,7 +2478,7 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
 .colunista-card {
   background-color: #fff;
   border-radius: 18px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
   padding: 0;
   display: flex;
   align-items: stretch;
@@ -2491,7 +2491,7 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
 }
 
 .colunista-card:hover {
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   transform: translateY(-2px);
 }
 
