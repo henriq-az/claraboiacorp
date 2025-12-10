@@ -81,6 +81,18 @@ O objetivo é assegurar **clareza na comunicação sobre progresso, prioridades 
 
     **Valor entregue:** maior clareza na leitura, flexibilidade de consumo e evolução contínua da plataforma.
 
+## 🚀 Como rodar este projeto
+
+1. Pré-requisitos
+
+Python 3.10+
+
+Git
+
+Pip
+
+Virtualenv (opcional, mas recomendado)
+
 ## 📍 Conclusão
 O roadmap estrutura o desenvolvimento em três grandes fases, garantindo **entregas incrementais de valor**.
 
