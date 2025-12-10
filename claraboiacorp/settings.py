@@ -68,9 +68,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',  # Required by allauth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.apple',
+    'allauth.socialaccount.providers.facebook',
     'jcpemobile',
     'whitenoise.runserver_nostatic',
 ]
+
+SITE_ID = 1
 
 # ==========================================================
 # ⚙️ Middleware
@@ -83,6 +92,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',  # Required by django-allauth
 ]
 
 # ==========================================================
@@ -110,6 +120,64 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'claraboiacorp.wsgi.application'
+
+# ==========================================================
+# 🔐 Autenticação e Allauth
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+LOGIN_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_EMAIL_VERIFICATION = 'none'  # Desabilita verificação de email para login social
+ACCOUNT_LOGIN_METHODS = ['email']  # Permite login apenas com email
+SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_EMAIL_REQUIRED = False
+
+# Configurações dos provedores OAuth
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'APP': {
+            'client_id': os.getenv('GOOGLE_CLIENT_ID', ''),
+            'secret': os.getenv('GOOGLE_CLIENT_SECRET', ''),
+        }
+    },
+    'facebook': {
+        'METHOD': 'oauth2',
+        'SCOPE': ['email', 'public_profile'],
+        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'FIELDS': [
+            'id',
+            'email',
+            'name',
+            'first_name',
+            'last_name',
+        ],
+        'EXCHANGE_TOKEN': True,
+        'VERIFIED_EMAIL': False,
+        'VERSION': 'v13.0',
+        'APP': {
+            'client_id': os.getenv('FACEBOOK_CLIENT_ID', ''),
+            'secret': os.getenv('FACEBOOK_CLIENT_SECRET', ''),
+        }
+    },
+    'apple': {
+        'APP': {
+            'client_id': os.getenv('APPLE_CLIENT_ID', ''),
+            'secret': os.getenv('APPLE_CLIENT_SECRET', ''),
+            'key': os.getenv('APPLE_KEY_ID', ''),
+            'certificate_key': os.getenv('APPLE_PRIVATE_KEY', ''),
+        }
+    }
+}
 
 # ==========================================================
 # 🔑 Validação de senha

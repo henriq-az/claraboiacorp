@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', include('allauth.urls')),  # URLs do django-allauth para OAuth
     path('', include('jcpemobile.urls')),  # Página inicial na raiz
 ]
 
