@@ -174,11 +174,11 @@ h1 {
     stroke: #000 !important;
     fill: none !important;
 }
-/* Botão de salvar quando passa o mouse por cima (apenas quando NÃO está salvo) */
+/* Botão de salvar quando passa o mouse por cima (apenas quando NÃO está salvo) - mantém preto */
 .news-item .ranking-actions .ranking-fav:not(.favorited):hover svg path,
 .ranking-item .ranking-actions .ranking-fav:not(.favorited):hover svg path,
 .ranking-actions .ranking-fav:not(.favorited):hover svg path {
-    stroke: #c9302c !important;
+    stroke: #000 !important;
     fill: none !important;
 }
 /* Quando estiver salvo (favorited), o botão fica PRETO preenchido */
@@ -392,12 +392,19 @@ h1 {
         }
 
 /* Garantir cores consistentes nos botões de ação com especificidade máxima */
-.news-item .ranking-actions .ranking-fav svg path,
-.ranking-item .ranking-actions .ranking-fav svg path,
-.ranking-actions .ranking-fav svg path {
+.news-item .ranking-actions .ranking-fav:not(.favorited) svg path,
+.ranking-item .ranking-actions .ranking-fav:not(.favorited) svg path,
+.ranking-actions .ranking-fav:not(.favorited) svg path {
     stroke: #000 !important;
     fill: none !important;
     transition: all 0.3s ease;
+}
+
+.news-item .ranking-actions .ranking-fav:not(.favorited):hover svg path,
+.ranking-item .ranking-actions .ranking-fav:not(.favorited):hover svg path,
+.ranking-actions .ranking-fav:not(.favorited):hover svg path {
+    stroke: #000 !important;
+    fill: none !important;
 }
 
 .ranking-actions .ranking-action svg path {

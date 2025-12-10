@@ -665,10 +665,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 fill: none !important;
             }
 
-            /* Hover quando NÃO está salvo - vermelho */
+            /* Hover quando NÃO está salvo - mantém preto */
             .ranking-item .ranking-actions .ranking-fav:not(.favorited):hover svg path,
             .ranking-actions .ranking-fav:not(.favorited):hover svg path {
-                stroke: #c9302c !important;
+                stroke: #000 !important;
                 fill: none !important;
             }
 
