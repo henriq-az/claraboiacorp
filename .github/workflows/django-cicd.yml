@@ -46,3 +46,96 @@ jobs:
     - name: Verificar sintaxe do código
       run: |
         python manage.py check
+
+  build:
+    name: Build da aplicação
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout do código
+      uses: actions/checkout@v4
+    
+    - name: Configurar Python 3.12
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    
+    - name: Instalar dependências
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Coletar arquivos estáticos
+      run: |
+        python manage.py collectstatic --noinput
+      env:
+        DJANGO_SETTINGS_MODULE: claraboiacorp.settings
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+    
+    - name: Verificar migrações pendentes
+      run: |
+        python manage.py makemigrations --check --dry-run
+      env:
+        DJANGO_SETTINGS_MODULE: claraboiacorp.settings
+    
+    - name: Upload dos artefatos de build
+      uses: actions/upload-artifact@v4
+      with:
+        name: django-staticfiles
+        path: staticfiles/
+        retention-days: 7
+
+  deploy:
+    name: Deploy (preparação)
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout do código
+      uses: actions/checkout@v4
+    
+    - name: Download dos artefatos de build
+      uses: actions/download-artifact@v4
+      with:
+        name: django-staticfiles
+        path: staticfiles/
+    
+    - name: Informações de deploy
+      run: |
+        echo "✅ Build concluído com sucesso!"
+        echo "📦 Artefatos prontos para deploy"
+        echo "🚀 Configure as secrets necessárias para deploy automático:"
+        echo "   - SECRET_KEY: Chave secreta do Django"
+        echo "   - DATABASE_URL: URL do banco de dados de produção"
+        echo "   - ALLOWED_HOSTS: Hosts permitidos"
+        echo ""
+        echo "Para deploy em serviços como Heroku, Railway, ou Render:"
+        echo "   - Adicione as credenciais nas GitHub Secrets"
+        echo "   - Descomente e configure o step de deploy apropriado abaixo"
+    
+    # Exemplo de deploy para Heroku (descomente e configure)
+    # - name: Deploy no Heroku
+    #   uses: akhileshns/heroku-deploy@v3.13.15
+    #   with:
+    #     heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+    #     heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+    #     heroku_email: ${{ secrets.HEROKU_EMAIL }}
+    
+    # Exemplo de deploy via SSH (descomente e configure)
+    # - name: Deploy via SSH
+    #   uses: appleboy/ssh-action@v1.0.0
+    #   with:
+    #     host: ${{ secrets.SSH_HOST }}
+    #     username: ${{ secrets.SSH_USER }}
+    #     key: ${{ secrets.SSH_PRIVATE_KEY }}
+    #     script: |
+    #       cd /path/to/your/app
+    #       git pull origin main
+    #       source venv/bin/activate
+    #       pip install -r requirements.txt
+    #       python manage.py migrate
+    #       python manage.py collectstatic --noinput
+    #       sudo systemctl restart gunicorn
