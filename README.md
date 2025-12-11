@@ -128,3 +128,8 @@ Dessa forma, a plataforma se mantém **focada na fidelização** dos usuários e
 ## Implementação do Protótipo Final
 
 Link do [deploy](https://jcclaraboia.pythonanywhere.com) do Protótipo de Alta Fidelidade.
+
+## Screencast 
+teste do cypress -- https://youtu.be/bdflzLoeLIY
+build e deploy -- https://youtu.be/odSR7-td47g
+do site -- https://youtu.be/8W-qrxVhyqo
