@@ -1,0 +1,393 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Perfil de {{ autor.nome }} - {{ autor.bio }}">
+    <title>{{ autor.nome }} | JC PE</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{% static 'images/jc-favicon.png' %}">
+    
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/variaveis.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/componentes.css' %}">
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/menu_inferior.css' %}">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Reset e Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f5f5f5;
+            color: #1a1a1a;
+        }
+
+        /* Barra UOL */
+        .barra-uol {
+            background-color: #000;
+            padding: 8px 0;
+        }
+
+        .barra-uol-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .barra-uol img {
+            display: block;
+        }
+
+        /* Barra Vermelha */
+        .top-bar {
+            background-color: #c8102e;
+            height: 4px;
+            width: 100%;
+        }
+
+        /* Perfil do Autor - Card Estilo UOL */
+        .perfil-autor-hero {
+            background-color: #f5f5f5;
+            padding: 20px;
+            padding-top: 20px;
+            margin-top: 0;
+        }
+
+        .perfil-autor-content {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .autor-card-inner {
+            padding: 24px;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .autor-info {
+            flex: 1;
+        }
+
+        .autor-info h1 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: #1a1a1a;
+        }
+
+        .autor-info p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 16px;
+        }
+
+        .autor-social {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-icon {
+            width: 36px;
+            height: 36px;
+            background-color: #f0f0f0;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background-color: #e0e0e0;
+        }
+
+        .autor-foto-wrapper {
+            width: 120px;
+            height: 120px;
+            border-radius: 8px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .autor-foto-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Seção de Contribuições */
+        .contribuicoes-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            background-color: #f5f5f5;
+        }
+
+        .contribuicoes-header {
+            margin-bottom: 30px;
+        }
+
+        .contribuicoes-header h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 5px;
+        }
+
+        .contribuicoes-underline {
+            width: 60px;
+            height: 4px;
+            background-color: #c8102e;
+            border-radius: 2px;
+        }
+
+        /* Grid de Cards */
+        .contribuicoes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .contribuicao-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .contribuicao-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+
+        .contribuicao-imagem {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            background-color: #e5e5e5;
+        }
+
+        .contribuicao-imagem img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .contribuicao-content {
+            padding: 16px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .contribuicao-categoria {
+            display: inline-block;
+            background-color: #c8102e;
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            align-self: flex-start;
+        }
+
+        .contribuicao-titulo {
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 8px;
+            color: #1a1a1a;
+        }
+
+        .contribuicao-resumo {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #666;
+            flex: 1;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-state i {
+            font-size: 64px;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            font-size: 16px;
+            color: #999;
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .perfil-autor-content {
+                max-width: 100%;
+            }
+
+            .autor-card-inner {
+                padding: 20px;
+            }
+
+            .autor-info h1 {
+                font-size: 18px;
+            }
+
+            .autor-foto-wrapper {
+                width: 100px;
+                height: 100px;
+            }
+
+            .contribuicoes-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .perfil-autor-hero {
+                padding: 30px 15px;
+            }
+
+            .contribuicoes-section {
+                padding: 30px 15px;
+            }
+
+            .contribuicao-titulo {
+                font-size: 15px;
+            }
+
+            .contribuicao-resumo {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra Superior UOL -->
+    <div class="barra-uol">
+        <div class="barra-uol-container">
+            <a href="https://www.uol.com.br" target="_blank" rel="noopener noreferrer">
+            <img src="https://conteudo.imguol.com.br/c/_layout/v3/logoUOL2021/logo_completo_white.svg" width="68" height="24" alt="UOL - O melhor conteúdo" title="UOL - O melhor conteúdo">
+            </a>
+        </div>
+    </div>
+
+    <div class="top-bar"></div>
+
+    {% include 'includes/menu_hamburguer.html' %}
+
+    <!-- Perfil do Autor -->
+    <section class="perfil-autor-hero">
+        <div class="perfil-autor-content">
+            <div class="autor-card-inner">
+                <div class="autor-info">
+                    <h1>{{ autor.nome }}</h1>
+                    <p>{{ autor.bio }}</p>
+                    <div class="autor-social">
+                        <a href="#" class="social-icon" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="autor-foto-wrapper">
+                    {% if autor.foto %}
+                        <img src="{{ autor.foto.url }}" alt="{{ autor.nome }}">
+                    {% else %}
+                        <img src="https://via.placeholder.com/120" alt="{{ autor.nome }}">
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contribuições -->
+    <section class="contribuicoes-section">
+        <div class="contribuicoes-header">
+            <h2>Últimas Contribuições</h2>
+            <div class="contribuicoes-underline"></div>
+        </div>
+
+        {% if noticias %}
+            <div class="contribuicoes-grid">
+                {% for noticia in noticias %}
+                    <a href="{% url 'noticia_detalhe' noticia.slug %}" class="contribuicao-card">
+                        <div class="contribuicao-imagem">
+                            {% if noticia.imagem %}
+                                <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}">
+                            {% else %}
+                                <img src="https://via.placeholder.com/400x225" alt="{{ noticia.titulo }}">
+                            {% endif %}
+                        </div>
+                        <div class="contribuicao-content">
+                            <span class="contribuicao-categoria">{{ noticia.categoria.nome }}</span>
+                            <h3 class="contribuicao-titulo">{{ noticia.titulo }}</h3>
+                            {% if noticia.resumo %}
+                                <p class="contribuicao-resumo">{{ noticia.resumo|truncatewords:20 }}</p>
+                            {% endif %}
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <i class="fas fa-newspaper"></i>
+                <h3>Nenhuma contribuição ainda</h3>
+                <p>Este colunista ainda não publicou artigos.</p>
+            </div>
+        {% endif %}
+    </section>
+
+    <!-- Menu Inferior (se necessário) -->
+    {% include 'includes/menu_inferior.html' %}
+</body>
+</html>
