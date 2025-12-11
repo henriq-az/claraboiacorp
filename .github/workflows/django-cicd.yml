@@ -33,6 +33,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     
+    - name: Criar diretório de arquivos estáticos
+      run: |
+        mkdir -p staticfiles
+    
     - name: Executar testes Django
       run: |
         python manage.py test jcpemobile
