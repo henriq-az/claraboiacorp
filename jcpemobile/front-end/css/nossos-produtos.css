@@ -16,13 +16,13 @@
 
 .nossos-produtos-titulo {
     font-family: var(--fonte-titulos);
-    font-size: 28px;
-    font-weight: 700;
+    font-size: 24px;
+    font-weight: bold;
     color: #000000;
     text-align: center;
     margin-bottom: 32px;
     position: relative;
-    padding-bottom: 16px;
+    padding-bottom: 10px;
 }
 
 .nossos-produtos-titulo::after {
@@ -31,10 +31,10 @@
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 60px;
-    height: 3px;
+    width: 95px;
+    height: 5px;
     background: var(--cor-primaria);
-    border-radius: 2px;
+    border-radius: 3px;
 }
 
 .produtos-grid {
@@ -180,4 +180,9 @@
 
 .produto-item:nth-child(7) .produto-icone {
     background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+}
+
+/* Ocultar apenas o nome dos produtos no rodapé/seção "Nossos Produtos", mantendo o ícone visível */
+.nossos-produtos .produto-nome {
+    display: none !important;
 }
