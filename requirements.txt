@@ -26,6 +26,7 @@ gunicorn
 whitenoise
 django-allauth
 PyJWT
+cryptography
 requests
 oauthlib
 requests-oauthlib
