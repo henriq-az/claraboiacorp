@@ -419,10 +419,10 @@ Salvar Preferências
     <div class="title-underline"></div>
   </div>
 
-  <div class="news-carousel">
+  <div class="news-carousel" style="gap: 16px;">
     {% if noticias_ultimas %}
       {% for noticia in noticias_ultimas %}
-      <a href="{% url 'noticia_detalhe' noticia.slug %}" class="news-card-carousel" style="text-decoration: none;">
+      <a href="{% url 'noticia_detalhe' noticia.slug %}" class="news-card-carousel" style="text-decoration: none; margin-right: 16px;">
         {% if noticia.imagem %}
         <div class="card-background" style="background-image: url('{{ noticia.imagem.url }}');"></div>
         {% else %}

@@ -594,6 +594,7 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
   margin: 0 auto;
   display: flex;
   flex-direction: column;
+  gap: 24px;
 }
 
 /* CARD GERAL */
@@ -1520,13 +1521,13 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
 /* Carousel horizontal scrollable */
 .ultimas-noticias-section .news-carousel {
   display: flex;
-  gap: 12px;
+  gap: 20px !important;
   overflow-x: auto;
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none; /* Firefox */
-  padding: 8px 4px 16px 4px;
+  padding: 8px 16px 16px 16px;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
@@ -1545,6 +1546,11 @@ body .pernambuco-section.jc360-variant.receita-section .tag { color: #ff8200 !im
   scroll-snap-align: start;
   flex-shrink: 0;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+  margin-left: 8px;
+}
+
+.news-card-carousel:first-child {
+  margin-left: 0;
 }
 
 .news-card-carousel .card-background {
