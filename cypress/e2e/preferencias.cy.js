@@ -8,25 +8,26 @@ describe('Teste de Preferências de Conteúdo', () => {
     cy.clearLocalStorage()
 
     // Visita a página inicial
-    cy.visit('/')
+    cy.visit('/', { timeout: 10000 })
 
     // Abre o menu hamburguer
-    cy.get('#menuHamburguer').click()
+    cy.get('#menuHamburguer', { timeout: 10000 }).click()
 
     // Aguarda o menu lateral ficar visível
-    cy.get('#menuLateral').should('be.visible')
+    cy.get('#menuLateral', { timeout: 10000 }).should('be.visible')
 
-    // Clica no botão de preferências
-    cy.get('#btnAbrirPreferencias').click()
+    // Clica no link de preferências no menu
+    cy.contains('.menu-link', 'Preferências', { timeout: 10000 }).click()
 
-    // Aguarda o modal de preferências abrir
-    cy.get('#modalPreferencias').should('be.visible')
+    // Aguarda carregar a página de preferências
+    cy.url({ timeout: 10000 }).should('include', '/preferencias/')
+    cy.get('.preferencias-page', { timeout: 10000 }).should('be.visible')
 
-    // Seleciona a categoria "Pernambuco"
-    cy.get('.categoria-checkbox input[value="pernambuco"]').check()
+    // Seleciona a categoria "Pernambuco" clicando no botão
+    cy.get('.categoria-button[data-categoria="pernambuco"]', { timeout: 10000 }).click()
 
-    // Verifica que foi marcada
-    cy.get('.categoria-checkbox input[value="pernambuco"]').should('be.checked')
+    // Verifica que o botão foi marcado/ativado (classe 'ativo')
+    cy.get('.categoria-button[data-categoria="pernambuco"]', { timeout: 10000 }).should('have.class', 'ativo')
 
     // Intercepta o redirecionamento para capturar preferências antes de redirecionar
     cy.window().then((win) => {
@@ -35,10 +36,10 @@ describe('Teste de Preferências de Conteúdo', () => {
     })
 
     // Clica no botão de salvar preferências
-    cy.get('#btnSalvarPreferencias').click()
+    cy.get('#btnSalvarPreferencias', { timeout: 10000 }).click()
 
     // Aguarda um pouco para o localStorage ser salvo
-    cy.wait(500)
+    cy.wait(1000)
 
     // Verifica que as preferências foram salvas no localStorage
     cy.window().then((win) => {
