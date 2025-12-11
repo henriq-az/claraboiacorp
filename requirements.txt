@@ -25,6 +25,7 @@ psycopg2-binary
 gunicorn
 whitenoise
 django-allauth
+PyJWT
 requests
 oauthlib
 requests-oauthlib
